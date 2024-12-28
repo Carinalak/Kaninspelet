@@ -1,11 +1,13 @@
 
-import './App.css'
+//import './App.css'
+
+import { H1White } from "./components/styled/Fonts"
 
 function App() {
  
   return (
     <>
-    <h1>Kaninspelet</h1>
+    <H1White>Kaninspelet</H1White>
     </>
   )
 }

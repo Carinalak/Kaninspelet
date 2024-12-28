@@ -14,6 +14,7 @@ export const WrapperTransparent = styled.section`
   margin-top: 20px;
   margin-bottom: 0;
   font-family: "Playpen Sans", serif;
+  //border: 1px solid white;
 
     @media screen and (min-width: ${BREAKPOINT_TABLET}) {
       width: 600px;
@@ -27,9 +28,8 @@ export const WrapperTransparent = styled.section`
 
     @media screen and (min-width: ${BREAKPOINT_BIGGER_DESKTOP}) {
       width: 1000px;
-      height: 89%;
+      //height: 89%;
       padding-bottom: 70px;
       font-size: 60px;
-
   }
 `;

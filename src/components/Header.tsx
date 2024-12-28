@@ -3,7 +3,7 @@ import { KRITVIT } from "./styled/Variables";
 import { H1Title } from "./styled/Fonts";
 
 const HeaderContainer = styled.header`
-position: fixed;
+//position: fixed;
 top: 0;
 z-index: 100;
 color: ${KRITVIT};

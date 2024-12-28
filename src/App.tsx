@@ -1,13 +1,12 @@
-
-//import './App.css'
-
-import { H1White } from "./components/styled/Fonts"
+import { RouterProvider } from "react-router-dom"
+import { router } from "./Router"
 
 function App() {
- 
+
   return (
     <>
-    <H1White>Kaninspelet</H1White>
+    
+    <RouterProvider router={router}></RouterProvider>
     </>
   )
 }

@@ -17,7 +17,7 @@ export const router = createHashRouter([
                 element: <Login></Login>,
             },
             {
-                path: "/galleri",
+                path: "/kaninspel",
                 element: <Kaninspel></Kaninspel>,
             },
         ],

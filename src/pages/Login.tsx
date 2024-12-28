@@ -1,6 +1,7 @@
 import { styled } from "styled-components";
 import { WrapperTransparent } from "../components/Wrappers"
 import { SKUGGLILA, GAMMELROSA, KRITVIT, POOLBLA, SMUTSROSA, BREAKPOINT_BIGGER_DESKTOP, BREAKPOINT_TABLET } from "../components/styled/Variables";
+import { Link } from "react-router-dom";
 
 
 export const GameForm = styled.form `
@@ -60,10 +61,7 @@ export const Button = styled.button`
 }
 `;
 
-
-
 export const Login = () => {
-
 
 return (<> 
 <WrapperTransparent>
@@ -74,6 +72,7 @@ return (<>
                   placeholder="Namn" 
     />
     <Button>Spara</Button>
+    Gå till <Link to="/kaninspel">Hit</Link>
 </GameForm>
 </WrapperTransparent>
 

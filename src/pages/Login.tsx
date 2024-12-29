@@ -1,7 +1,8 @@
 import { styled } from "styled-components";
 import { GameLoginWrapper } from "../components/Wrappers"
-import { SKUGGLILA, GAMMELROSA, KRITVIT, POOLBLA, SMUTSROSA, BREAKPOINT_BIGGER_DESKTOP, BREAKPOINT_TABLET } from "../components/styled/Variables";
+import { SKUGGLILA, BREAKPOINT_BIGGER_DESKTOP, BREAKPOINT_TABLET } from "../components/styled/Variables";
 import { Link } from "react-router-dom";
+import { FormButton } from "../components/styled/Buttons";
 
 
 export const GameForm = styled.form `
@@ -35,32 +36,6 @@ export const NameInput = styled.input`
   padding: 0;
 `;
 
-export const Button = styled.button`
-
-  width: 250px;
-  height: 40px;
-  border: none;
-  border-radius: 12px;
-  background-color: ${GAMMELROSA};
-  font-family: Arial, Helvetica, sans-serif;
-  font-weight: 600;
-  font-size: 16px;
-  text-align: center;
-  color: ${KRITVIT};
-  cursor: pointer;
-
-  &:hover {
-    background-color: ${SMUTSROSA};
-    color: ${KRITVIT};
-  }
-  &:active {
-    background-color: ${POOLBLA};
-    color: ${KRITVIT};
-  }
-  @media screen and (min-width: ${BREAKPOINT_TABLET}) {
-}
-`;
-
 export const Login = () => {
 
 return (<> 
@@ -72,7 +47,7 @@ return (<>
       type="text"
       placeholder="Namn" 
     />
-    <Button>Spara</Button>
+    <FormButton>Spara</FormButton>
     Gå till <Link to="/kaninspel">Hit</Link>
 </GameForm>
 </GameLoginWrapper>

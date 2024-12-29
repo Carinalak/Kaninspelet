@@ -10,6 +10,7 @@ import RabbitGreen from '../assets/img/cards/rabbit_green.png';
 import RabbitHearts from '../assets/img/cards/rabbit_hearts.png';
 //import Back from '../assets/img/cards//back.png';
 import { CardImage, CardLayoutStyle, CardStyle } from "../components/styled/CardLayoutStyle";
+import { GameButton } from "../components/styled/Buttons";
 
 const cards = [
   { id: 1, src: CarrotCross, alt: 'Carrots' },
@@ -41,6 +42,7 @@ export const Kaninspel = () => {
 
   return (
     <WrapperTransparent>
+      <GameButton>Spela</GameButton>
       <CardLayoutStyle>
         {shuffledCards.map((card) => (
           <CardStyle key={card.id}>

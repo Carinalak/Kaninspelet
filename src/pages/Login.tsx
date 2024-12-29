@@ -1,5 +1,5 @@
 import { styled } from "styled-components";
-import { WrapperTransparent } from "../components/Wrappers"
+import { GameLoginWrapper } from "../components/Wrappers"
 import { SKUGGLILA, GAMMELROSA, KRITVIT, POOLBLA, SMUTSROSA, BREAKPOINT_BIGGER_DESKTOP, BREAKPOINT_TABLET } from "../components/styled/Variables";
 import { Link } from "react-router-dom";
 
@@ -10,7 +10,7 @@ export const GameForm = styled.form `
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  row-gap: 10px;
+  row-gap: 12px;
   padding-top: 10px;
 
         @media screen and (min-width: ${BREAKPOINT_TABLET}) {
@@ -64,17 +64,18 @@ export const Button = styled.button`
 export const Login = () => {
 
 return (<> 
-<WrapperTransparent>
-  Skriv in ditt namn: Hej!
+<GameLoginWrapper>
+  Skriv in ditt namn:
   <GameForm>
-    <NameInput className="NameInput"
-                  type="text"
-                  placeholder="Namn" 
+    <NameInput 
+      className="NameInput"
+      type="text"
+      placeholder="Namn" 
     />
     <Button>Spara</Button>
     Gå till <Link to="/kaninspel">Hit</Link>
 </GameForm>
-</WrapperTransparent>
+</GameLoginWrapper>
 
 </>)
 

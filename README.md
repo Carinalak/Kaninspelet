@@ -10,6 +10,8 @@ Detta är mitt examensarbete som jag gör 23 december 2024 - 31 januari 2025
 ### Tablet Grattistext:
 ![Tablet](/src/assets/img/screenshots/tablet_grattis.png)
 
+
+
 ### Installationer:
 
 - npm install styled-components

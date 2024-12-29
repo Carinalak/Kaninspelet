@@ -65,7 +65,7 @@ export const Login = () => {
 
 return (<> 
 <WrapperTransparent>
-  Skriv in ditt namn:
+  Skriv in ditt namn: Hej!
   <GameForm>
     <NameInput className="NameInput"
                   type="text"

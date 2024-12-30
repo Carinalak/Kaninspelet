@@ -17,12 +17,13 @@ import { H2White } from "../components/styled/Fonts";
 // ORIGINAL
 
 // Fungerar: Kanin vid rätt svar, ny fråga vid rätt svar, morot vid fel svar
-// Fungerar ej: Kaninkort vänds ej tillbaka, ingen poängräknare, kaninkort vänds upp även vi felaktigt svar
+// Fungerar ej: Kaninkort vänds ej tillbaka, ingen poängräknare, kaninkort vänds upp även vi felaktigt svar, poängen blir dubbel
 
 // 1: gör om arrayer KLAR
 // 2: Gör så att alla kort vänds tillbaka. KLAR
 // 3: Gör så att kaninkortet bara vänds upp vid rätt svar KLAR
 // 4: poängräknare KLAR
+// 5: Gör så att man får ett poäng, inte två för varje kanin.
 
 interface Card {
   id: number;
@@ -96,8 +97,10 @@ export const Kaninspel = () => {
       // Kontrollera om det är rätt svar
       const cardAnswer = cardAnswers[id - 1];
       if (cardAnswer === answer) {
-        setScore(prev => prev + 1);
+        //console.log(`Adding rabbit with id: ${id} to foundRabbits.`);
         setFoundRabbits(prev => [...prev, id]);
+        setScore(prev => prev + 1);
+        
   
         // Generera en ny fråga och vänd tillbaka alla kort
         setTimeout(() => {

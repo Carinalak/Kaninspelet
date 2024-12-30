@@ -60,3 +60,9 @@ export const OrdinaryFont = styled.p `
       font-size: 3rem;
     }
 `;
+
+export const H2White = styled.h2`
+  text-align: center;
+
+
+`;

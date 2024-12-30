@@ -17,31 +17,18 @@ import { H2White } from "../components/styled/Fonts";
 // ORIGINAL
 
 // Fungerar: Kanin vid rätt svar, ny fråga vid rätt svar, morot vid fel svar
-// Fungerar ej: Kaninkort vänds ej tillbaka, ingen poängräknare, kaninkort vänds upp även vi felaktigt svar
+// Fungerar ej: Kaninkort vänds ej tillbaka, ingen poängräknare
 
-// 1: gör om arrayer KLAR
-// 2: Gör så att alla kort vänds tillbaka. KLAR
-// 3: Gör så att kaninkortet bara vänds upp vid rätt svar KLAR
-// 4: poängräknare KLAR
-
-interface Card {
-  id: number;
-  src: string;
-  type: 'carrot' | 'rabbit';
-}
-
-const cards: Card[] = [
-
-  { id: 1, src: CarrotCross, type: 'carrot' },
-  { id: 2, src: CarrotDown, type: 'carrot' },
-  { id: 3, src: CarrotOne, type: 'carrot' },
-  { id: 4, src: CarrotTwo, type: 'carrot' },
-
-  { id: 5, src: RabbitBeige, type: 'rabbit' },
-  { id: 6, src: RabbitClouds, type: 'rabbit' },
-  { id: 7, src: RabbitFence, type: 'rabbit' },
-  { id: 8, src: RabbitGreen, type: 'rabbit' },
-  { id: 9, src: RabbitHearts, type: 'rabbit' },
+const cards = [
+  { id: 1, src: CarrotCross, alt: 'Carrots' },
+  { id: 2, src: CarrotDown, alt: 'Carrot' },
+  { id: 3, src: CarrotOne, alt: 'Carrot' },
+  { id: 4, src: CarrotTwo, alt: 'Carrots' },
+  { id: 5, src: RabbitBeige, alt: 'Kanin' },
+  { id: 6, src: RabbitClouds, alt: 'Kanin' },
+  { id: 7, src: RabbitFence, alt: 'Kanin' },
+  { id: 8, src: RabbitGreen, alt: 'Kanin' },
+  { id: 9, src: RabbitHearts, alt: 'Kanin' }
 ];
 
 export const Kaninspel = () => {
@@ -51,17 +38,16 @@ export const Kaninspel = () => {
   const [flippedCards, setFlippedCards] = useState<{ [key: number]: boolean }>({});
   const [foundRabbits, setFoundRabbits] = useState<number[]>([]);
   const [gameStarted, setGameStarted] = useState(false);
-  const [cardAnswers, setCardAnswers] = useState<string[]>([]);
-  const [score, setScore] = useState(0);
+  const [cardAnswers, setCardAnswers] = useState<string[]>([]); // För att lagra svaren på korten
 
   // Slumpa korten en gång när spelet startar
-  const shuffleCards = (cards: { id: number; src: string; type: 'carrot' | 'rabbit' }[]) => {
+  const shuffleCards = (cards: { id: number; src: string; alt: string }[]) => {
     return [...cards].sort(() => Math.random() - 0.5);
   };
 
   // Funktionen för att generera en ny fråga
   const generateNewQuestion = useCallback(() => {
-    const { question, answer } = generateRandomAdditionQuestion();
+    const { question, answer } = generateRandomAdditionQuestion(); // Generera en ny fråga
     setQuestion(question);
     setAnswer(answer);
 
@@ -74,8 +60,9 @@ export const Kaninspel = () => {
       }
     }
 
+    // Slumpa ordningen på svaren och sätt dessa som kortens svar
     setCardAnswers(possibleAnswers.sort(() => Math.random() - 0.5));
-  }, [shuffledCards.length]);
+  }, [shuffledCards.length]); // Lägg till shuffledCards.length som beroende om det behövs
 
   // Slumpa korten när spelet startar
   useEffect(() => {
@@ -89,41 +76,37 @@ export const Kaninspel = () => {
   // Funktion för att vända kortet
   const flipCard = (id: number) => {
     if (flippedCards[id]) return; // Om kortet redan är vänt, gör inget
-  
+
     setFlippedCards(prev => {
       const newFlippedCards = { ...prev, [id]: true };
-  
+
       // Kontrollera om det är rätt svar
-      const cardAnswer = cardAnswers[id - 1];
+      const cardAnswer = cardAnswers[id - 1]; // Hämta rätt svar för kortet
       if (cardAnswer === answer) {
-        setScore(prev => prev + 1);
         setFoundRabbits(prev => [...prev, id]);
-  
-        // Generera en ny fråga och vänd tillbaka alla kort
         setTimeout(() => {
-          setFlippedCards({});
+          // Generera en ny fråga när en kanin är rätt
           generateNewQuestion();
-        }, 1000);
+        }, 500); // Vänta en liten stund för att användaren ska hinna se kortet
       } else {
+        // Om svaret är fel, vänd tillbaka kortet efter en fördröjning
         setTimeout(() => {
           setFlippedCards(prev => {
-            const revertedCards = { ...prev };
-            delete revertedCards[id];
-            return revertedCards;
+            const newFlippedCards = { ...prev };
+            delete newFlippedCards[id];
+            return newFlippedCards;
           });
         }, 1000);
       }
-  
+
       return newFlippedCards;
     });
   };
-  
 
   if (foundRabbits.length === 5) {
     return (
       <div>
         <h1>Grattis! Du har hittat alla kaniner!</h1>
-        <p>Poäng: {score}</p>
       </div>
     );
   }
@@ -145,25 +128,24 @@ export const Kaninspel = () => {
             <div className={`card-inner ${flippedCards[card.id] ? 'flipped' : ''}`}>
               <div className="card-back">
                 {/* Visa rätt bild beroende på om kortet är vänt och om det är rätt eller fel */}
-                <CardImage
+                <CardImage 
                   src={
                     flippedCards[card.id]
-                      ? (cardAnswers[card.id - 1] === answer ? RabbitBeige : CarrotCross)
+                      ? (foundRabbits.includes(card.id) 
+                          ? RabbitBeige
+                          : CarrotCross)
                       : `path/to/numbers/${cardAnswers[card.id - 1]}.png` // Visa numret på kortets baksida
-                  }
-                  alt={cardAnswers[card.id - 1]}
+                  } 
+                  alt={cardAnswers[card.id - 1]} 
                 />
               </div>
               <div className="card-front">
-                <CardImage src={card.src} alt={card.type} />
+                <CardImage src={card.src} alt={card.alt} />
               </div>
             </div>
           </CardStyle>
         ))}
       </CardLayoutStyle>
-      <div>
-        <p>Poäng: {score}</p>
-      </div>
     </WrapperTransparent>
   );
 };

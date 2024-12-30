@@ -48,7 +48,9 @@ return (<>
       placeholder="Namn" 
     />
     <FormButton>Spara</FormButton>
-    Gå till <Link to="/kaninspel">Hit</Link>
+    <Link to="/kaninspel">Kaninspel aktuell</Link>
+    <Link to="/kaninspeltest1">Kaninspel Test 1</Link>
+    <Link to="/kaninspeltest">Kaninspel Test</Link>
 </GameForm>
 </GameLoginWrapper>
 

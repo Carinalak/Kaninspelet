@@ -14,6 +14,7 @@ import { generateRandomAdditionQuestion } from "../data/questions";
 import { useState, useCallback, useEffect } from "react";
 import { H2White } from "../components/styled/Fonts";
 
+
 // ORIGINAL
 
 // Fungerar: Kanin vid rätt svar, ny fråga vid rätt svar, morot vid fel svar
@@ -23,7 +24,8 @@ import { H2White } from "../components/styled/Fonts";
 // 2: Gör så att alla kort vänds tillbaka. KLAR
 // 3: Gör så att kaninkortet bara vänds upp vid rätt svar KLAR
 // 4: poängräknare KLAR
-// 5: Gör så att man får ett poäng, inte två för varje kanin.
+// 5: Gör så att man får ett poäng, inte två för varje kanin. KLAR
+// 6: Lägg till en baksida
 
 interface Card {
   id: number;
@@ -142,28 +144,35 @@ export const Kaninspel = () => {
         <GameButton onClick={() => { setGameStarted(true); }}>Spela</GameButton>
       )}
 
-      <CardLayoutStyle>
-        {shuffledCards.map((card) => (
-          <CardStyle key={card.id} onClick={() => flipCard(card.id)}>
-            <div className={`card-inner ${flippedCards[card.id] ? 'flipped' : ''}`}>
-              <div className="card-back">
-                {/* Visa rätt bild beroende på om kortet är vänt och om det är rätt eller fel */}
-                <CardImage
-                  src={
-                    flippedCards[card.id]
-                      ? (cardAnswers[card.id - 1] === answer ? RabbitBeige : CarrotCross)
-                      : `path/to/numbers/${cardAnswers[card.id - 1]}.png` // Visa numret på kortets baksida
-                  }
-                  alt={cardAnswers[card.id - 1]}
-                />
-              </div>
-              <div className="card-front">
-                <CardImage src={card.src} alt={card.type} />
-              </div>
+<CardLayoutStyle>
+  {shuffledCards.map((card) => (
+    <CardStyle key={card.id} onClick={() => flipCard(card.id)}>
+      <div className={`card-inner ${flippedCards[card.id] ? 'flipped' : ''}`}>
+        <div className="card-back">
+          {/* Dynamisk rendering beroende på om kortet är vänt eller inte */}
+          {flippedCards[card.id] ? (
+            <CardImage
+              src={
+                cardAnswers[card.id - 1] === answer
+                  ? RabbitBeige
+                  : CarrotCross
+              }
+              alt={cardAnswers[card.id - 1]}
+            />
+          ) : (
+            <div className="card-number">
+              {cardAnswers[card.id - 1]} 
             </div>
-          </CardStyle>
-        ))}
-      </CardLayoutStyle>
+          )}
+        </div>
+        <div className="card-front">
+          <CardImage src={card.src} alt={card.type} />
+        </div>
+      </div>
+    </CardStyle>
+  ))}
+</CardLayoutStyle>
+
       <div>
         <p>Poäng: {score}</p>
       </div>

@@ -11,6 +11,7 @@ export const CardLayoutStyle = styled.div`
   margin: 0 auto;
   justify-items: center;
   align-items: center;
+  
 
   @media screen and (min-width: ${BREAKPOINT_TABLET}) {
     /* Media queries för olika skärmstorlekar kan justeras här */
@@ -58,11 +59,14 @@ justify-content: center;
     width: 100%;
     height: 100%;
     transform-style: preserve-3d;
-    transition: transform 0.5s ease; /* Gör så att kortet vänds snyggt */
+    transition: transform 0.5s ease; // Gör så att kortet vänds snyggt 
+    transform: rotateY(0deg);
+   
   }
 
   &.flipped .card-inner {
-    transform: rotateY(180deg); /* Vänder kortet till framsidan */
+    transform: rotateY(180deg); // Vänder kortet till framsidan 
+ 
   }
 
   .card-front,
@@ -73,6 +77,7 @@ justify-content: center;
     width: 100%;
     height: 100%;
     backface-visibility: hidden; /* Dölj baksidan när kortet är vänt */
+  
   }
 
   .card-back {
@@ -92,7 +97,7 @@ justify-content: center;
 
 
   .card-front {
-    transform: rotateY(180deg); /* Framsidan är spegelvänd */
+    transform: rotateY(180deg); // Framsidan är spegelvänd
   }
   
   .card-number {

@@ -1,3 +1,4 @@
+import { useState, useCallback, useEffect } from "react";
 import { WrapperTransparent } from "../components/Wrappers";
 import CarrotCross from '../assets/img/cards/carrot_cross.png';
 import CarrotDown from '../assets/img/cards/carrot_down.png';
@@ -11,35 +12,21 @@ import RabbitHearts from '../assets/img/cards/rabbit_hearts.png';
 import { CardImage, CardLayoutStyle, CardStyle } from "../components/styled/CardLayoutStyle";
 import { GameButton } from "../components/styled/Buttons";
 import { generateRandomAdditionQuestion } from "../data/questions";
-import { useState, useCallback, useEffect } from "react";
 import { H2White } from "../components/styled/Fonts";
 
-
-// ORIGINAL
-
-// Fungerar: Kanin vid rätt svar, ny fråga vid rätt svar, morot vid fel svar
-// Fungerar ej: Kaninkort vänds ej tillbaka, ingen poängräknare, kaninkort vänds upp även vi felaktigt svar, poängen blir dubbel
-
-// 1: gör om arrayer KLAR
-// 2: Gör så att alla kort vänds tillbaka. KLAR
-// 3: Gör så att kaninkortet bara vänds upp vid rätt svar KLAR
-// 4: poängräknare KLAR
-// 5: Gör så att man får ett poäng, inte två för varje kanin. KLAR
-// 6: Lägg till en baksida
-
+// Definiera kortet som ett objekt med id, src och type
 interface Card {
   id: number;
   src: string;
   type: 'carrot' | 'rabbit';
 }
 
+// Kortarray
 const cards: Card[] = [
-
   { id: 1, src: CarrotCross, type: 'carrot' },
   { id: 2, src: CarrotDown, type: 'carrot' },
   { id: 3, src: CarrotOne, type: 'carrot' },
   { id: 4, src: CarrotTwo, type: 'carrot' },
-
   { id: 5, src: RabbitBeige, type: 'rabbit' },
   { id: 6, src: RabbitClouds, type: 'rabbit' },
   { id: 7, src: RabbitFence, type: 'rabbit' },
@@ -90,37 +77,83 @@ export const Kaninspel = () => {
   }, [gameStarted, generateNewQuestion]); // Lägg till generateNewQuestion i beroendelistan
 
   // Funktion för att vända kortet
+  const [visibleCards, setVisibleCards] = useState<{ [key: number]: string | null }>({}); // Styr vilken bild som visas
   const flipCard = (id: number) => {
     if (flippedCards[id]) return; // Om kortet redan är vänt, gör inget
   
+    // Markera kortet som vänt
     setFlippedCards(prev => {
       const newFlippedCards = { ...prev, [id]: true };
+      return newFlippedCards;
+    });
   
-      // Kontrollera om det är rätt svar
-      const cardAnswer = cardAnswers[id - 1];
-      if (cardAnswer === answer) {
-        //console.log(`Adding rabbit with id: ${id} to foundRabbits.`);
+    // Första vändningen: Dölja framsidan och vänta en kort stund innan vi byter till baksidan
+    setTimeout(() => {
+      setVisibleCards(prevVisible => ({
+        ...prevVisible,
+        [id]: null,
+      }));
+    }, 0);
+
+    // Vänta för att låta kortet vändas innan vi visar rätt eller fel bild
+    setTimeout(() => {
+      setVisibleCards(prevVisible => ({
+        ...prevVisible,
+        [id]: cardAnswers[id - 1] === answer ? RabbitBeige : CarrotCross,
+      }));
+    }, 300);
+  
+    // Om kortet är rätt
+    if (cardAnswers[id - 1] === answer) {
+      setTimeout(() => {
         setFoundRabbits(prev => [...prev, id]);
         setScore(prev => prev + 1);
-        
   
-        // Generera en ny fråga och vänd tillbaka alla kort
+        // Vänta en kortare tid innan återställning
         setTimeout(() => {
-          setFlippedCards({});
+  
+          setFlippedCards(prev => {
+            const revertedCards = { ...prev };
+            delete revertedCards[id]; // Återställ det vända kortet
+            return revertedCards;
+          });
+  
+          // Ta bort synlig bild för att visa baksidan innan vändningen tillbaka
+          setVisibleCards(prevVisible => {
+            const revertedVisible = { ...prevVisible };
+            revertedVisible[id] = null; // Visa inget innan baksidan syns
+            return revertedVisible;
+          });
+  
+          // Generera en ny fråga för nästa kort
           generateNewQuestion();
-        }, 1000);
-      } else {
+        }, 500); // Vänta lite längre tid innan återställning för att synka med animationen
+      }, 1000); // Vänta tills resultatet är synligt innan återställning
+    } else {
+      // Om kortet var fel, återställ kortet till ursprunglig position efter kortare fördröjning
+      setTimeout(() => {
+        setVisibleCards(prevVisible => ({
+          ...prevVisible,
+          [id]: null,
+        }));
+  
+        // Återställ kortet till ursprunglig vändning
         setTimeout(() => {
           setFlippedCards(prev => {
             const revertedCards = { ...prev };
-            delete revertedCards[id];
+            delete revertedCards[id]; 
             return revertedCards;
           });
-        }, 1000);
-      }
+        }, 0);
   
-      return newFlippedCards;
-    });
+        // Återställ kortet till sin ursprungliga tillstånd (visa baksidan)
+        setVisibleCards(prevVisible => {
+          const revertedVisible = { ...prevVisible };
+          revertedVisible[id] = null;
+          return revertedVisible;
+        });
+      }, 2000);
+    }
   };
   
 
@@ -144,34 +177,39 @@ export const Kaninspel = () => {
         <GameButton onClick={() => { setGameStarted(true); }}>Spela</GameButton>
       )}
 
-<CardLayoutStyle>
-  {shuffledCards.map((card) => (
-    <CardStyle key={card.id} onClick={() => flipCard(card.id)}>
-      <div className={`card-inner ${flippedCards[card.id] ? 'flipped' : ''}`}>
-        <div className="card-back">
-          {/* Dynamisk rendering beroende på om kortet är vänt eller inte */}
-          {flippedCards[card.id] ? (
-            <CardImage
-              src={
-                cardAnswers[card.id - 1] === answer
-                  ? RabbitBeige
-                  : CarrotCross
-              }
-              alt={cardAnswers[card.id - 1]}
-            />
-          ) : (
-            <div className="card-number">
-              {cardAnswers[card.id - 1]} 
-            </div>
-          )}
-        </div>
-        <div className="card-front">
-          <CardImage src={card.src} alt={card.type} />
-        </div>
-      </div>
-    </CardStyle>
-  ))}
-</CardLayoutStyle>
+      <CardLayoutStyle>
+        {shuffledCards.map((card) => (
+         <CardStyle
+  key={card.id}
+  onClick={() => {
+    console.log(`Kort klickat: ${card.id}`);
+    flipCard(card.id);
+  }}
+  style={{
+    transform: flippedCards[card.id] ? 'rotateY(180deg)' : 'rotateY(0deg)',
+    transition: 'transform 0.5s ease-in-out', // Lägg till en smidig övergång
+  }}
+>
+  <div className="card-inner">
+    <div className="card-back">
+      {/* Visa baksidan av kortet om det inte är vänt */}
+      {visibleCards[card.id] ? (
+        <CardImage
+          src={cardAnswers[card.id - 1] === answer ? RabbitBeige : CarrotCross}
+          alt=""
+        />
+      ) : (
+        <div className="card-number">{cardAnswers[card.id - 1]}</div>
+      )}
+    </div>
+    <div className="card-front">
+      <CardImage src={card.src} alt={card.type} />
+    </div>
+  </div>
+</CardStyle>
+
+        ))}
+      </CardLayoutStyle>
 
       <div>
         <p>Poäng: {score}</p>

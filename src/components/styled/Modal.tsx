@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { KRITVIT, BREAKPOINT_TABLET, SKUGGLILA } from "./Variables";
+import { KRITVIT, BREAKPOINT_TABLET, SKUGGLILA, KOLSVART } from "./Variables";
 
 
 export const Modal = styled.div `
@@ -15,7 +15,8 @@ export const Modal = styled.div `
   border-radius: 10px;
   text-align: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  z-index: 1000;
+  z-index: 2000;
+  border: 1px solid ${KOLSVART};
 
   font-size: 1.3rem;
   font-weight: bold;

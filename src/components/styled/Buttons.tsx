@@ -30,6 +30,7 @@ export const FormButton = styled.button`
 export const GameButton = styled(FormButton) `
   width: 100px;
   height: 35px;
+  margin-top: 50px;
   
   @media screen and (min-width: ${BREAKPOINT_TABLET}) {
     width: 110px;
@@ -44,7 +45,6 @@ export const GameButton = styled(FormButton) `
       font-weight: 700;
       font-size: 2rem;
       }
-
 `;
 
 export const ButtonWrapper = styled.div `

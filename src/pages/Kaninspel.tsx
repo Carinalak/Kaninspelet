@@ -1,5 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { WrapperTransparent } from "../components/Wrappers";
+import { ScoreDisplay } from "../components/ScoreDisplay"; // Importera ScoreDisplay-komponenten
+
 import CarrotCross from '../assets/img/cards/carrot_cross.png';
 import CarrotDown from '../assets/img/cards/carrot_down.png';
 import CarrotOne from '../assets/img/cards/carrot_one.png';
@@ -12,7 +14,6 @@ import RabbitHearts from '../assets/img/cards/rabbit_hearts.png';
 import { CardImage, CardLayoutStyle, CardStyle } from "../components/styled/CardLayoutStyle";
 import { ButtonWrapper, GameButton } from "../components/styled/Buttons";
 import { generateRandomAdditionQuestion } from "../data/questions";
-import { H2White } from "../components/styled/Fonts";
 import { Modal } from "../components/styled/Modal";
 import Back from '../assets/img/cards/back.png';
 
@@ -149,14 +150,18 @@ export const Kaninspel = () => {
     }
   }, [foundRabbits]);
 
-
-  const resetGame = () => {
+  const resetGameState = () => {
     setShowModal(false);
-    setGameStarted(false); 
+    setGameStarted(false);
     setFoundRabbits([]);
-    setScore(0); 
+    setScore(0);
     setFlippedCards({});
     setVisibleCards({});
+  };
+
+  const onStartGame = () => {
+    setGameStarted(true);
+    generateNewQuestion();
   };
 
   return (
@@ -166,19 +171,17 @@ export const Kaninspel = () => {
           <p>Grattis du hittade alla kaniner! Spela igen?</p>
           <ButtonWrapper>
             <GameButton onClick={() => { setShowModal(false); setGameStarted(false); }}>Ja</GameButton>
-            <GameButton onClick={resetGame}>Nej</GameButton>
+            <GameButton onClick={resetGameState}>Nej</GameButton>
           </ButtonWrapper>
         </Modal>
       )}
 
-      {gameStarted ? (
-        <div>
-          <p>Välj ett kort med rätt siffra för att hitta en kanin!</p>
-          <H2White>{question} =</H2White>
-        </div>
-      ) : (
-        <GameButton onClick={() => { setGameStarted(true); }}>Spela</GameButton>
-      )}
+      <ScoreDisplay 
+        score={score} 
+        onStartGame={onStartGame} 
+        gameStarted={gameStarted} 
+        question={question} 
+      />
 
       <CardLayoutStyle>
         {shuffledCards.map((card) => (
@@ -214,10 +217,6 @@ export const Kaninspel = () => {
           </CardStyle>
         ))}
       </CardLayoutStyle>
-
-      <div>
-        <p>Poäng: {score}</p>
-      </div>
     </WrapperTransparent>
   );
 };

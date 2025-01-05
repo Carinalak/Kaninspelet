@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { BREAKPOINT_TABLET, BREAKPOINT_DESKTOP, BREAKPOINT_BIGGER_DESKTOP } from "./styled/Variables";
+import { BREAKPOINT_TABLET, BREAKPOINT_DESKTOP, BREAKPOINT_BIGGER_DESKTOP, KOLSVART } from "./styled/Variables";
 
 
 export const WrapperTransparent = styled.section`
@@ -8,7 +8,7 @@ export const WrapperTransparent = styled.section`
   flex-direction: column;
   align-items: center;
   background-color: transparent;
-  padding-top: 5px;
+  padding-top: 10px;
   //padding-bottom: 10px;
   //border-radius: 10px;
   margin-top: 20px;
@@ -20,6 +20,7 @@ export const WrapperTransparent = styled.section`
     @media screen and (min-width: ${BREAKPOINT_TABLET}) {
       width: 600px;
       //padding-bottom: 20px;
+      flex-direction: row;
     }
 
     @media screen and (min-width: ${BREAKPOINT_DESKTOP}) {
@@ -43,5 +44,25 @@ export const GameLoginWrapper = styled(WrapperTransparent)`
   @media screen and (min-width: ${BREAKPOINT_BIGGER_DESKTOP}) {
        padding-top: 150px;
     }
+
+`;
+
+export const TextWrapper = styled.div `
+  width: 220;
+  display: flex;
+  //border: 1px solid black;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  
+
+`;
+
+export const Text = styled.div `
+font-size: 1rem;
+color: ${KOLSVART};
+width: 190px;
+
+
 
 `;

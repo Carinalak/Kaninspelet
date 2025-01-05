@@ -18,25 +18,29 @@ export const ScoreDisplayStyle = styled.div`
   font-weight: bold;
   border: 1px solid black;
   text-align: left;
-  position: relative;  /* För att möjliggöra absolut positionering av knappen */
+  position: relative;
 
   .rabbits-row {
     display: flex;
     gap: 10px;
     justify-content: flex-start;
-   
   }
 
   .rabbit-image {
     width: 30px;
   }
 
-  .start-button {
+
+  .rules-button {
     position: absolute;
     top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
+    left: 0;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+
   }
+
   @media screen and (min-width: ${BREAKPOINT_TABLET}) {
     font-size: 1.6rem;
     font-weight: bold;
@@ -54,14 +58,12 @@ export const ScoreDisplayInnerBunnies = styled.div`
   color: ${KOLSVART};
   border-radius: 10px;
 
-
   @media screen and (min-width: ${BREAKPOINT_TABLET}) {
     width: 190px;
     height: 290px;
     font-size: 1.2rem;
     font-weight: bold;
   }
-
 `;
 
 export const PlayQuestionBox = styled.div`
@@ -76,7 +78,4 @@ export const PlayQuestionBox = styled.div`
   align-items: center;
   padding: 5px;
   border-radius: 10px;
-  //box-sizing: border-box;
-
-
 `;

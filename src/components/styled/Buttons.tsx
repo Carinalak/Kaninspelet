@@ -47,6 +47,26 @@ export const GameButton = styled(FormButton) `
       }
 `;
 
+export const RuleButton = styled(FormButton) `
+  width: 100px;
+  height: 35px;
+  margin-top: 10px;
+  
+  @media screen and (min-width: ${BREAKPOINT_TABLET}) {
+    width: 110px;
+    }
+
+    @media screen and (min-width: ${BREAKPOINT_DESKTOP}) {
+      width: 110px;
+      }
+      @media screen and (min-width: ${BREAKPOINT_BIGGER_DESKTOP}) {
+      width: 190px;
+      height: 60px;
+      font-weight: 700;
+      font-size: 2rem;
+      }
+`;
+
 export const ButtonWrapper = styled.div `
   display: flex;
   flex-direction: row;

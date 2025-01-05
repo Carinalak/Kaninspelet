@@ -55,6 +55,7 @@ export const TextWrapper = styled.div `
   //border: 1px solid black;
   align-items: center;
   justify-content: center;
+ 
 `;
 
 export const Text = styled.div `
@@ -67,6 +68,6 @@ padding-left: 20px;
 `;
 
 export const Question = styled.div `
-  margin-top: 5px;
+  margin-top: 50px;
 
 `;

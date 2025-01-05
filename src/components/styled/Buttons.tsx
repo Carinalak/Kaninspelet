@@ -45,5 +45,22 @@ export const GameButton = styled(FormButton) `
       font-size: 2rem;
       }
 
+`;
 
+export const ButtonWrapper = styled.div `
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 5px;
+  padding-left: 0;
+  padding-top: 20px;
+  gap: 15px;
+  width: 300px;
+
+
+    @media screen and (min-width: ${BREAKPOINT_TABLET}) {
+      gap: 30px;
+    }
+      
 `;

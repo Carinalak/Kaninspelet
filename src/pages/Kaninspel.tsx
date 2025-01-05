@@ -14,6 +14,8 @@ import { GameButton } from "../components/styled/Buttons";
 import { generateRandomAdditionQuestion } from "../data/questions";
 import { H2White } from "../components/styled/Fonts";
 
+import Back from '../assets/img/cards/back.png';
+
 // Definiera kortet som ett objekt med id, src och type
 interface Card {
   id: number;
@@ -44,6 +46,21 @@ export const Kaninspel = () => {
   const [cardAnswers, setCardAnswers] = useState<string[]>([]);
   const [score, setScore] = useState(0);
 
+  useEffect(() => {
+    const preloadImages = () => {
+      const imagePaths = cards.map((card) => card.src).concat(Back);
+      imagePaths.forEach((src) => {
+        if (src) { // Kontrollera att src inte är tom
+          const img = new Image();
+          img.src = src;
+        }
+      });
+    };
+    preloadImages();
+  }, []);
+  
+
+  
   // Slumpa korten en gång när spelet startar
   const shuffleCards = (cards: { id: number; src: string; type: 'carrot' | 'rabbit' }[]) => {
     return [...cards].sort(() => Math.random() - 0.5);
@@ -152,7 +169,7 @@ export const Kaninspel = () => {
           revertedVisible[id] = null;
           return revertedVisible;
         });
-      }, 2000);
+      }, 1000);
     }
   };
   
@@ -166,6 +183,8 @@ export const Kaninspel = () => {
     );
   }
 
+
+  
   return (
     <WrapperTransparent>
       {gameStarted ? (
@@ -182,6 +201,10 @@ export const Kaninspel = () => {
          <CardStyle
   key={card.id}
   onClick={() => {
+    if (!gameStarted) {
+      alert("Klicka på knappen för att börja spela!");
+      return;
+    }
     console.log(`Kort klickat: ${card.id}`);
     flipCard(card.id);
   }}

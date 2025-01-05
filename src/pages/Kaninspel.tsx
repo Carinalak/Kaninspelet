@@ -152,11 +152,12 @@ export const Kaninspel = () => {
 
   const resetGameState = () => {
     setShowModal(false);
-    setGameStarted(false);
-    setFoundRabbits([]);
-    setScore(0);
+    setGameStarted(true); // Fortsätt spelet
+    setFoundRabbits([]); // Återställ hittade kaniner
     setFlippedCards({});
     setVisibleCards({});
+    setShuffledCards(shuffleCards(cards)); // Blanda om korten
+    generateNewQuestion(); // Generera en ny fråga
   };
 
   const onStartGame = () => {
@@ -166,15 +167,21 @@ export const Kaninspel = () => {
 
   return (
     <WrapperTransparent>
-      {showModal && (
-        <Modal>
-          <p>Grattis du hittade alla kaniner! Spela igen?</p>
-          <ButtonWrapper>
-            <GameButton onClick={() => { setShowModal(false); setGameStarted(false); }}>Ja</GameButton>
-            <GameButton onClick={resetGameState}>Nej</GameButton>
-          </ButtonWrapper>
-        </Modal>
-      )}
+     {showModal && (
+      <Modal>
+        <p>Grattis du hittade alla kaniner! Spela igen?</p>
+        <ButtonWrapper>
+          <GameButton onClick={() => {
+            resetGameState(); // Fortsätt spelet utan att påverka poäng
+          }}>Ja</GameButton>
+          <GameButton onClick={() => {
+            setShowModal(false);
+            setGameStarted(false); // Avsluta spelet
+            setScore(0); // Återställ poängen
+          }}>Nej</GameButton>
+        </ButtonWrapper>
+      </Modal>
+    )}
 
       <ScoreDisplay 
         score={score} 

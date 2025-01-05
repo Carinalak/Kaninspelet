@@ -36,6 +36,8 @@ export const WrapperTransparent = styled.section`
   }
 `;
 
+
+
 export const GameLoginWrapper = styled(WrapperTransparent)`
   padding-top: 90px;
   //margin: 0 auto;
@@ -48,21 +50,23 @@ export const GameLoginWrapper = styled(WrapperTransparent)`
 `;
 
 export const TextWrapper = styled.div `
-  width: 220;
+  width: 170;
   display: flex;
   //border: 1px solid black;
   align-items: center;
   justify-content: center;
-  padding: 12px;
-  
-
 `;
 
 export const Text = styled.div `
 font-size: 1rem;
 color: ${KOLSVART};
-width: 190px;
+font-weight: 500;
+padding-top: 20px;
+padding-right: 20px;
+padding-left: 20px;
+`;
 
-
+export const Question = styled.div `
+  margin-top: 5px;
 
 `;

@@ -3,7 +3,7 @@ import { ScoreDisplayStyle, PlayQuestionBox, ScoreDisplayInnerBunnies } from "./
 import RabbitBlack from '../assets/img/rabbits/rabbit_shadow_black.png';
 import RabbitYellow from '../assets/img/rabbits/rabbit_shadow_yellow.png';
 import { GameButton, RuleButton } from "./styled/Buttons";
-import { TextWrapper, Text, Question } from "./Wrappers";
+import { TextWrapper, Question, TextStyle } from "./Wrappers";
 
 interface ScoreDisplayProps {
   score: number;
@@ -51,10 +51,10 @@ export const ScoreDisplay = ({ score, onStartGame, gameStarted, question }: Scor
         )}
         {showRules && (
           <TextWrapper>
-            <Text>
+            <TextStyle>
               Lös mattetalet och välj kortet med rätt svar för att hitta en kanin! En kanin ger 1 poäng. 
               Varje guldkanin ger 5 poäng extra. För varje 5 poäng du samlar på dig får du 2 extra bonuspoäng.
-            </Text>
+            </TextStyle>
           </TextWrapper>
         )}
         { !showRules && (  

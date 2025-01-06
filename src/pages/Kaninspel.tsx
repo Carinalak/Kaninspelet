@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { WrapperTransparent } from "../components/Wrappers";
-import { ScoreDisplay } from "../components/ScoreDisplay"; // Importera ScoreDisplay-komponenten
-
+import { ScoreDisplay } from "../components/ScoreDisplay";
 import CarrotCross from '../assets/img/cards/carrot_cross.png';
 import CarrotDown from '../assets/img/cards/carrot_down.png';
 import CarrotOne from '../assets/img/cards/carrot_one.png';
@@ -12,9 +11,9 @@ import RabbitFence from '../assets/img/cards/rabbit_fence.png';
 import RabbitGreen from '../assets/img/cards/rabbit_green.png';
 import RabbitHearts from '../assets/img/cards/rabbit_hearts.png';
 import { CardImage, CardLayoutStyle, CardStyle } from "../components/styled/CardLayoutStyle";
-import { ButtonWrapper, GameButton } from "../components/styled/Buttons";
+
 import { generateRandomAdditionQuestion } from "../data/questions";
-import { Modal } from "../components/styled/Modal";
+import { ModalMessage } from "../components/styled/Modal";
 import Back from '../assets/img/cards/back.png';
 
 interface Card {
@@ -152,12 +151,12 @@ export const Kaninspel = () => {
 
   const resetGameState = () => {
     setShowModal(false);
-    setGameStarted(true); // Fortsätt spelet
-    setFoundRabbits([]); // Återställ hittade kaniner
+    setGameStarted(true);
+    setFoundRabbits([]); 
     setFlippedCards({});
     setVisibleCards({});
-    setShuffledCards(shuffleCards(cards)); // Blanda om korten
-    generateNewQuestion(); // Generera en ny fråga
+    setShuffledCards(shuffleCards(cards));
+    generateNewQuestion(); 
   };
 
   const onStartGame = () => {
@@ -165,24 +164,19 @@ export const Kaninspel = () => {
     generateNewQuestion();
   };
 
+  const closeGame = () => {
+    setShowModal(false);
+    setGameStarted(false);
+    setScore(0);
+  };
+
   return (
     <WrapperTransparent>
-     {showModal && (
-      <Modal>
-        <p>Grattis du hittade fem kaniner och får en guldkanin! </p>
-        <p>Du får 2 poäng extra.</p>
-        <ButtonWrapper>
-          <GameButton onClick={() => {
-            setShowModal(false);
-            setGameStarted(false);
-            setScore(0);
-          }}>Avsluta</GameButton>
-          <GameButton onClick={() => {
-            resetGameState(); 
-          }}>Fortsätt</GameButton>
-        </ButtonWrapper>
-      </Modal>
-    )}
+    <ModalMessage 
+        showModal={showModal} 
+        onClose={closeGame} 
+        onReset={resetGameState} 
+      />
 
       <ScoreDisplay 
         score={score} 

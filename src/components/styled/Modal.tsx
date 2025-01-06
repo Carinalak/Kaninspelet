@@ -1,5 +1,8 @@
 import styled from "styled-components";
-import { BREAKPOINT_TABLET, SKUGGLILA, KOLSVART, KRITVIT } from "./Variables";
+import { BREAKPOINT_TABLET, SKUGGLILA, KOLSVART, KRITVIT, GAMMELROSA } from "./Variables";
+import { TextStyle } from "../Wrappers";
+import { ButtonWrapper, GameButton } from "./Buttons";
+
 
 
 export const Modal = styled.div `
@@ -9,8 +12,7 @@ export const Modal = styled.div `
   transform: translate(-50%, -50%);
   width: 300px;
   height: 300px;
-  background-color: ${KRITVIT};
-  color: ${SKUGGLILA};
+  background-color: ${GAMMELROSA};
   padding: 20px;
   border-radius: 10px;
   text-align: center;
@@ -24,11 +26,51 @@ export const Modal = styled.div `
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
   
   @media screen and ( min-width: ${BREAKPOINT_TABLET}) {
     width: 400px;
-    font-size: 1.6rem;
+    width: 400px;
+  
     font-weight: bold;
   }
 `;
+
+export const ModalBoxInner = styled(Modal) `
+  background-color: ${KRITVIT};
+  color: ${SKUGGLILA};
+  width: 200px;
+  height: 200px;
+  border: 1px solid ${KOLSVART};
+
+  @media screen and ( min-width: ${BREAKPOINT_TABLET}) {
+    width: 350px;
+    width: 350px;
+  
+    font-weight: bold;
+  }
+`;
+
+
+interface ModalMessageProps {
+  showModal: boolean;
+  onClose: () => void;
+  onReset: () => void;
+}
+
+export const ModalMessage = ({ showModal, onClose, onReset }: ModalMessageProps) => {
+  if (!showModal) return null;
+
+  return (
+    <Modal>
+      <ModalBoxInner>
+        <TextStyle>Grattis du hittade fem kaniner och får en guldkanin!</TextStyle>
+        <TextStyle>Du får 2 poäng extra.</TextStyle>
+        <ButtonWrapper>
+          <GameButton onClick={onClose}>Avsluta</GameButton>
+          <GameButton onClick={onReset}>Fortsätt</GameButton>
+        </ButtonWrapper>
+      </ModalBoxInner>
+    </Modal>
+  );
+};
+  

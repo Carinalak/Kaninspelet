@@ -144,7 +144,7 @@ export const Kaninspel = () => {
   };
 
   useEffect(() => {
-    if (foundRabbits.length === 5) {
+    if (foundRabbits.length === 15) {
       setShowModal(true);
     }
   }, [foundRabbits]);

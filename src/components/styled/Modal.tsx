@@ -50,7 +50,6 @@ export const ModalBoxInner = styled(Modal) `
   }
 `;
 
-
 interface ModalMessageProps {
   showModal: boolean;
   onClose: () => void;
@@ -63,11 +62,11 @@ export const ModalMessage = ({ showModal, onClose, onReset }: ModalMessageProps)
   return (
     <Modal>
       <ModalBoxInner>
-        <TextStyle>Grattis du hittade fem kaniner och får en guldkanin!</TextStyle>
-        <TextStyle>Du får 2 poäng extra.</TextStyle>
+        <TextStyle>Grattis du hittade alla kaniner och fick tre guldkaniner!</TextStyle>
+        <TextStyle>Vill du fortsätta?</TextStyle>
         <ButtonWrapper>
-          <GameButton onClick={onClose}>Avsluta</GameButton>
-          <GameButton onClick={onReset}>Fortsätt</GameButton>
+          <GameButton onClick={onClose}>Nej</GameButton>
+          <GameButton onClick={onReset}>Ja</GameButton>
         </ButtonWrapper>
       </ModalBoxInner>
     </Modal>

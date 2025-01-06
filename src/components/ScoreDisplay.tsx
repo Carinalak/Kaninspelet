@@ -23,7 +23,7 @@ export const ScoreDisplay = ({ score, onStartGame, gameStarted, question }: Scor
 
 
   const yellowBunniesCount = Math.floor(score / 5);
-  const rabbits = new Array(5).fill(RabbitBlack).map((_, index) => 
+  const rabbits = new Array(3).fill(RabbitBlack).map((_, index) => 
     index < yellowBunniesCount ? RabbitYellow : RabbitBlack
   );
 

@@ -169,16 +169,17 @@ export const Kaninspel = () => {
     <WrapperTransparent>
      {showModal && (
       <Modal>
-        <p>Grattis du hittade alla kaniner! Spela igen?</p>
+        <p>Grattis du hittade fem kaniner och får en guldkanin! </p>
+        <p>Du får 2 poäng extra.</p>
         <ButtonWrapper>
           <GameButton onClick={() => {
-            resetGameState(); // Fortsätt spelet utan att påverka poäng
-          }}>Ja</GameButton>
-          <GameButton onClick={() => {
             setShowModal(false);
-            setGameStarted(false); // Avsluta spelet
-            setScore(0); // Återställ poängen
-          }}>Nej</GameButton>
+            setGameStarted(false);
+            setScore(0);
+          }}>Avsluta</GameButton>
+          <GameButton onClick={() => {
+            resetGameState(); 
+          }}>Fortsätt</GameButton>
         </ButtonWrapper>
       </Modal>
     )}

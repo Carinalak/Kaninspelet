@@ -211,6 +211,7 @@ useEffect(() => {
         gameStarted={gameStarted} 
         question={question} 
         gameFinished={gameFinished} 
+        elapsedTime={elapsedTime}
       />
 
       <CardLayoutStyle>

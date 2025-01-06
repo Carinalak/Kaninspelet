@@ -6,20 +6,24 @@ import { GameButton, RuleButton } from "./styled/Buttons";
 import { TextWrapper, Question, TextStyle } from "./Wrappers";
 import { Counter } from "./Counter";
 
-
-
 interface ScoreDisplayProps {
   score: number;
   onStartGame: () => void;
   gameStarted: boolean;
   question: string;
   gameFinished: boolean;
+  elapsedTime: number; // Lägg till elapsedTime som en prop
 }
 
-export const ScoreDisplay = ({ score, onStartGame, gameStarted, question, gameFinished }: ScoreDisplayProps) => {
+export const ScoreDisplay = ({
+  score,
+  onStartGame,
+  gameStarted,
+  question,
+  gameFinished,
+  elapsedTime,
+}: ScoreDisplayProps) => {
   const [showRules, setShowRules] = useState(false);
-  const [gameCompleted, setGameCompleted] = useState(false);
-  const [timerActive, setTimerActive] = useState(false);
 
   const levels = Math.floor(score / 5);
   const bonusPoints = levels * 2;
@@ -33,13 +37,15 @@ export const ScoreDisplay = ({ score, onStartGame, gameStarted, question, gameFi
   const toggleRules = () => setShowRules(!showRules);
 
   const handleStartGame = () => {
-    setTimerActive(true);
     onStartGame();
   };
 
-  const handleTimerComplete = () => {
-    setGameCompleted(true);
-    setTimerActive(false); // Timer stoppas
+  const minutes = !isNaN(elapsedTime) ? Math.floor(elapsedTime / 60) : 0;
+  const seconds = !isNaN(elapsedTime) ? elapsedTime % 60 : 0;
+
+  const handleComplete = () => {
+    console.log("Timer completed!");
+  
   };
 
   return (
@@ -73,15 +79,18 @@ export const ScoreDisplay = ({ score, onStartGame, gameStarted, question, gameFi
         {!showRules && (
           <ScoreDisplayInnerBunnies>
             <div>Poäng: {totalScore}</div>
-            <div>
+            <div className="timer-row">
               Tid:{" "}
-              {!gameCompleted && (
+              {!gameFinished && (
                 <Counter
-                  duration={300} // 5 minuter
-                  isActive={timerActive}
-                  onComplete={handleTimerComplete}
-                  gameFinished={gameFinished} 
+                  duration={60}
+                  isActive={gameStarted && !gameFinished} 
+                  onComplete={handleComplete}
+                  gameFinished={gameFinished}
                 />
+              )}
+              {gameFinished && (
+                <div>{minutes}:{seconds.toString().padStart(2, "0")} minuter</div>
               )}
             </div>
             <div className="rabbits-row">

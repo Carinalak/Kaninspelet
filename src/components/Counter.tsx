@@ -8,45 +8,44 @@ interface CounterProps {
 }
 
 export const Counter = ({ duration, isActive, onComplete, gameFinished }: CounterProps) => {
-  const [timeLeft, setTimeLeft] = useState(duration); // Tiden som är kvar i sekunder
+  const [timeElapsed, setTimeElapsed] = useState(0); // Startar på 0 och räknar upp
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
-    if (!isActive || timeLeft <= 0 || gameFinished) {
-      // Om spelet är klart eller om tiden har gått ut, stoppa timern
+    if (!isActive || gameFinished) {
+      // Stoppa timern om den inte är aktiv eller om spelet är klart
       if (timerRef.current) {
-        clearInterval(timerRef.current); // Stoppa timern
-        timerRef.current = null; // Sätt referens till null
+        clearInterval(timerRef.current);
+        timerRef.current = null;
       }
-      if (timeLeft <= 0) onComplete(); // När tiden är slut, anropa onComplete
       return;
     }
 
     // Starta timern om den är aktiv
     timerRef.current = setInterval(() => {
-      setTimeLeft((prev) => {
-        const newTimeLeft = prev - 1;
-        if (newTimeLeft <= 0) {
-          clearInterval(timerRef.current!); // Stäng av timern när tiden är slut
-          timerRef.current = null;
-          onComplete(); // Callback när timern är klar
+      setTimeElapsed((prev) => {
+        // När timern når den angivna durationen (slut)
+        if (prev >= duration) {
+          clearInterval(timerRef.current!);
+          onComplete(); // Kalla onComplete för att meddela att tiden är slut
+          return prev;
         }
-        return newTimeLeft;
+        return prev + 1; // Öka tiden varje sekund
       });
     }, 1000);
 
-    // När komponenten unmountar eller om någon beroende ändras, rensa intervallet
+    // Rensa intervallet när komponenten unmountar eller när isActive ändras
     return () => {
       if (timerRef.current) {
         clearInterval(timerRef.current);
         timerRef.current = null;
       }
     };
-  }, [isActive, timeLeft, onComplete, gameFinished]);
+  }, [isActive, duration, onComplete, gameFinished]);
 
   // Omvandla sekunder till minuter och sekunder
-  const minutes = Math.floor(timeLeft / 60);
-  const seconds = timeLeft % 60;
+  const minutes = Math.floor(timeElapsed / 60);
+  const seconds = timeElapsed % 60;
 
   return (
     <div>

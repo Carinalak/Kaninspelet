@@ -83,8 +83,9 @@ export const ModalMessage = ({
           </TextStyle>
         ) : (
           <TextStyle>
-            Tiden är ute! Du hittade {totalRabbits} kaniner och fick {goldenRabbits} guldkaniner!
-          </TextStyle>
+          Grattis, du hittade {totalRabbits} kaniner och fick {goldenRabbits} guldkaniner på{" "}
+          {Math.floor(elapsedTime / 60)}:{(elapsedTime % 60).toString().padStart(2, "0")} minuter!
+        </TextStyle>
         )}
         <TextStyle>Vill du spela igen?</TextStyle>
         <ButtonWrapper>

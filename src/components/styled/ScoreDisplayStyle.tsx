@@ -58,6 +58,12 @@ export const ScoreDisplayInnerBunnies = styled.div`
   color: ${KOLSVART};
   border-radius: 10px;
 
+  .timer-row {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  
   @media screen and (min-width: ${BREAKPOINT_TABLET}) {
     width: 190px;
     height: 290px;
@@ -65,6 +71,8 @@ export const ScoreDisplayInnerBunnies = styled.div`
     font-weight: bold;
   }
 `;
+
+
 
 export const PlayQuestionBox = styled.div`
   border: 1px solid black;

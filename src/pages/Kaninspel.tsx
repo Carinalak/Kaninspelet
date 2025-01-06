@@ -11,7 +11,6 @@ import RabbitFence from '../assets/img/cards/rabbit_fence.png';
 import RabbitGreen from '../assets/img/cards/rabbit_green.png';
 import RabbitHearts from '../assets/img/cards/rabbit_hearts.png';
 import { CardImage, CardLayoutStyle, CardStyle } from "../components/styled/CardLayoutStyle";
-
 import { generateRandomAdditionQuestion } from "../data/questions";
 import { ModalMessage } from "../components/styled/Modal";
 import Back from '../assets/img/cards/back.png';
@@ -44,6 +43,7 @@ export const Kaninspel = () => {
   const [cardAnswers, setCardAnswers] = useState<string[]>([]);
   const [score, setScore] = useState(0);
   const [showModal, setShowModal] = useState(false);
+  const [gameFinished, setGameFinished] = useState(false); 
   
 
   useEffect(() => {
@@ -147,6 +147,7 @@ export const Kaninspel = () => {
   useEffect(() => {
     if (foundRabbits.length === 25) {
       setShowModal(true);
+      setGameFinished(true)
     }
   }, [foundRabbits]);
 
@@ -171,43 +172,45 @@ export const Kaninspel = () => {
     setScore(0);
   };
 
-  const [elapsedTime, setElapsedTime] = useState(0); // För att hålla koll på förfluten tid
+  const [elapsedTime, setElapsedTime] = useState(0);
   useEffect(() => {
     let timer: ReturnType<typeof setInterval>;
   
-    if (gameStarted) {
+    if (gameStarted && !gameFinished) {
       timer = setInterval(() => {
-        setElapsedTime((prev) => prev + 1); // Uppdatera förfluten tid varje sekund
+        setElapsedTime((prev) => prev + 1);
       }, 1000);
     }
   
-    // Rensa intervallet när spelet stoppas
     return () => clearInterval(timer);
-  }, [gameStarted]);
+  }, [gameStarted, gameFinished]);
   
   
-
-
+  
+useEffect(() => {
+  if (foundRabbits.length === 25) {
+    setShowModal(true);
+  }
+}, [foundRabbits]);
+  
   return (
     <WrapperTransparent>
      <ModalMessage
-  showModal={showModal}
-  onClose={closeGame}
-  onReset={resetGameState}
-  allRabbitsFound={foundRabbits.length === 25}
-  totalRabbits={foundRabbits.length}
-  goldenRabbits={5}
-  elapsedTime={elapsedTime} // Skicka den förflutna tiden här
-/>
-
-
-
+      showModal={showModal}
+      onClose={closeGame}
+      onReset={resetGameState}
+      allRabbitsFound={foundRabbits.length === 25}
+      totalRabbits={foundRabbits.length}
+      goldenRabbits={5}
+      elapsedTime={elapsedTime}
+    />
 
       <ScoreDisplay 
         score={score} 
         onStartGame={onStartGame} 
         gameStarted={gameStarted} 
         question={question} 
+        gameFinished={gameFinished} 
       />
 
       <CardLayoutStyle>

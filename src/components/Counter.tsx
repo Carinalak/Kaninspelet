@@ -1,43 +1,56 @@
-import { useState, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface CounterProps {
   duration: number;
   isActive: boolean;
   onComplete: () => void;
-  onTick?: (elapsedTime: number) => void;
-  gameFinished: boolean; 
+  gameFinished: boolean;
 }
 
-export const Counter = ({ duration, isActive, onComplete, onTick, gameFinished }: CounterProps) => {
-  const [timeLeft, setTimeLeft] = useState(duration);
+export const Counter = ({ duration, isActive, onComplete, gameFinished }: CounterProps) => {
+  const [timeLeft, setTimeLeft] = useState(duration); // Tiden som är kvar i sekunder
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
-    if (!isActive || timeLeft <= 0 || gameFinished) { // Stoppa när spelet är klart
-      if (timeLeft <= 0) onComplete();
+    if (!isActive || timeLeft <= 0 || gameFinished) {
+      // Om spelet är klart eller om tiden har gått ut, stoppa timern
+      if (timerRef.current) {
+        clearInterval(timerRef.current); // Stoppa timern
+        timerRef.current = null; // Sätt referens till null
+      }
+      if (timeLeft <= 0) onComplete(); // När tiden är slut, anropa onComplete
       return;
     }
 
-    const timer = setInterval(() => {
+    // Starta timern om den är aktiv
+    timerRef.current = setInterval(() => {
       setTimeLeft((prev) => {
         const newTimeLeft = prev - 1;
         if (newTimeLeft <= 0) {
-          clearInterval(timer);
-          onComplete();
+          clearInterval(timerRef.current!); // Stäng av timern när tiden är slut
+          timerRef.current = null;
+          onComplete(); // Callback när timern är klar
         }
         return newTimeLeft;
       });
-
-      if (onTick) onTick(timeLeft); // Uppdatera tiden varje sekund
     }, 1000);
 
-    return () => clearInterval(timer);
-  }, [isActive, timeLeft, onComplete, onTick, gameFinished]);
+    // När komponenten unmountar eller om någon beroende ändras, rensa intervallet
+    return () => {
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+        timerRef.current = null;
+      }
+    };
+  }, [isActive, timeLeft, onComplete, gameFinished]);
 
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${mins}:${secs < 10 ? "0" : ""}${secs}`;
-  };
+  // Omvandla sekunder till minuter och sekunder
+  const minutes = Math.floor(timeLeft / 60);
+  const seconds = timeLeft % 60;
 
-  return <span>{formatTime(timeLeft)}</span>;
+  return (
+    <div>
+      {minutes}:{seconds < 10 ? `0${seconds}` : seconds} minuter
+    </div>
+  );
 };

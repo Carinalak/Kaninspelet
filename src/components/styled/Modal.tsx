@@ -57,9 +57,8 @@ interface ModalMessageProps {
   allRabbitsFound: boolean;
   totalRabbits: number;
   goldenRabbits: number;
-  elapsedTime: number; // Tid i sekunder
+  elapsedTime: number;
 }
-
 export const ModalMessage = ({
   showModal,
   onClose,
@@ -71,7 +70,6 @@ export const ModalMessage = ({
 }: ModalMessageProps) => {
   if (!showModal) return null;
 
-  // Omvandla sekunder till minuter och sekunder
   const minutes = Math.floor(elapsedTime / 60);
   const seconds = elapsedTime % 60;
 

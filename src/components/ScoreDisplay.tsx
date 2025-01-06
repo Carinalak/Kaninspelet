@@ -4,23 +4,25 @@ import RabbitBlack from "../assets/img/rabbits/rabbit_shadow_black.png";
 import RabbitYellow from "../assets/img/rabbits/rabbit_shadow_yellow.png";
 import { GameButton, RuleButton } from "./styled/Buttons";
 import { TextWrapper, Question, TextStyle } from "./Wrappers";
-import { Counter } from "./Counter"; // Importerar Counter-komponenten
+import { Counter } from "./Counter";
+
+
 
 interface ScoreDisplayProps {
   score: number;
   onStartGame: () => void;
   gameStarted: boolean;
   question: string;
+  gameFinished: boolean;
 }
 
-export const ScoreDisplay = ({ score, onStartGame, gameStarted, question }: ScoreDisplayProps) => {
+export const ScoreDisplay = ({ score, onStartGame, gameStarted, question, gameFinished }: ScoreDisplayProps) => {
   const [showRules, setShowRules] = useState(false);
   const [gameCompleted, setGameCompleted] = useState(false);
   const [timerActive, setTimerActive] = useState(false);
 
-  // Beräkna antal hela nivåer av 5 poäng som spelaren har uppnått
   const levels = Math.floor(score / 5);
-  const bonusPoints = levels * 2; // Bonuspoäng
+  const bonusPoints = levels * 2;
   const totalScore = score + bonusPoints;
 
   const yellowBunniesCount = Math.floor(score / 5);
@@ -31,12 +33,13 @@ export const ScoreDisplay = ({ score, onStartGame, gameStarted, question }: Scor
   const toggleRules = () => setShowRules(!showRules);
 
   const handleStartGame = () => {
-    setTimerActive(true); // Starta timern
-    onStartGame(); // Anropa onStartGame från props
+    setTimerActive(true);
+    onStartGame();
   };
 
   const handleTimerComplete = () => {
-    setGameCompleted(true); // När timern är slut, markera spelet som avslutat
+    setGameCompleted(true);
+    setTimerActive(false); // Timer stoppas
   };
 
   return (
@@ -56,6 +59,7 @@ export const ScoreDisplay = ({ score, onStartGame, gameStarted, question }: Scor
             </RuleButton>
           </>
         )}
+
         {showRules && (
           <TextWrapper>
             <TextStyle>
@@ -65,6 +69,7 @@ export const ScoreDisplay = ({ score, onStartGame, gameStarted, question }: Scor
             </TextStyle>
           </TextWrapper>
         )}
+
         {!showRules && (
           <ScoreDisplayInnerBunnies>
             <div>Poäng: {totalScore}</div>
@@ -73,9 +78,9 @@ export const ScoreDisplay = ({ score, onStartGame, gameStarted, question }: Scor
               {!gameCompleted && (
                 <Counter
                   duration={300} // 5 minuter
-                  isActive={timerActive} // Starta endast om timerActive är true
-                  onComplete={handleTimerComplete} // Callback när timern är slut
-                  gameFinished={false}                
+                  isActive={timerActive}
+                  onComplete={handleTimerComplete}
+                  gameFinished={gameFinished} 
                 />
               )}
             </div>

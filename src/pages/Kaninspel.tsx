@@ -44,6 +44,7 @@ export const Kaninspel = () => {
   const [cardAnswers, setCardAnswers] = useState<string[]>([]);
   const [score, setScore] = useState(0);
   const [showModal, setShowModal] = useState(false);
+  
 
   useEffect(() => {
     const preloadImages = () => {
@@ -144,7 +145,7 @@ export const Kaninspel = () => {
   };
 
   useEffect(() => {
-    if (foundRabbits.length === 15) {
+    if (foundRabbits.length === 25) {
       setShowModal(true);
     }
   }, [foundRabbits]);
@@ -170,13 +171,37 @@ export const Kaninspel = () => {
     setScore(0);
   };
 
+  const [elapsedTime, setElapsedTime] = useState(0); // För att hålla koll på förfluten tid
+  useEffect(() => {
+    let timer: ReturnType<typeof setInterval>;
+  
+    if (gameStarted) {
+      timer = setInterval(() => {
+        setElapsedTime((prev) => prev + 1); // Uppdatera förfluten tid varje sekund
+      }, 1000);
+    }
+  
+    // Rensa intervallet när spelet stoppas
+    return () => clearInterval(timer);
+  }, [gameStarted]);
+  
+  
+
+
   return (
     <WrapperTransparent>
-    <ModalMessage 
-        showModal={showModal} 
-        onClose={closeGame} 
-        onReset={resetGameState} 
-      />
+     <ModalMessage
+  showModal={showModal}
+  onClose={closeGame}
+  onReset={resetGameState}
+  allRabbitsFound={foundRabbits.length === 25}
+  totalRabbits={foundRabbits.length}
+  goldenRabbits={5}
+  elapsedTime={elapsedTime} // Skicka den förflutna tiden här
+/>
+
+
+
 
       <ScoreDisplay 
         score={score} 

@@ -54,16 +54,41 @@ interface ModalMessageProps {
   showModal: boolean;
   onClose: () => void;
   onReset: () => void;
+  allRabbitsFound: boolean;
+  totalRabbits: number;
+  goldenRabbits: number;
+  elapsedTime: number; // Tid i sekunder
 }
 
-export const ModalMessage = ({ showModal, onClose, onReset }: ModalMessageProps) => {
+export const ModalMessage = ({
+  showModal,
+  onClose,
+  onReset,
+  allRabbitsFound,
+  totalRabbits,
+  goldenRabbits,
+  elapsedTime,
+}: ModalMessageProps) => {
   if (!showModal) return null;
+
+  // Omvandla sekunder till minuter och sekunder
+  const minutes = Math.floor(elapsedTime / 60);
+  const seconds = elapsedTime % 60;
 
   return (
     <Modal>
       <ModalBoxInner>
-        <TextStyle>Grattis du hittade alla kaniner och fick tre guldkaniner!</TextStyle>
-        <TextStyle>Vill du fortsätta?</TextStyle>
+        {allRabbitsFound ? (
+          <TextStyle>
+            Grattis, du hittade {totalRabbits} kaniner och fick {goldenRabbits} guldkaniner på{" "}
+            {minutes}:{seconds.toString().padStart(2, "0")} minuter!
+          </TextStyle>
+        ) : (
+          <TextStyle>
+            Tiden är ute! Du hittade {totalRabbits} kaniner och fick {goldenRabbits} guldkaniner!
+          </TextStyle>
+        )}
+        <TextStyle>Vill du spela igen?</TextStyle>
         <ButtonWrapper>
           <GameButton onClick={onClose}>Nej</GameButton>
           <GameButton onClick={onReset}>Ja</GameButton>
@@ -72,4 +97,3 @@ export const ModalMessage = ({ showModal, onClose, onReset }: ModalMessageProps)
     </Modal>
   );
 };
-  

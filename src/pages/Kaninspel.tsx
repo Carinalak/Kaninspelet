@@ -44,6 +44,8 @@ export const Kaninspel = () => {
   const [score, setScore] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [gameFinished, setGameFinished] = useState(false); 
+  const [cardsLocked, setCardsLocked] = useState(false);
+
   
 
   useEffect(() => {
@@ -90,7 +92,7 @@ export const Kaninspel = () => {
   const [visibleCards, setVisibleCards] = useState<{ [key: number]: string | null }>({});
 
   const flipCard = (id: number) => {
-    if (flippedCards[id]) return;
+    if (flippedCards[id] || cardsLocked) return;
 
     setFlippedCards(prev => ({ ...prev, [id]: true }));
 
@@ -103,6 +105,8 @@ export const Kaninspel = () => {
     }, 300);
 
     if (cardAnswers[id - 1] === answer) {
+      setCardsLocked(true);
+
       setTimeout(() => {
         setFoundRabbits(prev => [...prev, id]);
         setScore(prev => prev + 1);
@@ -121,6 +125,7 @@ export const Kaninspel = () => {
           });
 
           generateNewQuestion();
+          setCardsLocked(false);
         }, 500);
       }, 1000);
     } else {
@@ -219,10 +224,8 @@ useEffect(() => {
           <CardStyle
             key={card.id}
             onClick={() => {
-              if (!gameStarted) {
-                alert("Klicka på knappen för att börja spela!");
-                return;
-              }
+              if (!gameStarted || cardsLocked) return;
+
               flipCard(card.id);
             }}
             style={{

@@ -1,21 +1,21 @@
 import { useEffect, useRef, useState } from "react";
 
 interface CounterProps {
-  isActive: boolean; // Timern körs endast om denna är true
-  duration?: number; // Maximal tid i sekunder
-  onComplete?: () => void; // Callback när timern når max-tiden
+  isActive: boolean;
+  duration?: number;
+  onComplete?: () => void;
 }
 
 export const Counter = ({ isActive, duration, onComplete }: CounterProps) => {
-  const [elapsedTime, setElapsedTime] = useState(0); // Tid som gått
-  const lastTimestamp = useRef<number | null>(null); // För att spåra tid mellan uppdateringar
+  const [elapsedTime, setElapsedTime] = useState(0);
+  const lastTimestamp = useRef<number | null>(null);
 
   useEffect(() => {
     let frameId: number;
 
     const updateElapsedTime = (timestamp: number) => {
       if (lastTimestamp.current !== null) {
-        const delta = (timestamp - lastTimestamp.current) / 1000; // Skillnad i sekunder
+        const delta = (timestamp - lastTimestamp.current) / 1000;
         setElapsedTime((prev) => {
           const nextTime = prev + delta;
 
@@ -34,11 +34,11 @@ export const Counter = ({ isActive, duration, onComplete }: CounterProps) => {
     if (isActive) {
       frameId = requestAnimationFrame(updateElapsedTime);
     } else {
-      lastTimestamp.current = null; // Pausa tidräkningen
+      lastTimestamp.current = null;
     }
 
     return () => {
-      cancelAnimationFrame(frameId); // Rensa animation frame vid avmontering
+      cancelAnimationFrame(frameId);
     };
   }, [isActive, duration, onComplete]);
 

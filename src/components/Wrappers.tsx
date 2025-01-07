@@ -38,10 +38,9 @@ export const WrapperTransparent = styled.section`
 
 
 
-export const GameLoginWrapper = styled(WrapperTransparent)`
+export const GameLoginWrapper = styled.div`
   padding-top: 90px;
-  //margin: 0 auto;
- // height: 100vh;
+
 
   @media screen and (min-width: ${BREAKPOINT_BIGGER_DESKTOP}) {
        padding-top: 150px;

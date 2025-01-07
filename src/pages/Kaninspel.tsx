@@ -191,7 +191,6 @@ export const Kaninspel = () => {
   }, [gameStarted, gameFinished]);
   
   
-  
 useEffect(() => {
   if (foundRabbits.length === 25) {
     setShowModal(true);

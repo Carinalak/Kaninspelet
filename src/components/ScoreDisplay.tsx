@@ -42,11 +42,11 @@ export const ScoreDisplay = ({
 
   const minutes = !isNaN(elapsedTime) ? Math.floor(elapsedTime / 60) : 0;
   const seconds = !isNaN(elapsedTime) ? elapsedTime % 60 : 0;
-
+/*
   const handleComplete = () => {
     console.log("Timer completed!");
   
-  };
+  };*/
 
   return (
     <ScoreDisplayStyle>
@@ -70,8 +70,7 @@ export const ScoreDisplay = ({
           <TextWrapper>
             <TextStyle>
               Lös mattetalet och välj kortet med rätt svar för att hitta en kanin! 
-              En kanin ger 1 poäng. Varje guldkanin ger 5 poäng extra. 
-              För varje 5 poäng du samlar på dig får du 2 extra bonuspoäng.
+              En kanin ger 1 poäng. För 5 kaniner får du en guldkanin, som ger 2 poäng extra. Du har 5 minuter på dig.
             </TextStyle>
           </TextWrapper>
         )}
@@ -83,10 +82,11 @@ export const ScoreDisplay = ({
               Tid:{" "}
               {!gameFinished && (
                 <Counter
-                  duration={60}
+                  duration={300}
                   isActive={gameStarted && !gameFinished} 
-                  onComplete={handleComplete}
-                  gameFinished={gameFinished}
+                  //onComplete={handleComplete}
+                  //gameFinished={gameFinished}
+                  onComplete={() => console.log("Tiden är slut!")}
                 />
               )}
               {gameFinished && (

@@ -1,51 +1,49 @@
 import { useEffect, useRef, useState } from "react";
 
 interface CounterProps {
-  duration: number;
-  isActive: boolean;
-  onComplete: () => void;
-  gameFinished: boolean;
+  isActive: boolean; // Timern körs endast om denna är true
+  duration?: number; // Maximal tid i sekunder
+  onComplete?: () => void; // Callback när timern når max-tiden
 }
 
-export const Counter = ({ duration, isActive, onComplete, gameFinished }: CounterProps) => {
-  const [timeElapsed, setTimeElapsed] = useState(0); // Startar på 0 och räknar upp
-  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+export const Counter = ({ isActive, duration, onComplete }: CounterProps) => {
+  const [elapsedTime, setElapsedTime] = useState(0); // Tid som gått
+  const lastTimestamp = useRef<number | null>(null); // För att spåra tid mellan uppdateringar
 
   useEffect(() => {
-    if (!isActive || gameFinished) {
-      // Stoppa timern om den inte är aktiv eller om spelet är klart
-      if (timerRef.current) {
-        clearInterval(timerRef.current);
-        timerRef.current = null;
+    let frameId: number;
+
+    const updateElapsedTime = (timestamp: number) => {
+      if (lastTimestamp.current !== null) {
+        const delta = (timestamp - lastTimestamp.current) / 1000; // Skillnad i sekunder
+        setElapsedTime((prev) => {
+          const nextTime = prev + delta;
+
+          if (duration && nextTime >= duration) {
+            onComplete?.();
+            return duration;
+          }
+
+          return nextTime;
+        });
       }
-      return;
+      lastTimestamp.current = timestamp;
+      frameId = requestAnimationFrame(updateElapsedTime);
+    };
+
+    if (isActive) {
+      frameId = requestAnimationFrame(updateElapsedTime);
+    } else {
+      lastTimestamp.current = null; // Pausa tidräkningen
     }
 
-    // Starta timern om den är aktiv
-    timerRef.current = setInterval(() => {
-      setTimeElapsed((prev) => {
-        // När timern når den angivna durationen (slut)
-        if (prev >= duration) {
-          clearInterval(timerRef.current!);
-          onComplete(); // Kalla onComplete för att meddela att tiden är slut
-          return prev;
-        }
-        return prev + 1; // Öka tiden varje sekund
-      });
-    }, 1000);
-
-    // Rensa intervallet när komponenten unmountar eller när isActive ändras
     return () => {
-      if (timerRef.current) {
-        clearInterval(timerRef.current);
-        timerRef.current = null;
-      }
+      cancelAnimationFrame(frameId); // Rensa animation frame vid avmontering
     };
-  }, [isActive, duration, onComplete, gameFinished]);
+  }, [isActive, duration, onComplete]);
 
-  // Omvandla sekunder till minuter och sekunder
-  const minutes = Math.floor(timeElapsed / 60);
-  const seconds = timeElapsed % 60;
+  const minutes = Math.floor(elapsedTime / 60);
+  const seconds = Math.floor(elapsedTime % 60);
 
   return (
     <div>

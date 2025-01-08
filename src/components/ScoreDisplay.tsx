@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { ScoreDisplayStyle, PlayQuestionBox, ScoreDisplayInnerBunnies } from "./styled/ScoreDisplayStyle";
 import RabbitBlack from "../assets/img/rabbits/rabbit_shadow_black.png";
 import RabbitYellow from "../assets/img/rabbits/rabbit_shadow_yellow.png";
-import { MenuButton } from "./styled/Buttons";
+import { GameButton, MenuButton } from "./styled/Buttons";
 import { Question, TextStyle, TextWrapper } from "./Wrappers";
 import { Counter } from "./Counter";
 import { Login } from "../pages/Login";
@@ -10,15 +10,18 @@ import { Login } from "../pages/Login";
 interface ScoreDisplayProps {
   score: number;
   onStartGame: () => void;
+  onEndGame: () => void;
   gameStarted: boolean;
   question: string;
   gameFinished: boolean;
   elapsedTime: number;
+
 }
 
 export const ScoreDisplay = ({
   score,
   onStartGame,
+  onEndGame,
   gameStarted,
   question,
   gameFinished,
@@ -50,6 +53,13 @@ export const ScoreDisplay = ({
     onStartGame();
   };
 
+  const handleCancelGame = () => {
+    console.log("Spelet avbryts");
+    onEndGame(); // Återställ spelet via en callback
+  };
+
+
+
   const minutes = !isNaN(elapsedTime) ? Math.floor(elapsedTime / 60) : 0;
   const seconds = !isNaN(elapsedTime) ? elapsedTime % 60 : 0;
 
@@ -62,6 +72,9 @@ export const ScoreDisplay = ({
         {gameStarted ? (
           <>
             <Question>{question} =</Question>
+            <GameButton onClick={handleCancelGame} style={{ marginTop: "10px" }}>
+              Avbryt spel
+            </GameButton>
             <ScoreDisplayInnerBunnies>
               <div>Poäng: {totalScore}</div>
               <div className="timer-row">

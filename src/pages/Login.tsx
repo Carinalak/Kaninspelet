@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import { styled } from "styled-components";
-import { GameLoginWrapper, TextStyle } from "../components/Wrappers";
+import { ErrorText, GameLoginWrapper, TextStyle } from "../components/Wrappers";
 import { SKUGGLILA, BREAKPOINT_BIGGER_DESKTOP, BREAKPOINT_TABLET, GAMMELROSA } from "../components/styled/Variables";
 import { FormButton } from "../components/styled/Buttons";
 import axios from "axios";
 
+
+// Styled-components
 export const GameForm = styled.form`
   display: flex;
   flex-direction: column;
@@ -30,11 +32,12 @@ export const NameInput = styled.input`
   width: 180px;
   height: 35px;
   border-radius: 10px;
-  border: 1px solid ${GAMMELROSA};;
+  border: 1px solid ${GAMMELROSA};
   text-align: center;
   padding: 0;
 `;
 
+// Props för komponenten
 interface LoginProps {
   onLogin: () => void; // Callback för att meddela att användaren är inloggad
 }
@@ -46,60 +49,79 @@ export const Login = ({ onLogin }: LoginProps) => {
   const [isRegistering, setIsRegistering] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  // Kolla om användaren är inloggad när komponenten laddas
   useEffect(() => {
-    // Kolla om användaren redan är inloggad baserat på localStorage
     const user = localStorage.getItem("user");
     if (user) {
       setIsLoggedIn(true);
     }
   }, []);
 
+  // Hantera registrering och inloggning
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-  
+
     try {
       if (isRegistering) {
-        const response = await axios.post("http://localhost:3000/users", {
+        // Registrera användare
+        const response = await axios.post("http://localhost:3000/users/register", {
           name,
           password,
         });
-        console.log("Registrering lyckades:", response); // Använd response här
-  
-        localStorage.setItem("user", JSON.stringify({ name, password }));
-        setIsLoggedIn(true);
-        onLogin();
-      } else {
-        const response = await axios.get("http://localhost:3000/users", {
-          params: { name, password },
-        });
-  
-        if (response.data.length === 0) {
-          setError("Fel användarnamn eller lösenord.");
-        } else {
-          localStorage.setItem("user", JSON.stringify({ name, password }));
+
+        console.log("Registreringssvar från backend:", response);
+
+        if (response.status === 201) {
+          console.log("Registrering lyckades:", response.data);
+          localStorage.setItem("user", JSON.stringify({ name }));
           setIsLoggedIn(true);
           onLogin();
+        } else {
+          setError("Misslyckades med att skapa användare. Försök igen.");
         }
-  
-        // Logga eller använd svaret om du behöver information från servern
-        console.log("Svar från servern:", response.data);
+      } else {
+        // Logga in användare
+        const response = await axios.post("http://localhost:3000/auth/login", {
+          name,
+          password,
+        });
+
+        if (response.status === 200) {
+          localStorage.setItem("user", JSON.stringify(response.data.user));
+          setIsLoggedIn(true);
+          onLogin();
+        } else {
+          setError("Fel användarnamn eller lösenord. Försök igen.");
+        }
       }
     } catch (err) {
-      setError("Något gick fel. Försök igen.");
-      console.error(err);
+
+      if (axios.isAxiosError(err)) {
+        setError(
+          isRegistering
+            ? err.response?.data?.error || "Kunde inte skapa användare. Försök igen."
+            : err.response?.data?.error || "Fel användarnamn eller lösenord. Försök igen."
+        );
+        console.error("AxiosError:", err.response?.data || err.message);
+      } else {
+        setError("Ett oväntat fel inträffade. Försök igen.");
+        console.error("Oväntat fel:", err);
+      }
     }
   };
-  
 
+  // Logga ut användare
   const handleLogout = () => {
     localStorage.removeItem("user");
     setIsLoggedIn(false);
   };
 
+  // Om användaren är inloggad
   if (isLoggedIn) {
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
     return (
       <GameLoginWrapper>
-        <h2>Du är redan inloggad som {JSON.parse(localStorage.getItem("user") || "{}").name}</h2>
+        <h2>Du är redan inloggad som {user.name}</h2>
         <FormButton onClick={handleLogout}>Logga ut</FormButton>
       </GameLoginWrapper>
     );
@@ -122,19 +144,31 @@ export const Login = ({ onLogin }: LoginProps) => {
           onChange={(e) => setPassword(e.target.value)}
         />
         <FormButton type="submit">{isRegistering ? "Registrera" : "Logga in"}</FormButton>
-        {error && <p>{error}</p>}
+        {error && <ErrorText>{error}</ErrorText>}
         <div>
           {isRegistering ? (
             <TextStyle>
               Har du redan ett konto?{" "}
-              <span onClick={() => setIsRegistering(false)} style={{ cursor: "pointer", color: "blue" }}>
+              <span
+                onClick={() => {
+                  setIsRegistering(false);
+                  setError("");
+                }}
+                style={{ cursor: "pointer", color: "blue" }}
+              >
                 Logga in här.
               </span>
             </TextStyle>
           ) : (
             <TextStyle>
               Inget konto?{" "}
-              <span onClick={() => setIsRegistering(true)} style={{ cursor: "pointer", color: "blue" }}>
+              <span
+                onClick={() => {
+                  setIsRegistering(true);
+                  setError("");
+                }}
+                style={{ cursor: "pointer", color: "blue" }}
+              >
                 Registrera dig.
               </span>
             </TextStyle>

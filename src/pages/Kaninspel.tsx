@@ -197,6 +197,11 @@ useEffect(() => {
   }
 }, [foundRabbits]);
   
+  function handleEndGame(): void {
+    setGameStarted(false);
+    setGameFinished(true);
+  }
+
   return (
     <WrapperTransparent>
      <ModalMessage
@@ -212,6 +217,7 @@ useEffect(() => {
       <ScoreDisplay 
         score={score} 
         onStartGame={onStartGame} 
+        onEndGame={handleEndGame}
         gameStarted={gameStarted} 
         question={question} 
         gameFinished={gameFinished} 

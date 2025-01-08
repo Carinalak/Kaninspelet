@@ -63,6 +63,5 @@ export const OrdinaryFont = styled.p `
 
 export const H2White = styled.h2`
   text-align: center;
-
-
 `;
+

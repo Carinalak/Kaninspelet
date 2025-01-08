@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { BREAKPOINT_TABLET, BREAKPOINT_DESKTOP, BREAKPOINT_BIGGER_DESKTOP, KOLSVART } from "./styled/Variables";
+import { BREAKPOINT_TABLET, BREAKPOINT_DESKTOP, BREAKPOINT_BIGGER_DESKTOP, KRITVIT, KOLSVART, HJARTROD } from "./styled/Variables";
 
 
 export const WrapperTransparent = styled.section`
@@ -16,7 +16,7 @@ export const WrapperTransparent = styled.section`
   font-family: "Playpen Sans", serif;
   margin: 0 auto;
   gap: 20px;
-  border: 1px solid black;
+  //border: 1px solid black;
 
     @media screen and (min-width: ${BREAKPOINT_TABLET}) {
       width: 600px;
@@ -40,14 +40,21 @@ export const WrapperTransparent = styled.section`
 
 
 export const GameLoginWrapper = styled.div`
-  padding-top: 90px;
-
-
-  @media screen and (min-width: ${BREAKPOINT_BIGGER_DESKTOP}) {
-       padding-top: 150px;
-    }
+  padding-top: 10px;
+  background-color: ${KRITVIT};
+  width: 240px;
+  height: 350px;
+  padding: 5px;
+  border-radius: 10px;
 
 `;
+
+
+export const Question = styled.div `
+  margin-top: 50px;
+
+`;
+
 
 export const TextWrapper = styled.div `
   width: 170;
@@ -55,8 +62,8 @@ export const TextWrapper = styled.div `
   //border: 1px solid black;
   align-items: center;
   justify-content: center;
- 
 `;
+
 
 export const TextStyle = styled.div `
   font-size: 1rem;
@@ -65,9 +72,9 @@ export const TextStyle = styled.div `
   padding-top: 20px;
   padding-right: 20px;
   padding-left: 20px;
+
 `;
 
-export const Question = styled.div `
-  margin-top: 50px;
-
+export const ErrorText = styled(TextStyle) `
+    color: ${HJARTROD};
 `;

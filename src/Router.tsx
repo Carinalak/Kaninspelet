@@ -1,7 +1,6 @@
 import { createHashRouter } from "react-router-dom";
 import { Kaninspel } from "./pages/Kaninspel";
 import { Layout } from "./pages/Layout";
-import { Login } from "./pages/Login";
 import { NotFound } from "./pages/NotFound";
 
 
@@ -15,10 +14,6 @@ export const router = createHashRouter([
         children: [
             {
                 path: "/",
-                element: <Login></Login>,
-            },
-            {
-                path: "/kaninspel",
                 element: <Kaninspel></Kaninspel>,
             },
         ],

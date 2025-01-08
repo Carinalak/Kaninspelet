@@ -2,14 +2,14 @@ import styled from "styled-components";
 import { GAMMELROSA, KRITVIT, SMUTSROSA, POOLBLA, BREAKPOINT_TABLET, BREAKPOINT_BIGGER_DESKTOP, BREAKPOINT_DESKTOP, SKUGGLILA } from "./Variables";
 
 export const FormButton = styled.button`
-  width: 250px;
-  height: 40px;
+  width: 200px;
+  height: 35px;
   border: none;
   border-radius: 12px;
   background-color: ${GAMMELROSA};
   font-family: Arial, Helvetica, sans-serif;
   font-weight: 600;
-  font-size: 16px;
+  font-size: 15px;
   text-align: center;
   color: ${KRITVIT};
   cursor: pointer;
@@ -24,6 +24,13 @@ export const FormButton = styled.button`
   }
   @media screen and (min-width: ${BREAKPOINT_TABLET}) {
 }
+
+@media screen and (min-width: ${BREAKPOINT_BIGGER_DESKTOP}) {
+      width: 190px;
+      height: 60px;
+      font-weight: 700;
+      font-size: 2rem;
+      }
 `;
 
 export const GameButton = styled(FormButton) `
@@ -38,12 +45,7 @@ export const GameButton = styled(FormButton) `
     @media screen and (min-width: ${BREAKPOINT_DESKTOP}) {
       width: 110px;
       }
-      @media screen and (min-width: ${BREAKPOINT_BIGGER_DESKTOP}) {
-      width: 190px;
-      height: 60px;
-      font-weight: 700;
-      font-size: 2rem;
-      }
+
 `;
 
 export const RuleButton = styled(FormButton) `
@@ -58,12 +60,6 @@ export const RuleButton = styled(FormButton) `
     @media screen and (min-width: ${BREAKPOINT_DESKTOP}) {
       width: 110px;
       }
-      @media screen and (min-width: ${BREAKPOINT_BIGGER_DESKTOP}) {
-      width: 190px;
-      height: 60px;
-      font-weight: 700;
-      font-size: 2rem;
-      }
 `;
 
 export const ButtonWrapper = styled.div `
@@ -77,26 +73,19 @@ export const ButtonWrapper = styled.div `
   gap: 15px;
   width: 300px;
 
-
     @media screen and (min-width: ${BREAKPOINT_TABLET}) {
       gap: 30px;
     }
-      
 `;
 
 export const AccountButton = styled(FormButton) `
     width: 100px;
     height: 35px;
-
-
 `;
 
 export const MenuButton = styled(FormButton) `
   width: 200px;
   border-radius: 0;
   border-bottom: 1px solid ${SKUGGLILA};
-
-
-
 `;
 

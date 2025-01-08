@@ -1,8 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { styled } from "styled-components";
-import { GameLoginWrapper } from "../components/Wrappers";
-import { SKUGGLILA, BREAKPOINT_BIGGER_DESKTOP, BREAKPOINT_TABLET } from "../components/styled/Variables";
-import { useNavigate } from "react-router-dom";
+import { GameLoginWrapper, TextStyle } from "../components/Wrappers";
+import { SKUGGLILA, BREAKPOINT_BIGGER_DESKTOP, BREAKPOINT_TABLET, GAMMELROSA } from "../components/styled/Variables";
 import { FormButton } from "../components/styled/Buttons";
 import axios from "axios";
 
@@ -24,66 +23,91 @@ export const GameForm = styled.form`
 
 export const NameInput = styled.input`
   font-family: "Playpen Sans", serif;
-  font-size: 16px;
+  font-size: 1rem;
   color: ${SKUGGLILA};
   border: none;
   outline: none;
-  width: 250px;
-  height: 40px;
+  width: 180px;
+  height: 35px;
   border-radius: 10px;
+  border: 1px solid ${GAMMELROSA};;
   text-align: center;
   padding: 0;
 `;
 
-export const Login = () => {
+interface LoginProps {
+  onLogin: () => void; // Callback för att meddela att användaren är inloggad
+}
+
+export const Login = ({ onLogin }: LoginProps) => {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isRegistering, setIsRegistering] = useState(false);
-  const navigate = useNavigate();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    // Kolla om användaren redan är inloggad baserat på localStorage
+    const user = localStorage.getItem("user");
+    if (user) {
+      setIsLoggedIn(true);
+    }
+  }, []);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-
+  
     try {
       if (isRegistering) {
-        // Om vi är i registreringsläge, skapa användare
         const response = await axios.post("http://localhost:3000/users", {
           name,
           password,
         });
-
+        console.log("Registrering lyckades:", response); // Använd response här
+  
         localStorage.setItem("user", JSON.stringify({ name, password }));
-
-        navigate("/kaninspel");
-
-        console.log("Användare skapad och inloggad: ", response.data);
+        setIsLoggedIn(true);
+        onLogin();
       } else {
-        // kontrollera om användaren finns i databasen
         const response = await axios.get("http://localhost:3000/users", {
-          params: {
-            name,
-            password,
-          },
+          params: { name, password },
         });
-
-        if (response.data.length > 0) {
-          // Om användaren finns, logga in och spara i localStorage
-          localStorage.setItem("user", JSON.stringify({ name, password }));
-          navigate("/kaninspel");
-        } else {
+  
+        if (response.data.length === 0) {
           setError("Fel användarnamn eller lösenord.");
+        } else {
+          localStorage.setItem("user", JSON.stringify({ name, password }));
+          setIsLoggedIn(true);
+          onLogin();
         }
+  
+        // Logga eller använd svaret om du behöver information från servern
+        console.log("Svar från servern:", response.data);
       }
     } catch (err) {
       setError("Något gick fel. Försök igen.");
       console.error(err);
     }
   };
+  
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    setIsLoggedIn(false);
+  };
+
+  if (isLoggedIn) {
+    return (
+      <GameLoginWrapper>
+        <h2>Du är redan inloggad som {JSON.parse(localStorage.getItem("user") || "{}").name}</h2>
+        <FormButton onClick={handleLogout}>Logga ut</FormButton>
+      </GameLoginWrapper>
+    );
+  }
 
   return (
     <GameLoginWrapper>
-      <h2>{isRegistering ? "Skapa konto" : "Logga in för att spela"}</h2>
+      <TextStyle>{isRegistering ? "Skapa konto" : "Logga in för att spela"}</TextStyle>
       <GameForm onSubmit={handleSubmit}>
         <NameInput
           type="text"
@@ -101,19 +125,19 @@ export const Login = () => {
         {error && <p>{error}</p>}
         <div>
           {isRegistering ? (
-            <p>
+            <TextStyle>
               Har du redan ett konto?{" "}
               <span onClick={() => setIsRegistering(false)} style={{ cursor: "pointer", color: "blue" }}>
                 Logga in här.
               </span>
-            </p>
+            </TextStyle>
           ) : (
-            <p>
+            <TextStyle>
               Inget konto?{" "}
               <span onClick={() => setIsRegistering(true)} style={{ cursor: "pointer", color: "blue" }}>
                 Registrera dig.
               </span>
-            </p>
+            </TextStyle>
           )}
         </div>
       </GameForm>

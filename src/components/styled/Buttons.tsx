@@ -2,7 +2,6 @@ import styled from "styled-components";
 import { GAMMELROSA, KRITVIT, SMUTSROSA, POOLBLA, BREAKPOINT_TABLET, BREAKPOINT_BIGGER_DESKTOP, BREAKPOINT_DESKTOP } from "./Variables";
 
 export const FormButton = styled.button`
-
   width: 250px;
   height: 40px;
   border: none;
@@ -84,3 +83,11 @@ export const ButtonWrapper = styled.div `
     }
       
 `;
+
+export const AccountButton = styled(FormButton) `
+    width: 100px;
+    height: 35px;
+
+
+`;
+

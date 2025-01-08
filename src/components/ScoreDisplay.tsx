@@ -60,9 +60,9 @@ export const ScoreDisplay = ({
             {!showRules && (
               <GameButton onClick={handleStartGame}>Spela</GameButton>
             )}
-            <RuleButton onClick={toggleRules}>
-              {showRules ? "Tillbaka" : "Spelregler"}
-            </RuleButton>
+            <RuleButton onClick={toggleRules}>{showRules ? "Tillbaka" : "Spelregler"} </RuleButton>
+            <RuleButton>Logga ut</RuleButton>
+            <RuleButton>Resultat</RuleButton>
           </>
         )}
 
@@ -103,4 +103,5 @@ export const ScoreDisplay = ({
       </PlayQuestionBox>
     </ScoreDisplayStyle>
   );
+  
 };

@@ -25,7 +25,7 @@ export const Footer = () => {
 
 return (
   <FooterContainer>
-    <OrdinaryFont>&copy; Kaninspelet 2025 </OrdinaryFont>
+    <OrdinaryFont>&copy; Kaninspelet 2025 Carina Lakosil</OrdinaryFont>
   </FooterContainer>
 );
 }

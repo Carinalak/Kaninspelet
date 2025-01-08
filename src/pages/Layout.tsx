@@ -7,7 +7,7 @@ import { BREAKPOINT_DESKTOP, BREAKPOINT_TABLET } from "../components/styled/Vari
 const MainContainer = styled.main`
   //padding-top: 50px;
   overflow-x: hidden;
-  overflow-y: hidden;
+  
 
     @media screen and (min-width: ${BREAKPOINT_TABLET}) {
       //padding-top: 60px;
@@ -16,21 +16,21 @@ const MainContainer = styled.main`
       //padding-top: 80px;
     }
 `;
-
+/*
 const AppContainer = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-`;
+`;*/
 
 export const Layout = () => {
-  return (
-    <AppContainer>
+  return (<>
+
       <Header />
       <MainContainer>
         <Outlet />
       </MainContainer>
       <Footer />
-    </AppContainer>
+      </>
   );
 };

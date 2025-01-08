@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ScoreDisplayStyle, PlayQuestionBox, ScoreDisplayInnerBunnies } from "./styled/ScoreDisplayStyle";
 import RabbitBlack from "../assets/img/rabbits/rabbit_shadow_black.png";
 import RabbitYellow from "../assets/img/rabbits/rabbit_shadow_yellow.png";
-import { GameButton, RuleButton } from "./styled/Buttons";
+import { MenuButton } from "./styled/Buttons";
 import { TextWrapper, Question, TextStyle } from "./Wrappers";
 import { Counter } from "./Counter";
 
@@ -54,29 +54,7 @@ export const ScoreDisplay = ({
         {gameStarted ? (
           <>
             <Question>{question} =</Question>
-          </>
-        ) : (
-          <>
-            {!showRules && (
-              <GameButton onClick={handleStartGame}>Spela</GameButton>
-            )}
-            <RuleButton onClick={toggleRules}>{showRules ? "Tillbaka" : "Spelregler"} </RuleButton>
-            <RuleButton>Logga ut</RuleButton>
-            <RuleButton>Resultat</RuleButton>
-          </>
-        )}
-
-        {showRules && (
-          <TextWrapper>
-            <TextStyle>
-              Lös mattetalet och välj kortet med rätt svar för att hitta en kanin! 
-              En kanin ger 1 poäng. För 5 kaniner får du en guldkanin, som ger 2 poäng extra. Du har 5 minuter på dig.
-            </TextStyle>
-          </TextWrapper>
-        )}
-
-        {!showRules && (
-          <ScoreDisplayInnerBunnies>
+            <ScoreDisplayInnerBunnies>
             <div>Poäng: {totalScore}</div>
             <div className="timer-row">
               Tid:{" "}
@@ -99,7 +77,29 @@ export const ScoreDisplay = ({
               ))}
             </div>
           </ScoreDisplayInnerBunnies>
+          </>
+        ) : (
+          <>
+            {!showRules && (
+              <MenuButton onClick={handleStartGame}>Spela</MenuButton>
+            )}
+            <MenuButton onClick={toggleRules}>{showRules ? "Tillbaka" : "Spelregler"} </MenuButton>
+            <MenuButton>Mina resultat</MenuButton>
+            <MenuButton>Logga ut</MenuButton>
+ 
+          </>
         )}
+
+        {showRules && (
+          <TextWrapper>
+            <TextStyle>
+              Lös mattetalet och välj kortet med rätt svar för att hitta en kanin! 
+              En kanin ger 1 poäng. För 5 kaniner får du en guldkanin, som ger 2 poäng extra. Du har 5 minuter på dig.
+            </TextStyle>
+          </TextWrapper>
+        )}
+
+    
       </PlayQuestionBox>
     </ScoreDisplayStyle>
   );

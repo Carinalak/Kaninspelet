@@ -19,6 +19,7 @@ export const ScoreDisplayStyle = styled.div`
   border: 1px solid black;
   text-align: left;
   position: relative;
+  
 
   .rabbits-row {
     display: flex;
@@ -44,6 +45,7 @@ export const ScoreDisplayStyle = styled.div`
   @media screen and (min-width: ${BREAKPOINT_TABLET}) {
     font-size: 1.6rem;
     font-weight: bold;
+    height: 350px;
   }
 `;
 
@@ -73,13 +75,12 @@ export const ScoreDisplayInnerBunnies = styled.div`
 `;
 
 
-
 export const PlayQuestionBox = styled.div`
   border: 1px solid black;
   background-color: white;
   color: ${KOLSVART};
   width: 240px;
-  height: 300px;
+  height: 350px;
   display: flex;
   flex-direction: column;
   justify-content: center;

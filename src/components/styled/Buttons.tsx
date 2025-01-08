@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { GAMMELROSA, KRITVIT, SMUTSROSA, POOLBLA, BREAKPOINT_TABLET, BREAKPOINT_BIGGER_DESKTOP, BREAKPOINT_DESKTOP } from "./Variables";
+import { GAMMELROSA, KRITVIT, SMUTSROSA, POOLBLA, BREAKPOINT_TABLET, BREAKPOINT_BIGGER_DESKTOP, BREAKPOINT_DESKTOP, SKUGGLILA } from "./Variables";
 
 export const FormButton = styled.button`
   width: 250px;
@@ -29,7 +29,7 @@ export const FormButton = styled.button`
 export const GameButton = styled(FormButton) `
   width: 100px;
   height: 35px;
-  margin-top: 30px;
+  //margin-top: 30px;
   
   @media screen and (min-width: ${BREAKPOINT_TABLET}) {
     width: 110px;
@@ -87,6 +87,15 @@ export const ButtonWrapper = styled.div `
 export const AccountButton = styled(FormButton) `
     width: 100px;
     height: 35px;
+
+
+`;
+
+export const MenuButton = styled(FormButton) `
+  width: 200px;
+  border-radius: 0;
+  border-bottom: 1px solid ${SKUGGLILA};
+
 
 
 `;

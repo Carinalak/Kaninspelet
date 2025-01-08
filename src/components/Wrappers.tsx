@@ -16,6 +16,7 @@ export const WrapperTransparent = styled.section`
   font-family: "Playpen Sans", serif;
   margin: 0 auto;
   gap: 20px;
+  border: 1px solid black;
 
     @media screen and (min-width: ${BREAKPOINT_TABLET}) {
       width: 600px;

@@ -5,8 +5,6 @@ import { SKUGGLILA, BREAKPOINT_BIGGER_DESKTOP, BREAKPOINT_TABLET, GAMMELROSA } f
 import { FormButton } from "../components/styled/Buttons";
 import axios from "axios";
 
-
-// Styled-components
 export const GameForm = styled.form`
   display: flex;
   flex-direction: column;
@@ -37,9 +35,8 @@ export const NameInput = styled.input`
   padding: 0;
 `;
 
-// Props för komponenten
 interface LoginProps {
-  onLogin: () => void; // Callback för att meddela att användaren är inloggad
+  onLogin: () => void;
 }
 
 export const Login = ({ onLogin }: LoginProps) => {
@@ -49,7 +46,7 @@ export const Login = ({ onLogin }: LoginProps) => {
   const [isRegistering, setIsRegistering] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  // Kolla om användaren är inloggad när komponenten laddas
+  
   useEffect(() => {
     const user = localStorage.getItem("user");
     if (user) {
@@ -57,13 +54,13 @@ export const Login = ({ onLogin }: LoginProps) => {
     }
   }, []);
 
-  // Hantera registrering och inloggning
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
     try {
       if (isRegistering) {
-        // Registrera användare
+        
         const response = await axios.post(`${API_URL}/users/register`, {
           name,
           password,
@@ -80,7 +77,7 @@ export const Login = ({ onLogin }: LoginProps) => {
           setError("Misslyckades med att skapa användare. Försök igen.");
         }
       } else {
-        // Logga in användare
+      
         const response = await axios.post(`${API_URL}/auth/login`, {
           name,
           password,
@@ -110,13 +107,11 @@ export const Login = ({ onLogin }: LoginProps) => {
     }
   };
 
-  // Logga ut användare
   const handleLogout = () => {
     localStorage.removeItem("user");
     setIsLoggedIn(false);
   };
-
-  // Om användaren är inloggad
+ 
   if (isLoggedIn) {
     const user = JSON.parse(localStorage.getItem("user") || "{}");
     return (

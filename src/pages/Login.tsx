@@ -56,10 +56,11 @@ export const Login = ({ onLogin }: LoginProps) => {
 
 
   const handleSubmit = async (event: React.FormEvent) => {
-    axios.defaults.baseURL = 'https://kaninspeletbackend-production.up.railway.app';
 
     event.preventDefault();
-    const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
+
+    const API_URL = import.meta.env.VITE_BACKEND_URL;
+    //const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
     try {
       if (isRegistering) {
         

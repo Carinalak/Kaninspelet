@@ -60,11 +60,11 @@ export const Login = ({ onLogin }: LoginProps) => {
   // Hantera registrering och inloggning
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-
+    const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
     try {
       if (isRegistering) {
         // Registrera användare
-        const response = await axios.post("http://localhost:3000/users/register", {
+        const response = await axios.post(`${API_URL}/users/register`, {
           name,
           password,
         });
@@ -81,7 +81,7 @@ export const Login = ({ onLogin }: LoginProps) => {
         }
       } else {
         // Logga in användare
-        const response = await axios.post("http://localhost:3000/auth/login", {
+        const response = await axios.post(`${API_URL}/auth/login`, {
           name,
           password,
         });

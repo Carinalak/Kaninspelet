@@ -59,6 +59,7 @@ export const ScoreDisplayInnerBunnies = styled.div`
   padding: 5px;
   color: ${KOLSVART};
   border-radius: 10px;
+  border: 1px solid black;
 
   .timer-row {
     display: flex;

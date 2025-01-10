@@ -142,8 +142,9 @@ export const Login = ({ onLogin }: LoginProps) => {
           onChange={(e) => setPassword(e.target.value)}
         />
         <FormButton type="submit">{isRegistering ? "Registrera" : "Logga in"}</FormButton>
-        {error && <ErrorText>{error}</ErrorText>}
         <div>
+        {error && <ErrorText>{error}</ErrorText>}
+        
           {isRegistering ? (
             <TextStyle>
               Har du redan ett konto?{" "}

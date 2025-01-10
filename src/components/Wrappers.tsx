@@ -69,8 +69,8 @@ export const TextStyle = styled.div `
   font-size: 1rem;
   color: ${KOLSVART};
   font-weight: 500;
-  padding-top: 20px;
-  padding-right: 20px;
+  padding-top: 5px;
+  padding-right: 15px;
   padding-left: 20px;
 
 `;

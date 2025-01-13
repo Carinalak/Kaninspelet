@@ -63,11 +63,14 @@ export const Login = ({ onLogin }: LoginProps) => {
     //const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
     try {
       if (isRegistering) {
-        
-        const response = await axios.post(`${API_URL}/users/register`, {
-          name,
-          password,
-        });
+        // const response = await axios.post(`${API_URL}/users/register`, {
+          const response = await axios.post(
+            "https://kaninspeletbackend-production.up.railway.app/users/register",
+            {
+              name,
+              password,
+            }
+          );
 
         console.log("Registreringssvar från backend:", response);
 
@@ -81,10 +84,14 @@ export const Login = ({ onLogin }: LoginProps) => {
         }
       } else {
       
-        const response = await axios.post(`${API_URL}/auth/login`, {
-          name,
-          password,
-        });
+        //const response = await axios.post(`${API_URL}/auth/login`, {
+          const response = await axios.post(
+            "https://kaninspeletbackend-production.up.railway.app/auth/login",
+            {
+              name,
+              password,
+            }
+          );
 
         if (response.status === 200) {
           localStorage.setItem("user", JSON.stringify(response.data.user));

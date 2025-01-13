@@ -56,18 +56,22 @@ export const Login = ({ onLogin }: LoginProps) => {
 
 
   const handleSubmit = async (event: React.FormEvent) => {
+
     event.preventDefault();
-  
+
     const API_URL = import.meta.env.VITE_BACKEND_URL;
-  
+    //const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
     try {
       if (isRegistering) {
+        
         const response = await axios.post(`${API_URL}/users/register`, {
           name,
           password,
         });
-  
-        if (response.status === 201 && response.data) {
+
+        console.log("Registreringssvar från backend:", response);
+
+        if (response.status === 201) {
           console.log("Registrering lyckades:", response.data);
           localStorage.setItem("user", JSON.stringify({ name }));
           setIsLoggedIn(true);
@@ -76,12 +80,13 @@ export const Login = ({ onLogin }: LoginProps) => {
           setError("Misslyckades med att skapa användare. Försök igen.");
         }
       } else {
+      
         const response = await axios.post(`${API_URL}/auth/login`, {
           name,
           password,
         });
-  
-        if (response.status === 200 && response.data?.user) {
+
+        if (response.status === 200) {
           localStorage.setItem("user", JSON.stringify(response.data.user));
           setIsLoggedIn(true);
           onLogin();
@@ -90,6 +95,7 @@ export const Login = ({ onLogin }: LoginProps) => {
         }
       }
     } catch (err) {
+
       if (axios.isAxiosError(err)) {
         setError(
           isRegistering
@@ -103,7 +109,7 @@ export const Login = ({ onLogin }: LoginProps) => {
       }
     }
   };
-  
+
   const handleLogout = () => {
     localStorage.removeItem("user");
     setIsLoggedIn(false);

@@ -56,59 +56,67 @@ export const Login = ({ onLogin }: LoginProps) => {
 
 
   const handleSubmit = async (event: React.FormEvent) => {
+  event.preventDefault();
+  const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
 
-    event.preventDefault();
-
-    //const API_URL = import.meta.env.VITE_BACKEND_URL;
-    const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
-    try {
-      if (isRegistering) {
-        
-        const response = await axios.post(`${API_URL}/users/register`, {
-          name,
-          password,
-        });
-
-        console.log("Registreringssvar från backend:", response);
-
-        if (response.status === 201) {
-          console.log("Registrering lyckades:", response.data);
-          localStorage.setItem("user", JSON.stringify(response.data.user));
-          setIsLoggedIn(true);
-          onLogin();
-        } else {
-          setError("Misslyckades med att skapa användare. Försök igen.");
-        }
-      } else {
+  try {
+    if (isRegistering) {
       
-        const response = await axios.post(`${API_URL}/auth/login`, {
+      const response = await axios.post(`${API_URL}/users/register`, {
+        name,
+        password,
+      });
+
+      console.log("Registreringssvar från backend:", response);
+
+      if (response.status === 201) {
+        
+        const loginResponse = await axios.post(`${API_URL}/auth/login`, {
           name,
           password,
         });
 
-        if (response.status === 200) {
-          localStorage.setItem("user", JSON.stringify(response.data.user));
+        if (loginResponse.status === 200) {
+          
+          localStorage.setItem("user", JSON.stringify(loginResponse.data.user));
           setIsLoggedIn(true);
           onLogin();
         } else {
           setError("Fel användarnamn eller lösenord. Försök igen.");
         }
-      }
-    } catch (err) {
-
-      if (axios.isAxiosError(err)) {
-        setError(
-          isRegistering
-            ? err.response?.data?.error || "Kunde inte skapa användare. Försök igen."
-            : err.response?.data?.error || "Fel användarnamn eller lösenord. Försök igen."
-        );
-        console.error("AxiosError:", err.response?.data || err.message);
       } else {
-        setError("Ett oväntat fel inträffade. Försök igen.");
-        console.error("Oväntat fel:", err);
+        setError("Misslyckades med att skapa användare. Försök igen.");
+      }
+    } else {
+      
+      const response = await axios.post(`${API_URL}/auth/login`, {
+        name,
+        password,
+      });
+
+      if (response.status === 200) {
+        localStorage.setItem("user", JSON.stringify(response.data.user));
+        setIsLoggedIn(true);
+        onLogin();
+      } else {
+        setError("Fel användarnamn eller lösenord. Försök igen.");
       }
     }
-  };
+  } catch (err) {
+    if (axios.isAxiosError(err)) {
+      setError(
+        isRegistering
+          ? err.response?.data?.error || "Kunde inte skapa användare. Försök igen."
+          : err.response?.data?.error || "Fel användarnamn eller lösenord. Försök igen."
+      );
+      console.error("AxiosError:", err.response?.data || err.message);
+    } else {
+      setError("Ett oväntat fel inträffade. Försök igen.");
+      console.error("Oväntat fel:", err);
+    }
+  }
+};
+
 
   const handleLogout = () => {
     localStorage.removeItem("user");

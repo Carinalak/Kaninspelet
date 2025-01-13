@@ -59,8 +59,8 @@ export const Login = ({ onLogin }: LoginProps) => {
 
     event.preventDefault();
 
-    const API_URL = import.meta.env.VITE_BACKEND_URL;
-    //const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
+    //const API_URL = import.meta.env.VITE_BACKEND_URL;
+    const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
     try {
       if (isRegistering) {
         
@@ -73,7 +73,7 @@ export const Login = ({ onLogin }: LoginProps) => {
 
         if (response.status === 201) {
           console.log("Registrering lyckades:", response.data);
-          localStorage.setItem("user", JSON.stringify({ name }));
+          localStorage.setItem("user", JSON.stringify(response.data.user));
           setIsLoggedIn(true);
           onLogin();
         } else {

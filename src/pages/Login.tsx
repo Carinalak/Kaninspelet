@@ -73,7 +73,7 @@ export const Login = ({ onLogin }: LoginProps) => {
 
         if (response.status === 201) {
           console.log("Registrering lyckades:", response.data);
-          localStorage.setItem("user", JSON.stringify({ name }));
+          localStorage.setItem("user", JSON.stringify(response.data.user));
           setIsLoggedIn(true);
           onLogin();
         } else {

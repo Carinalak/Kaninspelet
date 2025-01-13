@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
-import { ScoreDisplayStyle, PlayQuestionBox, ScoreDisplayInnerBunnies } from "./styled/ScoreDisplayStyle";
+import {
+  ScoreDisplayStyle,
+  PlayQuestionBox,
+  ScoreDisplayInnerBunnies,
+} from "./styled/ScoreDisplayStyle";
 import RabbitBlack from "../assets/img/rabbits/rabbit_shadow_black.png";
 import RabbitYellow from "../assets/img/rabbits/rabbit_shadow_yellow.png";
 import { GameButton, MenuButton } from "./styled/Buttons";
-import { Question, TextStyle, TextWrapper } from "./Wrappers";
+import { Question, TextStyle, TextStyleInloggad, TextWrapper } from "./Wrappers";
 import { Counter } from "./Counter";
 import { Login } from "../pages/Login";
 
@@ -15,7 +19,6 @@ interface ScoreDisplayProps {
   question: string;
   gameFinished: boolean;
   elapsedTime: number;
-
 }
 
 export const ScoreDisplay = ({
@@ -29,12 +32,18 @@ export const ScoreDisplay = ({
 }: ScoreDisplayProps) => {
   const [showRules, setShowRules] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userName, setUserName] = useState<string | null>(null);
 
   useEffect(() => {
-    // Kontrollera om användaren är inloggad vid laddning
     const user = localStorage.getItem("user");
     if (user) {
-      setIsLoggedIn(true);
+      try {
+        const parsedUser = JSON.parse(user);
+        setIsLoggedIn(true);
+        setUserName(parsedUser?.name || null);
+      } catch (error) {
+        console.error("Kunde inte parsa användarens JSON-data:", error);
+      }
     }
   }, []);
 
@@ -55,84 +64,100 @@ export const ScoreDisplay = ({
 
   const handleCancelGame = () => {
     console.log("Spelet avbryts");
-    onEndGame(); // Återställ spelet via en callback
+    onEndGame();
   };
-
-
 
   const minutes = !isNaN(elapsedTime) ? Math.floor(elapsedTime / 60) : 0;
   const seconds = !isNaN(elapsedTime) ? elapsedTime % 60 : 0;
 
   return (
     <ScoreDisplayStyle>
-    {!isLoggedIn ? (
-      <Login onLogin={() => setIsLoggedIn(true)} />
-    ) : (
-      <PlayQuestionBox>
-        {gameStarted ? (
-          <>
-            <Question>{question} =</Question>
-            <GameButton onClick={handleCancelGame} style={{ marginTop: "10px" }}>
-              Avbryt spel
-            </GameButton>
-            <ScoreDisplayInnerBunnies>
-              <div>Poäng: {totalScore}</div>
-              <div className="timer-row">
-                Tid:{" "}
-                {!gameFinished && (
-                  <Counter
-                    duration={300}
-                    isActive={gameStarted && !gameFinished}
-                    onComplete={() => console.log("Tiden är slut!")}
-                  />
-                )}
-                {gameFinished && (
-                  <div>
-                    {minutes}:{seconds.toString().padStart(2, "0")} minuter
-                  </div>
-                )}
-              </div>
-              <div className="rabbits-row">
-                {rabbits.map((rabbit, index) => (
-                  <img key={index} src={rabbit} alt={`Rabbit ${index + 1}`} className="rabbit-image" />
-                ))}
-              </div>
-            </ScoreDisplayInnerBunnies>
-          </>
-        ) : (
-          <>
-            {!showRules ? (
-              <>
-                <MenuButton onClick={handleStartGame}>Spela</MenuButton>
-                <MenuButton onClick={toggleRules}>
-                  {showRules ? "Tillbaka" : "Spelregler"}
-                </MenuButton>
-                <MenuButton>Mina resultat</MenuButton>
-                <MenuButton
-                  onClick={() => {
-                    localStorage.removeItem("user");
-                    setIsLoggedIn(false);
-                  }}
-                >
-                  Logga ut
-                </MenuButton>
-              </>
-            ) : (
-              <MenuButton onClick={toggleRules}>Tillbaka</MenuButton>
-            )}
-          </>
-        )}
+      {!isLoggedIn ? (
+        <Login
+          onLogin={() => {
+            setIsLoggedIn(true);
+            const user = JSON.parse(localStorage.getItem("user") || "{}");
+            setUserName(user?.name || null);
+          }}
+        />
+      ) : (
+        <PlayQuestionBox>
+          <TextStyleInloggad>Inloggad som: {userName}</TextStyleInloggad>
+          
+          {gameStarted ? (
+            <>
+              <Question>{question} =</Question>
+              <GameButton
+                onClick={handleCancelGame}
+                style={{ marginTop: "10px" }}
+              >
+                Avbryt spel
+              </GameButton>
+              <ScoreDisplayInnerBunnies>
+                <div>Poäng: {totalScore}</div>
+                <div className="timer-row">
+                  Tid:{" "}
+                  {!gameFinished && (
+                    <Counter
+                      duration={300}
+                      isActive={gameStarted && !gameFinished}
+                      onComplete={() => console.log("Tiden är slut!")}
+                    />
+                  )}
+                  {gameFinished && (
+                    <div>
+                      {minutes}:{seconds.toString().padStart(2, "0")} minuter
+                    </div>
+                  )}
+                </div>
+                <div className="rabbits-row">
+                  {rabbits.map((rabbit, index) => (
+                    <img
+                      key={index}
+                      src={rabbit}
+                      alt={`Rabbit ${index + 1}`}
+                      className="rabbit-image"
+                    />
+                  ))}
+                </div>
+              </ScoreDisplayInnerBunnies>
+            </>
+          ) : (
+            <>
+              {!showRules ? (
+                <>
+                  <MenuButton onClick={handleStartGame}>Spela</MenuButton>
+                  <MenuButton onClick={toggleRules}>
+                    {showRules ? "Tillbaka" : "Spelregler"}
+                  </MenuButton>
+                  <MenuButton>Mina resultat</MenuButton>
+                  <MenuButton
+                    onClick={() => {
+                      localStorage.removeItem("user");
+                      setIsLoggedIn(false);
+                      setUserName(null);
+                    }}
+                  >
+                    Logga ut
+                  </MenuButton>
+                </>
+              ) : (
+                <MenuButton onClick={toggleRules}>Tillbaka</MenuButton>
+              )}
+            </>
+          )}
 
-        {showRules && (
-          <TextWrapper>
-            <TextStyle>
-              Lös mattetalet och välj kortet med rätt svar för att hitta en kanin!
-              En kanin ger 1 poäng. För 5 kaniner får du en guldkanin, som ger 2 poäng extra. Du har 5 minuter på dig.
-            </TextStyle>
-          </TextWrapper>
-        )}
-      </PlayQuestionBox>
-    )}
-  </ScoreDisplayStyle>
+          {showRules && (
+            <TextWrapper>
+              <TextStyle>
+                Lös mattetalet och välj kortet med rätt svar för att hitta en
+                kanin! En kanin ger 1 poäng. För 5 kaniner får du en guldkanin,
+                som ger 2 poäng extra. Du har 5 minuter på dig.
+              </TextStyle>
+            </TextWrapper>
+          )}
+        </PlayQuestionBox>
+      )}
+    </ScoreDisplayStyle>
   );
 };

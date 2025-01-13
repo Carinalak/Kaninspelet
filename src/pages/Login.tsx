@@ -35,6 +35,8 @@ export const NameInput = styled.input`
   padding: 0;
 `;
 
+
+
 interface LoginProps {
   onLogin: () => void;
 }

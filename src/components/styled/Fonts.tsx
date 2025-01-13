@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { KRITVIT, BREAKPOINT_TABLET, BREAKPOINT_DESKTOP, BREAKPOINT_BIGGER_DESKTOP } from "./Variables";
+import { KRITVIT, BREAKPOINT_TABLET, BREAKPOINT_DESKTOP, BREAKPOINT_BIGGER_DESKTOP, SKUGGLILA, SMUTSROSA } from "./Variables";
 
 export const H1Title = styled.h1 `
     padding: 0;
@@ -63,5 +63,17 @@ export const OrdinaryFont = styled.p `
 
 export const H2White = styled.h2`
   text-align: center;
+`;
+
+export const LinkPurple = styled.a`
+  color: ${SKUGGLILA};
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 1rem;
+
+  &:hover {
+    color: ${SMUTSROSA};
+    text-decoration: none;
+  }
 `;
 

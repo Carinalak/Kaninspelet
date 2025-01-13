@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { BREAKPOINT_TABLET, BREAKPOINT_DESKTOP, BREAKPOINT_BIGGER_DESKTOP, KRITVIT, KOLSVART, HJARTROD } from "./styled/Variables";
+import { BREAKPOINT_TABLET, BREAKPOINT_DESKTOP, BREAKPOINT_BIGGER_DESKTOP, KRITVIT, KOLSVART, HJARTROD, SKUGGLILA } from "./styled/Variables";
 
 
 export const WrapperTransparent = styled.section`
@@ -72,9 +72,17 @@ export const TextStyle = styled.div `
   padding-top: 5px;
   padding-right: 15px;
   padding-left: 20px;
-
 `;
 
 export const ErrorText = styled(TextStyle) `
     color: ${HJARTROD};
+`;
+
+export const TextStyleInloggad = styled(TextStyle) `
+  position: absolute;
+  bottom: 30px;
+  text-align: center;
+  color: ${SKUGGLILA};
+
+
 `;

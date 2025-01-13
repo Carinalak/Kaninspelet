@@ -69,7 +69,7 @@ export const ScoreDisplayInnerBunnies = styled.div`
   
   @media screen and (min-width: ${BREAKPOINT_TABLET}) {
     width: 190px;
-    height: 290px;
+    height: 130px;
     font-size: 1.2rem;
     font-weight: bold;
   }

@@ -20,6 +20,7 @@ interface ScoreDisplayProps {
   gameFinished: boolean;
   goldenRabbits: number;
   elapsedTime: number;
+  totalScore: number;
 }
 
 export const ScoreDisplay = ({
@@ -29,8 +30,8 @@ export const ScoreDisplay = ({
   gameStarted,
   question,
   gameFinished,
-
   elapsedTime,
+
 }: ScoreDisplayProps) => {
   const [showRules, setShowRules] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);

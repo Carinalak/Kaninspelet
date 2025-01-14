@@ -208,18 +208,20 @@ export const Kaninspel = () => {
     setGameFinished(true);
     setShowModal(true);
   }
+  const totalScore = score + goldenRabbits * 2;
 
   return (
     <WrapperTransparent>
      <ModalMessage
-      showModal={showModal}
-      onClose={closeGame}
-      onReset={resetGameState}
-      //allRabbitsFound={foundRabbits.length === 25}
-      totalRabbits={foundRabbits.length}
-      goldenRabbits={goldenRabbits}
-      elapsedTime={elapsedTime}
-      
+        showModal={showModal}
+        onClose={closeGame}
+        onReset={resetGameState}
+        //allRabbitsFound={foundRabbits.length === 25}
+        totalRabbits={foundRabbits.length}
+        goldenRabbits={goldenRabbits}
+        elapsedTime={elapsedTime}
+        score={score}
+        totalScore={totalScore}  
     />
 
       <ScoreDisplay 
@@ -230,7 +232,10 @@ export const Kaninspel = () => {
         question={question}
         gameFinished={gameFinished}
         goldenRabbits={goldenRabbits}
-        elapsedTime={0}      />
+        elapsedTime={0}  
+        totalScore={score} 
+
+           />
 
       <CardLayoutStyle>
         {shuffledCards.map((card) => (

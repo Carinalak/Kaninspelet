@@ -45,7 +45,6 @@ export const ModalBoxInner = styled(Modal) `
   @media screen and ( min-width: ${BREAKPOINT_TABLET}) {
     width: 350px;
     width: 350px;
-  
     font-weight: bold;
   }
 `;
@@ -58,6 +57,8 @@ interface ModalMessageProps {
   totalRabbits: number;
   goldenRabbits: number;
   elapsedTime: number;
+  totalScore: number;
+  score:number;
 }
 
 export const ModalMessage = ({
@@ -66,12 +67,16 @@ export const ModalMessage = ({
   onReset,
   totalRabbits,
   goldenRabbits,
+  totalScore,
 }: ModalMessageProps) => {
   if (!showModal) return null;
 
   return (
     <Modal>
   <ModalBoxInner>
+  <TextStyle>
+      {totalScore} poäng
+    </TextStyle>
     <TextStyle>
       Tiden är slut! Du hittade {totalRabbits} kaniner och fick {goldenRabbits} guldkaniner.
     </TextStyle>

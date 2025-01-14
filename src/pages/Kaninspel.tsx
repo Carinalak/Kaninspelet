@@ -148,14 +148,14 @@ export const Kaninspel = () => {
       }, 1000);
     }
   };
-
+/*
   useEffect(() => {
     if (foundRabbits.length === 25) {
       setShowModal(true);
       setGameFinished(true)
     }
   }, [foundRabbits]);
-
+*/
   const resetGameState = () => {
     setShowModal(false);
     setGameStarted(true);
@@ -164,6 +164,7 @@ export const Kaninspel = () => {
     setVisibleCards({});
     setShuffledCards(shuffleCards(cards));
     generateNewQuestion(); 
+    setGameFinished(false);
   };
 
   const onStartGame = () => {
@@ -171,11 +172,14 @@ export const Kaninspel = () => {
     generateNewQuestion();
   };
 
+
   const closeGame = () => {
     setShowModal(false);
     setGameStarted(false);
     setScore(0);
   };
+
+  const goldenRabbits = Math.floor(score / 5);
 
   const [elapsedTime, setElapsedTime] = useState(0);
   useEffect(() => {
@@ -189,17 +193,20 @@ export const Kaninspel = () => {
   
     return () => clearInterval(timer);
   }, [gameStarted, gameFinished]);
+ 
+  useEffect(() => {
+    if (elapsedTime >= 180 && !gameFinished) {
+      handleEndGame();
+    } else if (gameFinished) {
   
-  
-useEffect(() => {
-  if (foundRabbits.length === 25) {
-    setShowModal(true);
-  }
-}, [foundRabbits]);
+      setShowModal(true);
+    }
+  }, [elapsedTime, gameFinished]);
   
   function handleEndGame(): void {
     setGameStarted(false);
     setGameFinished(true);
+    setShowModal(true);
   }
 
   return (
@@ -208,21 +215,22 @@ useEffect(() => {
       showModal={showModal}
       onClose={closeGame}
       onReset={resetGameState}
-      allRabbitsFound={foundRabbits.length === 25}
+      //allRabbitsFound={foundRabbits.length === 25}
       totalRabbits={foundRabbits.length}
-      goldenRabbits={5}
+      goldenRabbits={goldenRabbits}
       elapsedTime={elapsedTime}
+      
     />
 
       <ScoreDisplay 
-        score={score} 
-        onStartGame={onStartGame} 
+        score={score}
+        onStartGame={onStartGame}
         onEndGame={handleEndGame}
-        gameStarted={gameStarted} 
-        question={question} 
-        gameFinished={gameFinished} 
-        elapsedTime={elapsedTime}
-      />
+        gameStarted={gameStarted}
+        question={question}
+        gameFinished={gameFinished}
+        goldenRabbits={goldenRabbits}
+        elapsedTime={0}      />
 
       <CardLayoutStyle>
         {shuffledCards.map((card) => (

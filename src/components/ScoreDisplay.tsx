@@ -18,6 +18,7 @@ interface ScoreDisplayProps {
   gameStarted: boolean;
   question: string;
   gameFinished: boolean;
+  goldenRabbits: number;
   elapsedTime: number;
 }
 
@@ -28,6 +29,7 @@ export const ScoreDisplay = ({
   gameStarted,
   question,
   gameFinished,
+
   elapsedTime,
 }: ScoreDisplayProps) => {
   const [showRules, setShowRules] = useState(false);
@@ -64,12 +66,18 @@ export const ScoreDisplay = ({
 
   const handleCancelGame = () => {
     console.log("Spelet avbryts");
+    //setScore(0);
+    //setElapsedTime(0);
     onEndGame();
   };
 
   const minutes = !isNaN(elapsedTime) ? Math.floor(elapsedTime / 60) : 0;
   const seconds = !isNaN(elapsedTime) ? elapsedTime % 60 : 0;
-
+/*
+  function onTimeUp(): void {
+    throw new Error("Function not implemented.");
+  }
+*/
   return (
     <ScoreDisplayStyle>
       {!isLoggedIn ? (
@@ -99,9 +107,9 @@ export const ScoreDisplay = ({
                   Tid:{" "}
                   {!gameFinished && (
                     <Counter
-                      duration={300}
+                      duration={180}
                       isActive={gameStarted && !gameFinished}
-                      onComplete={() => console.log("Tiden är slut!")}
+                      //onComplete={onTimeUp}
                     />
                   )}
                   {gameFinished && (

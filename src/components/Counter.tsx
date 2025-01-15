@@ -6,7 +6,7 @@ interface CounterProps {
   onComplete?: () => void;
 }
 
-export const Counter = ({ isActive, duration = 180, onComplete }: CounterProps) => {
+export const Counter = ({ isActive, duration = 120, onComplete }: CounterProps) => {
   const [remainingTime, setRemainingTime] = useState(duration); // Startar med 3 minuter (180 sekunder)
   const lastTimestamp = useRef<number | null>(null);
 

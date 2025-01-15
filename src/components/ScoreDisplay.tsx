@@ -14,23 +14,25 @@ import { Login } from "../pages/Login";
 interface ScoreDisplayProps {
   score: number;
   onStartGame: () => void;
-  onEndGame: () => void;
+  //onEndGame: () => void;
   gameStarted: boolean;
   question: string;
   gameFinished: boolean;
   goldenRabbits: number;
   elapsedTime: number;
   totalScore: number;
+  onClose: () => void;
 }
 
 export const ScoreDisplay = ({
   score,
   onStartGame,
-  onEndGame,
+  //onEndGame,
   gameStarted,
   question,
   gameFinished,
   elapsedTime,
+  onClose,
 
 }: ScoreDisplayProps) => {
   const [showRules, setShowRules] = useState(false);
@@ -69,7 +71,8 @@ export const ScoreDisplay = ({
     console.log("Spelet avbryts");
     //setScore(0);
     //setElapsedTime(0);
-    onEndGame();
+    //onEndGame();
+    onClose();
   };
 
   const minutes = !isNaN(elapsedTime) ? Math.floor(elapsedTime / 60) : 0;
@@ -108,7 +111,7 @@ export const ScoreDisplay = ({
                   Tid:{" "}
                   {!gameFinished && (
                     <Counter
-                      duration={180}
+                      duration={120}
                       isActive={gameStarted && !gameFinished}
                       //onComplete={onTimeUp}
                     />

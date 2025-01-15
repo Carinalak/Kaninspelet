@@ -195,7 +195,7 @@ export const Kaninspel = () => {
   }, [gameStarted, gameFinished]);
  
   useEffect(() => {
-    if (elapsedTime >= 180 && !gameFinished) {
+    if (elapsedTime >= 120 && !gameFinished) {
       handleEndGame();
     } else if (gameFinished) {
   
@@ -227,13 +227,14 @@ export const Kaninspel = () => {
       <ScoreDisplay 
         score={score}
         onStartGame={onStartGame}
-        onEndGame={handleEndGame}
+        //onEndGame={handleEndGame}
         gameStarted={gameStarted}
         question={question}
         gameFinished={gameFinished}
         goldenRabbits={goldenRabbits}
         elapsedTime={0}  
         totalScore={score} 
+        onClose={closeGame}
 
            />
 

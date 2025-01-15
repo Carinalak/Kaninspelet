@@ -114,6 +114,7 @@ export const ScoreDisplay = ({
                       duration={120}
                       isActive={gameStarted && !gameFinished}
                       //onComplete={onTimeUp}
+                      
                     />
                   )}
                   {gameFinished && (

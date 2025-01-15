@@ -46,8 +46,6 @@ export const Kaninspel = () => {
   const [gameFinished, setGameFinished] = useState(false); 
   const [cardsLocked, setCardsLocked] = useState(false);
 
-  
-
   useEffect(() => {
     const preloadImages = () => {
       const imagePaths = cards.map((card) => card.src).concat(Back);
@@ -148,14 +146,7 @@ export const Kaninspel = () => {
       }, 1000);
     }
   };
-/*
-  useEffect(() => {
-    if (foundRabbits.length === 25) {
-      setShowModal(true);
-      setGameFinished(true)
-    }
-  }, [foundRabbits]);
-*/
+
   const resetGameState = () => {
     setShowModal(false);
     setGameStarted(true);
@@ -171,14 +162,22 @@ export const Kaninspel = () => {
 
   const onStartGame = () => {
     setGameStarted(true);
+    setGameFinished(false);
+    setElapsedTime(0);
+    setFoundRabbits([]);
+    setFlippedCards({});
+    setVisibleCards({}); 
+    setShuffledCards(shuffleCards(cards));
     generateNewQuestion();
+    setScore(0);
   };
-
 
   const closeGame = () => {
     setShowModal(false);
     setGameStarted(false);
+    setGameFinished(false);
     setScore(0);
+    setElapsedTime(0);
   };
 
   const goldenRabbits = Math.floor(score / 5);

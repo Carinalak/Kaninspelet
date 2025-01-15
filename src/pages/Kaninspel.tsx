@@ -165,6 +165,8 @@ export const Kaninspel = () => {
     setShuffledCards(shuffleCards(cards));
     generateNewQuestion(); 
     setGameFinished(false);
+    setScore(0);
+    setElapsedTime(0);
   };
 
   const onStartGame = () => {
@@ -199,7 +201,7 @@ export const Kaninspel = () => {
       handleEndGame();
     } else if (gameFinished) {
   
-      setShowModal(true);
+      //setShowModal(true);
     }
   }, [elapsedTime, gameFinished]);
   
@@ -216,7 +218,6 @@ export const Kaninspel = () => {
         showModal={showModal}
         onClose={closeGame}
         onReset={resetGameState}
-        //allRabbitsFound={foundRabbits.length === 25}
         totalRabbits={foundRabbits.length}
         goldenRabbits={goldenRabbits}
         elapsedTime={elapsedTime}

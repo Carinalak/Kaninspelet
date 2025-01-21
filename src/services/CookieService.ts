@@ -1,6 +1,7 @@
 import Cookies from "js-cookie";
 
 // Funktion för att sätta användardata och token i en session-cookie
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const saveUserSession = (user: any, token: string) => {
   const sessionData = {

@@ -10,11 +10,11 @@ import { GameButton, MenuButton } from "./styled/Buttons";
 import { Question, TextStyle, TextStyleInloggad, TextWrapper } from "./Wrappers";
 import { Counter } from "./Counter";
 import { Login } from "../pages/Login";
+import { getUserSession } from "../services/CookieService";
 
 interface ScoreDisplayProps {
   score: number;
   onStartGame: () => void;
-  //onEndGame: () => void;
   gameStarted: boolean;
   question: string;
   gameFinished: boolean;
@@ -27,28 +27,21 @@ interface ScoreDisplayProps {
 export const ScoreDisplay = ({
   score,
   onStartGame,
-  //onEndGame,
   gameStarted,
   question,
   gameFinished,
   elapsedTime,
   onClose,
-
 }: ScoreDisplayProps) => {
   const [showRules, setShowRules] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userName, setUserName] = useState<string | null>(null);
 
   useEffect(() => {
-    const user = localStorage.getItem("user");
-    if (user) {
-      try {
-        const parsedUser = JSON.parse(user);
-        setIsLoggedIn(true);
-        setUserName(parsedUser?.name || null);
-      } catch (error) {
-        console.error("Kunde inte parsa användarens JSON-data:", error);
-      }
+    const session = getUserSession();
+    if (session) {
+      setIsLoggedIn(true);
+      setUserName(session.user.name);
     }
   }, []);
 
@@ -69,27 +62,20 @@ export const ScoreDisplay = ({
 
   const handleCancelGame = () => {
     console.log("Spelet avbryts");
-    //setScore(0);
-    //setElapsedTime(0);
-    //onEndGame();
     onClose();
   };
 
   const minutes = !isNaN(elapsedTime) ? Math.floor(elapsedTime / 60) : 0;
   const seconds = !isNaN(elapsedTime) ? elapsedTime % 60 : 0;
-/*
-  function onTimeUp(): void {
-    throw new Error("Function not implemented.");
-  }
-*/
+
   return (
     <ScoreDisplayStyle>
       {!isLoggedIn ? (
         <Login
           onLogin={() => {
             setIsLoggedIn(true);
-            const user = JSON.parse(localStorage.getItem("user") || "{}");
-            setUserName(user?.name || null);
+            const session = getUserSession();
+            setUserName(session?.user.name || null);
           }}
         />
       ) : (
@@ -99,10 +85,7 @@ export const ScoreDisplay = ({
           {gameStarted ? (
             <>
               <Question>{question} =</Question>
-              <GameButton
-                onClick={handleCancelGame}
-                style={{ marginTop: "10px" }}
-              >
+              <GameButton onClick={handleCancelGame} style={{ marginTop: "10px" }}>
                 Avbryt spel
               </GameButton>
               <ScoreDisplayInnerBunnies>
@@ -110,12 +93,7 @@ export const ScoreDisplay = ({
                 <div className="timer-row">
                   Tid:{" "}
                   {!gameFinished && (
-                    <Counter
-                      duration={120}
-                      isActive={gameStarted && !gameFinished}
-                      //onComplete={onTimeUp}
-                      
-                    />
+                    <Counter duration={120} isActive={gameStarted && !gameFinished} />
                   )}
                   {gameFinished && (
                     <div>
@@ -125,12 +103,7 @@ export const ScoreDisplay = ({
                 </div>
                 <div className="rabbits-row">
                   {rabbits.map((rabbit, index) => (
-                    <img
-                      key={index}
-                      src={rabbit}
-                      alt={`Rabbit ${index + 1}`}
-                      className="rabbit-image"
-                    />
+                    <img key={index} src={rabbit} alt={`Rabbit ${index + 1}`} className="rabbit-image" />
                   ))}
                 </div>
               </ScoreDisplayInnerBunnies>
@@ -146,9 +119,9 @@ export const ScoreDisplay = ({
                   <MenuButton>Mina resultat</MenuButton>
                   <MenuButton
                     onClick={() => {
-                      localStorage.removeItem("user");
                       setIsLoggedIn(false);
                       setUserName(null);
+                      onClose();
                     }}
                   >
                     Logga ut
@@ -165,7 +138,7 @@ export const ScoreDisplay = ({
               <TextStyle>
                 Lös mattetalet och välj kortet med rätt svar för att hitta en
                 kanin! En kanin ger 1 poäng. För 5 kaniner får du en guldkanin,
-                som ger 2 poäng extra. Du har 5 minuter på dig.
+                som ger 2 poäng extra. Du har 2 minuter på dig.
               </TextStyle>
             </TextWrapper>
           )}

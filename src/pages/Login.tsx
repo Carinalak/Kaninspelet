@@ -4,6 +4,7 @@ import { ErrorText, GameLoginWrapper, TextStyle } from "../components/Wrappers";
 import { SKUGGLILA, BREAKPOINT_BIGGER_DESKTOP, BREAKPOINT_TABLET, GAMMELROSA } from "../components/styled/Variables";
 import { FormButton } from "../components/styled/Buttons";
 import axios from "axios";
+import { saveUserSession } from "../services/CookieService";
 
 export const GameForm = styled.form`
   display: flex;
@@ -48,83 +49,71 @@ export const Login = ({ onLogin }: LoginProps) => {
   const [isRegistering, setIsRegistering] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  
   useEffect(() => {
     const user = localStorage.getItem("user");
-    if (user) {
+    const token = localStorage.getItem("token");
+    if (user && token) {
       setIsLoggedIn(true);
     }
   }, []);
 
-
   const handleSubmit = async (event: React.FormEvent) => {
-  event.preventDefault();
-  const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
+    event.preventDefault();
+    const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
 
-  try {
-    if (isRegistering) {
-      
-      const response = await axios.post(`${API_URL}/users/register`, {
-        name,
-        password,
-      });
-
-      console.log("Registreringssvar från backend:", response);
-
-      if (response.status === 201) {
-        
-        const loginResponse = await axios.post(`${API_URL}/auth/login`, {
+    try {
+      if (isRegistering) {
+        const response = await axios.post(`${API_URL}/users/register`, {
           name,
           password,
         });
 
-        if (loginResponse.status === 200) {
-          
-          localStorage.setItem("user", JSON.stringify(loginResponse.data.user));
+        if (response.status === 201) {
+          const loginResponse = await axios.post(`${API_URL}/auth/login`, {
+            name,
+            password,
+          });
+
+          if (loginResponse.status === 200) {
+            const { user, token } = loginResponse.data;
+            saveUserSession(user, token);
+
+            setIsLoggedIn(true);
+            onLogin();
+          } else {
+            setError("Fel användarnamn eller lösenord. Försök igen.");
+          }
+        } else {
+          setError("Misslyckades med att skapa användare. Försök igen.");
+        }
+      } else {
+        const response = await axios.post(`${API_URL}/auth/login`, {
+          name,
+          password,
+        });
+
+        if (response.status === 200) {
+          const { user, token } = response.data;
+          saveUserSession(user, token);
+
           setIsLoggedIn(true);
           onLogin();
         } else {
           setError("Fel användarnamn eller lösenord. Försök igen.");
         }
-      } else {
-        setError("Misslyckades med att skapa användare. Försök igen.");
       }
-    } else {
-      
-      const response = await axios.post(`${API_URL}/auth/login`, {
-        name,
-        password,
-      });
-
-      if (response.status === 200) {
-        localStorage.setItem("user", JSON.stringify(response.data.user));
-        setIsLoggedIn(true);
-        onLogin();
-      } else {
-        setError("Fel användarnamn eller lösenord. Försök igen.");
-      }
-    }
-  } catch (err) {
-    if (axios.isAxiosError(err)) {
-      setError(
-        isRegistering
-          ? err.response?.data?.error || "Kunde inte skapa användare. Försök igen."
-          : err.response?.data?.error || "Fel användarnamn eller lösenord. Försök igen."
-      );
-      console.error("AxiosError:", err.response?.data || err.message);
-    } else {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (err) {
       setError("Ett oväntat fel inträffade. Försök igen.");
-      console.error("Oväntat fel:", err);
     }
-  }
-};
-
+  };
 
   const handleLogout = () => {
     localStorage.removeItem("user");
+    localStorage.removeItem("token");
     setIsLoggedIn(false);
   };
- 
+
   if (isLoggedIn) {
     const user = JSON.parse(localStorage.getItem("user") || "{}");
     return (
@@ -141,15 +130,15 @@ export const Login = ({ onLogin }: LoginProps) => {
       <GameForm onSubmit={handleSubmit}>
         <NameInput
           type="text"
-          placeholder="Namn"
           value={name}
           onChange={(e) => setName(e.target.value)}
+          placeholder="Namn"
         />
         <NameInput
           type="password"
-          placeholder="Lösenord"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          placeholder="Lösenord"
         />
         <FormButton type="submit">{isRegistering ? "Registrera" : "Logga in"}</FormButton>
         <div>

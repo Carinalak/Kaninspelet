@@ -17,5 +17,7 @@ För att köra detta projekt lokalt: npm run dev
 - npm install -D @types/styled-components
 - npm install react-router-dom
 - npm install -D @types/react-router-dom
+- npm install js-cookie
+
 
 

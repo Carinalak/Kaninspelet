@@ -4,7 +4,8 @@ import { ErrorText, GameLoginWrapper, TextStyle } from "../components/Wrappers";
 import { SKUGGLILA, BREAKPOINT_BIGGER_DESKTOP, BREAKPOINT_TABLET, GAMMELROSA } from "../components/styled/Variables";
 import { FormButton } from "../components/styled/Buttons";
 import axios from "axios";
-import { saveUserSession } from "../services/CookieService";
+import { getUserSession, removeUserSession, saveUserSession } from "../services/CookieService";
+
 
 export const GameForm = styled.form`
   display: flex;
@@ -36,7 +37,15 @@ export const NameInput = styled.input`
   padding: 0;
 `;
 
+export const LogoutMessage = styled.div `
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding-top: 50px;
 
+`;
 
 interface LoginProps {
   onLogin: () => void;
@@ -49,16 +58,16 @@ export const Login = ({ onLogin }: LoginProps) => {
   const [isRegistering, setIsRegistering] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  // Kontrollera om användaren är inloggad via session-cookien vid sidladdning
   useEffect(() => {
-    const user = localStorage.getItem("user");
-    const token = localStorage.getItem("token");
-    if (user && token) {
+    const session = getUserSession();
+    if (session) {
       setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
     }
-  }, []);
+  }, []); // Körs en gång när komponenten mountas
 
-
-  
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
@@ -79,7 +88,6 @@ export const Login = ({ onLogin }: LoginProps) => {
           if (loginResponse.status === 200) {
             const { user, token } = loginResponse.data;
             saveUserSession(user, token);
-
             setIsLoggedIn(true);
             onLogin();
           } else {
@@ -97,7 +105,6 @@ export const Login = ({ onLogin }: LoginProps) => {
         if (response.status === 200) {
           const { user, token } = response.data;
           saveUserSession(user, token);
-
           setIsLoggedIn(true);
           onLogin();
         } else {
@@ -111,17 +118,20 @@ export const Login = ({ onLogin }: LoginProps) => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("user");
-    localStorage.removeItem("token");
-    setIsLoggedIn(false);
+    removeUserSession(); // Ta bort session-cookien vid utloggning
+    setIsLoggedIn(false); // Uppdatera tillståndet till utloggad
   };
 
   if (isLoggedIn) {
-    const user = JSON.parse(localStorage.getItem("user") || "{}");
+    const session = getUserSession();
+    const user = session ? session.user : null;
+
     return (
       <GameLoginWrapper>
-        <h2>Du är redan inloggad som {user.name}</h2>
-        <FormButton onClick={handleLogout}>Logga ut</FormButton>
+      <LogoutMessage>
+        <TextStyle>Är du säker att du vill logga ut, {user?.name}?</TextStyle>
+        <FormButton onClick={handleLogout}>Ja</FormButton>
+      </LogoutMessage>
       </GameLoginWrapper>
     );
   }
@@ -144,8 +154,8 @@ export const Login = ({ onLogin }: LoginProps) => {
         />
         <FormButton type="submit">{isRegistering ? "Registrera" : "Logga in"}</FormButton>
         <div>
-        {error && <ErrorText>{error}</ErrorText>}
-        
+          {error && <ErrorText>{error}</ErrorText>}
+
           {isRegistering ? (
             <TextStyle>
               Har du redan ett konto?{" "}

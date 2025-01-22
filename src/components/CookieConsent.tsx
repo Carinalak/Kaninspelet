@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
 import { SMUTSROSA, KRITVIT, POOLBLA, GAMMELROSA } from "./styled/Variables";
+import HappyCookie from "../assets/img/happyCookie.png";
 
 const CookieConsentWrapper = styled.div`
   position: fixed;
@@ -8,7 +9,7 @@ const CookieConsentWrapper = styled.div`
   left: 0;
   width: 100%;
   background-color: rgba(0, 0, 0, 0.8);
-  color: white;
+  color: ${KRITVIT};
   padding: 10px;
   text-align: center;
   font-size: 14px;
@@ -18,6 +19,15 @@ const CookieConsentWrapper = styled.div`
 const CookieInner = styled.div `
   display: flex;
   flex-direction: column;
+`;
+
+const CookieTextWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-left: 10px;
+  margin-right: 20px;
 `;
 
 const CookieButton = styled.button`
@@ -68,9 +78,9 @@ export const CookieConsent: React.FC<{ onAccept: () => void; onDeny: () => void 
   return (
     <CookieConsentWrapper>
       <CookieInner>
-        <div>
-          Denna webbplats använder cookies för att förbättra användarupplevelsen. Genom att fortsätta använda webbplatsen godkänner du vår användning av cookies.
-        </div>
+        <CookieTextWrapper>
+          Denna webbplats använder cookies för att förbättra användarupplevelsen. Godkänn för att fortsätta. <img src={HappyCookie} alt="Happy Cookie" width="40" height="40" />
+        </CookieTextWrapper>
         <div>
           <CookieButton onClick={handleAccept}>Acceptera alla</CookieButton>
           <CookieButton onClick={handleDeny}>Endast nödvändiga</CookieButton>

@@ -57,7 +57,7 @@ export const ResultWrapper = styled.div `
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: ${KRITVIT};
+  background-color: transparent;
   padding-top: 10px;
   padding-bottom: 100px;
   border-radius: 10px;
@@ -65,7 +65,7 @@ export const ResultWrapper = styled.div `
   margin-bottom: 0;
   font-family: "Playpen Sans", serif;
   margin: 0 auto;
-  color: ${KOLSVART};
+  color: ${KRITVIT};
   //border: 1px solid black;
 `;
 

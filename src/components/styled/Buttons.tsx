@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { GAMMELROSA, KRITVIT, SMUTSROSA, POOLBLA, BREAKPOINT_TABLET, BREAKPOINT_BIGGER_DESKTOP, BREAKPOINT_DESKTOP, SKUGGLILA } from "./Variables";
 
 export const FormButton = styled.button`
-   width: 180px;
+  width: 180px;
   height: 35px;
   border: none;
   border-radius: 12px;
@@ -26,11 +26,11 @@ export const FormButton = styled.button`
 }
 
 @media screen and (min-width: ${BREAKPOINT_BIGGER_DESKTOP}) {
-      width: 190px;
-      height: 60px;
-      font-weight: 700;
-      font-size: 2rem;
-      }
+  width: 190px;
+  height: 60px;
+  font-weight: 700;
+  font-size: 2rem;
+}
 `;
 
 export const GameButton = styled(FormButton) `

@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import styled from "styled-components";
+import { SMUTSROSA, KRITVIT, POOLBLA, GAMMELROSA } from "./styled/Variables";
 
-// Styled-components för varningen
 const CookieConsentWrapper = styled.div`
   position: fixed;
   bottom: 0;
@@ -15,45 +15,67 @@ const CookieConsentWrapper = styled.div`
   z-index: 3000;
 `;
 
-const ConsentButton = styled.button`
-  background-color: #4caf50;
-  color: white;
+const CookieInner = styled.div `
+  display: flex;
+  flex-direction: column;
+`;
+
+const CookieButton = styled.button`
+  background-color: ${GAMMELROSA};
+  color: ${KRITVIT};
   padding: 8px 16px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  margin-left: 10px;
-  
-  &:hover {
-    background-color: #45a049;
-  }
+  margin: 0 10px;
+  margin-top: 20px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  width: 180px;
+  height: 35px;
+
+    &:hover {
+      background-color: ${SMUTSROSA};
+      color: ${KRITVIT};
+    }
+    &:active {
+      background-color: ${POOLBLA};
+      color: ${KRITVIT};
+    }
 `;
 
-const CookieConsent: React.FC<{ onAccept: () => void }> = ({ onAccept }) => {
-  const [consentGiven, setConsentGiven] = useState(false);
-
-  // Kontrollera om cookie-samtycke redan finns
-  useEffect(() => {
-    const consent = document.cookie.split("; ").find((row) => row.startsWith("cookieConsent="));
-    if (consent && consent.split("=")[1] === "true") {
-      setConsentGiven(true);
-    }
-  }, []);
+export const CookieConsent: React.FC<{ onAccept: () => void; onDeny: () => void }> = ({
+  onAccept,
+  onDeny,
+}) => {
+  const [visible, setVisible] = useState(true);
 
   const handleAccept = () => {
-    setConsentGiven(true);
+    setVisible(false);
     document.cookie = "cookieConsent=true; path=/;";
-    onAccept(); // Anropa callback-funktionen när samtycke accepteras
+    onAccept();
   };
 
-  if (consentGiven) return null;
+  const handleDeny = () => {
+    setVisible(false);
+    document.cookie = "cookieConsent=false; path=/;";
+    onDeny();
+  };
+
+  if (!visible) return null;
 
   return (
     <CookieConsentWrapper>
-      Denna webbplats använder cookies för att förbättra användarupplevelsen. Genom att fortsätta använda webbplatsen godkänner du vår användning av cookies.
-      <ConsentButton onClick={handleAccept}>Acceptera</ConsentButton>
+      <CookieInner>
+        <div>
+          Denna webbplats använder cookies för att förbättra användarupplevelsen. Genom att fortsätta använda webbplatsen godkänner du vår användning av cookies.
+        </div>
+        <div>
+          <CookieButton onClick={handleAccept}>Acceptera alla</CookieButton>
+          <CookieButton onClick={handleDeny}>Endast nödvändiga</CookieButton>
+        </div>
+      </CookieInner>
     </CookieConsentWrapper>
   );
 };
-
-export default CookieConsent;

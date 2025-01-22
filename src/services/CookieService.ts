@@ -1,17 +1,16 @@
 import Cookies from "js-cookie";
 
-// Funktion för att sätta användardata och token i en session-cookie
-
+// Spara användarsession i en cookie
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const saveUserSession = (user: any, token: string) => {
   const sessionData = {
     user: user,
     user_id: user.id,
-    token: token
+    token: token,
   };
 
   Cookies.set("session", JSON.stringify(sessionData), {
-    expires: 7,
+    expires: 7, // Cookien är giltig i 7 dagar
     sameSite: "Strict",
     secure: true,
   });
@@ -19,7 +18,7 @@ export const saveUserSession = (user: any, token: string) => {
   console.log("Session saved:", sessionData);
 };
 
-// Funktion för att hämta användardata och token från session-cookien
+// Hämta användarsession från en cookie
 export const getUserSession = () => {
   const session = Cookies.get("session");
   if (session) {
@@ -35,8 +34,8 @@ export const getUserSession = () => {
   return null;
 };
 
-// Funktion för att ta bort session-cookien
+// Ta bort session-cookie
 export const removeUserSession = () => {
   Cookies.remove("session");
-  console.log("Session removed"); // Loggar när sessionen tas bort
+  console.log("Session removed");
 };

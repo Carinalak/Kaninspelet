@@ -212,7 +212,9 @@ export const Kaninspel = () => {
   const totalScore = score + goldenRabbits * 2;
 
   return (
+
     <WrapperTransparent>
+
      <ModalMessage
         showModal={showModal}
         onClose={closeGame}

@@ -2,6 +2,7 @@ import { createHashRouter } from "react-router-dom";
 import { Kaninspel } from "./pages/Kaninspel";
 import { Layout } from "./pages/Layout";
 import { NotFound } from "./pages/NotFound";
+import { Results } from "./pages/Results";
 
 
 
@@ -15,6 +16,10 @@ export const router = createHashRouter([
             {
                 path: "/",
                 element: <Kaninspel></Kaninspel>,
+            },
+            {
+                path: "/results",
+                element: <Results></Results>,
             },
         ],
     },

@@ -14,6 +14,7 @@ import { CardImage, CardLayoutStyle, CardStyle } from "../components/styled/Card
 import { generateRandomAdditionQuestion } from "../data/questions";
 import { ModalMessage } from "../components/styled/Modal";
 import Back from '../assets/img/cards/back.png';
+import { ScoreManager } from "../components/ScoreManager";
 
 interface Card {
   id: number;
@@ -147,6 +148,8 @@ export const Kaninspel = () => {
     }
   };
 
+
+  
   const resetGameState = () => {
     setShowModal(false);
     setGameStarted(true);
@@ -209,6 +212,7 @@ export const Kaninspel = () => {
     setGameFinished(true);
     setShowModal(true);
   }
+  
   const totalScore = score + goldenRabbits * 2;
 
   return (
@@ -239,7 +243,7 @@ export const Kaninspel = () => {
         onClose={closeGame}
 
            />
-
+      <ScoreManager score={score} elapsedTime={elapsedTime} gameFinished={gameFinished} />
       <CardLayoutStyle>
         {shuffledCards.map((card) => (
           <CardStyle

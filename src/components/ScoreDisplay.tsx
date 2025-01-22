@@ -11,6 +11,7 @@ import { Question, TextStyle, TextStyleInloggad, TextWrapper } from "./Wrappers"
 import { Counter } from "./Counter";
 import { Login } from "../pages/Login";
 import { getUserSession } from "../services/CookieService";
+import { Link } from "react-router-dom";
 
 interface ScoreDisplayProps {
   score: number;
@@ -116,7 +117,7 @@ export const ScoreDisplay = ({
                   <MenuButton onClick={toggleRules}>
                     {showRules ? "Tillbaka" : "Spelregler"}
                   </MenuButton>
-                  <MenuButton>Mina resultat</MenuButton>
+                  <Link to="/results"><MenuButton>Mina resultat</MenuButton></Link>
                   <MenuButton
                     onClick={() => {
                       setIsLoggedIn(false);

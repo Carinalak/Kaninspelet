@@ -241,7 +241,6 @@ export const Kaninspel = () => {
         elapsedTime={0}  
         totalScore={score} 
         onClose={closeGame}
-
            />
       <ScoreManager score={score} elapsedTime={elapsedTime} gameFinished={gameFinished} />
       <CardLayoutStyle>

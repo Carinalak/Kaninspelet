@@ -1,7 +1,6 @@
 // Denna komponent skickar poängen till backend
-import  { useEffect } from 'react';
-import { getUserSession } from '../services/CookieService';
-
+import { useEffect } from "react";
+import { getUserSession } from "../services/CookieService";
 
 interface ScoreManagerProps {
   score: number;
@@ -11,38 +10,48 @@ interface ScoreManagerProps {
 
 export const ScoreManager = ({ score, elapsedTime, gameFinished }: ScoreManagerProps) => {
   useEffect(() => {
-    if (gameFinished) {
-      const saveGameResult = async () => {
-        const user = getUserSession();
-        const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
-        
-        if (user) {
-          console.log('Saving game result...');
-          console.log('User ID:', user.id);
-          console.log('Score:', score);
-          console.log('Elapsed Time:', elapsedTime);
+    const saveGameResult = async () => {
+      const session = getUserSession();
 
-          const response = await fetch(`${API_URL}/game_results`, {
-            method: 'POST',
+      if (!session || !session.user_id) {
+        console.error("Ingen giltig användarsession hittades.");
+        return;
+      }
+
+      const userId = session.user_id;
+
+      try {
+        const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
+        const response = await fetch(`${API_URL}/game_results`,
+          {
+            method: "POST",
             headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${user.token}`,
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${session.token}`,
             },
             body: JSON.stringify({
-              user_id: user.id,
-              total_score: score,
-              time_taken: elapsedTime,
+              user_id: userId,
+              score: score,
+              elapsed_time: elapsedTime,
             }),
-          });
-
-          const data = await response.json();
-          if (response.ok) {
-            console.log("Result saved:", data);
-          } else {
-            console.error("Error saving result:", data);
           }
+        );
+
+        if (!response.ok) {
+          const error = await response.json();
+          console.error("Error saving result: ", error);
+        } else {
+          console.log("Game result saved successfully!");
         }
-      };
+      } catch (error) {
+        console.error("Ett fel inträffade vid sparning av resultat: ", error);
+      }
+    };
+
+    if (gameFinished) {
+      console.log("Saving game result...");
+      console.log("Score:", score);
+      console.log("Elapsed Time:", elapsedTime);
 
       saveGameResult();
     }

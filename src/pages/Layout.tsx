@@ -25,17 +25,22 @@ const AppContainer = styled.div`
 `;*/
 
 export const Layout = () => {
-  function handleConsentAccept(): void {
-    throw new Error("Function not implemented.");
-  }
+
+  const handleConsentAccept = (): void => {
+    console.log("Cookies accepted!");
+    document.cookie = "cookieConsent=true; path=/;";
+  };
+
+  const handleConsentDeny = (): void => {
+    console.log("Cookies denied!");
+    document.cookie = "cookieConsent=false; path=/;";
+  };
 
   return (<>
 
       <Header />
       <MainContainer>
-      <CookieConsent onAccept={handleConsentAccept} onDeny={function (): void {
-        throw new Error("Function not implemented.");
-      } } />
+      <CookieConsent onAccept={handleConsentAccept} onDeny={handleConsentDeny} />
             {/*<CookieConsent onAccept={() => console.log("Cookies accepted!")} />*/}
         <Outlet />
       </MainContainer>

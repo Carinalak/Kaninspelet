@@ -1,8 +1,17 @@
 import Cookies from "js-cookie";
 
+interface User {
+  id: number;
+  name?: string;
+}
+
 // Spara användarsession i en cookie
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const saveUserSession = (user: any, token: string) => {
+export const saveUserSession = (user: User, token: string) => {
+  if (!user || typeof user.id === "undefined") {
+    console.error("Ogiltig användare, id saknas:", user);
+    return;
+  }
+
   const sessionData = {
     user: user,
     user_id: user.id,
@@ -18,9 +27,11 @@ export const saveUserSession = (user: any, token: string) => {
   console.log("Session saved:", sessionData);
 };
 
+
 // Hämta användarsession från en cookie
 export const getUserSession = () => {
   const session = Cookies.get("session");
+  console.log("Full cookie:", document.cookie);
   if (session) {
     try {
       const parsedSession = JSON.parse(session);

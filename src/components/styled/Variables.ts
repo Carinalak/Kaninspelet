@@ -16,3 +16,7 @@ export const POOLBLA = "#80D7EA"; // On click
 export const SOLGUL = "#EFEA67";
 export const SOLBLEKT = "#EAE680";
 export const HJARTROD = "#F31111";
+
+
+// ------------------ FONTS --------------------- //
+export const FONT_PLAYPEN = '"Playpen Sans", serif';

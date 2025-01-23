@@ -8,7 +8,7 @@ import { ResultBackButton } from "../components/styled/Buttons";
 import { Link } from "react-router-dom";
 import { SortDropdown } from "../components/SortDropdown";
 
-export const ScoreGrid = styled.div`
+const ScoreGrid = styled.div`
   background-color: ${KRITVIT};
   border-radius: 10px;
   color: ${KOLSVART};
@@ -66,7 +66,7 @@ interface GameResult {
 }
 
 export const Results = () => {
-  const [gameResults, setGameResults] = useState<GameResult[]>([]);
+  const [, setGameResults] = useState<GameResult[]>([]);
   const [sortedResults, setSortedResults] = useState<GameResult[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [sortBy, setSortBy] = useState<string>("highestScore");
@@ -140,10 +140,8 @@ export const Results = () => {
         <ScoreGrid>
           <H2Title>Mina resultat</H2Title>
           <SortDropdown
-            gameResults={gameResults}
             sortBy={sortBy}
             setSortBy={setSortBy}
-            onSortResults={setSortedResults}
           />
           <Title>
             <div>Datum</div>

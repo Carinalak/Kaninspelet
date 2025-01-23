@@ -42,7 +42,6 @@ export const WrapperWhite = styled(WrapperTransparent) `
   background-color: ${KRITVIT};
 `;
 
-
 export const GameLoginWrapper = styled.div`
   padding-top: 10px;
   background-color: ${KRITVIT};
@@ -51,7 +50,6 @@ export const GameLoginWrapper = styled.div`
   padding: 5px;
   border-radius: 10px;
 `;
-
 
 export const ResultWrapper = styled.div `
   width: 400px;
@@ -79,7 +77,6 @@ export const Question = styled.div `
 
 `;
 
-
 export const TextWrapper = styled.div `
   width: 170;
   display: flex;
@@ -87,7 +84,6 @@ export const TextWrapper = styled.div `
   align-items: center;
   justify-content: center;
 `;
-
 
 export const TextStyle = styled.div `
   font-size: 1rem;
@@ -111,13 +107,11 @@ export const TextStyleInloggad = styled(TextStyle) `
   top: 30px;
   text-align: center;
   color: ${SKUGGLILA};
-
-
 `;
 
 export const StyledLink = styled(Link)`
-  text-decoration: none; /* Tar bort understrykning */
-  margin: 0; /* Tar bort extra utrymme */
-  padding: 0; /* Tar bort extra utrymme */
-  display: flex; /* Säkerställer att innehållet följer knappen */
+  text-decoration: none;
+  margin: 0;
+  padding: 0; 
+  display: flex;
 `;

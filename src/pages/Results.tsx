@@ -144,6 +144,7 @@ export const Results = () => {
             sortBy={sortBy}
             setSortBy={setSortBy}
           />
+          
           <Title>
             <div>Datum</div>
             <div>Poäng</div>

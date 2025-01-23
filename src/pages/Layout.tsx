@@ -17,12 +17,12 @@ const MainContainer = styled.main`
       //padding-top: 80px;
     }
 `;
-/*
+
 const AppContainer = styled.div`
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
-`;*/
+  min-height: 100vh; // Gör att hela sidan alltid fyller hela höjden 
+`;
 
 export const Layout = () => {
 
@@ -36,8 +36,9 @@ export const Layout = () => {
     document.cookie = "cookieConsent=false; path=/;";
   };
 
-  return (<>
 
+  return (
+    <AppContainer>
       <Header />
       <MainContainer>
       <CookieConsent onAccept={handleConsentAccept} onDeny={handleConsentDeny} />
@@ -45,6 +46,6 @@ export const Layout = () => {
         <Outlet />
       </MainContainer>
       <Footer />
-      </>
+  </AppContainer>
   );
 };

@@ -6,8 +6,9 @@ import { ResultWrapper } from "../components/Wrappers";
 import { H2Title } from "../components/styled/Fonts";
 import { ResultBackButton } from "../components/styled/Buttons";
 import { Link } from "react-router-dom";
+import { SortDropdown } from "../components/SortDropdown";
 
-const ScoreGrid = styled.div`
+export const ScoreGrid = styled.div`
   background-color: ${KRITVIT};
   border-radius: 10px;
   color: ${KOLSVART};
@@ -19,26 +20,24 @@ const ScoreGrid = styled.div`
   border: 1px solid black;
   padding-bottom: 150px;
 
-      @media screen and (min-width: ${BREAKPOINT_TABLET}) {
-        max-width: 400px;
-      }
+  @media screen and (min-width: ${BREAKPOINT_TABLET}) {
+    max-width: 400px;
+  }
 `;
 
 const Title = styled.div`
   font-weight: bold;
   display: grid;
   grid-template-columns: 3fr 1fr 1fr;
-  //border-bottom: 2px solid ${KOLSVART};
-  //padding-bottom: 5px;
   margin-bottom: 5px;
   padding-left: 10px;
-  
+
   @media screen and (min-width: ${BREAKPOINT_TABLET}) {
     grid-template-columns: 2fr 1fr 1fr;
   }
 `;
 
-const ResultItem = styled.div<{ index: number; isFirst: boolean; isLast: boolean }>`
+export const ResultItem = styled.div<{ index: number; isFirst: boolean; isLast: boolean }>`
   display: grid;
   grid-template-columns: 3fr 1fr 1fr;
   row-gap: 10px;
@@ -50,16 +49,14 @@ const ResultItem = styled.div<{ index: number; isFirst: boolean; isLast: boolean
 
   border-radius: ${({ isFirst, isLast }) =>
     isFirst ? "10px 10px 0 0" : isLast ? "0 0 10px 10px" : "0"};
-    
   border-left: 1px solid ${SKUGGLILA};
   border-right: 1px solid ${SKUGGLILA};
-
   border-top: ${({ isFirst }) => (isFirst ? `1px solid ${SKUGGLILA}` : "none")};
   border-bottom: ${({ isLast }) => (isLast ? `1px solid ${SKUGGLILA}` : "none")};
 
   @media screen and (min-width: ${BREAKPOINT_TABLET}) {
     grid-template-columns: 2fr 1fr 1fr;
-    }
+  }
 `;
 
 interface GameResult {
@@ -70,8 +67,9 @@ interface GameResult {
 
 export const Results = () => {
   const [gameResults, setGameResults] = useState<GameResult[]>([]);
+  const [sortedResults, setSortedResults] = useState<GameResult[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  //const [userName, setUserName] = useState<string>("");
+  const [sortBy, setSortBy] = useState<string>("highestScore");
 
   useEffect(() => {
     const fetchResults = async () => {
@@ -81,30 +79,20 @@ export const Results = () => {
         const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
 
         try {
-          // Hämta både spelresultaten och användarens namn
-          const [resultsResponse, userResponse] = await Promise.all([
-            fetch(`${API_URL}/game_results/${session.user_id}`, {
-              method: "GET",
-              headers: {
-                Authorization: `Bearer ${session.token}`,
-              },
-            }),
-            fetch(`${API_URL}/users`, {
-              method: "GET",
-              headers: {
-                Authorization: `Bearer ${session.token}`,
-              },
-            }),
-          ]);
+          const resultsResponse = await fetch(`${API_URL}/game_results/${session.user_id}`, {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${session.token}`,
+            },
+          });
 
           const resultsData = await resultsResponse.json();
-          const userData = await userResponse.json();
 
-          if (resultsResponse.ok && userResponse.ok) {
+          if (resultsResponse.ok) {
             setGameResults(resultsData.results);
-            //setUserName(userData.name);
+            sortResults(resultsData.results, sortBy);
           } else {
-            console.error("Error fetching game results or user data:", resultsData, userData);
+            console.error("Error fetching game results:", resultsData);
           }
         } catch (error) {
           console.error("Error:", error);
@@ -118,25 +106,53 @@ export const Results = () => {
     };
 
     fetchResults();
-  }, []);
+  }, [sortBy]);
+
+  const sortResults = (results: GameResult[], sortBy: string) => {
+    const sorted = [...results];
+    switch (sortBy) {
+      case "highestScore":
+        sorted.sort((a, b) => b.total_score - a.total_score);
+        break;
+      case "lowestScore":
+        sorted.sort((a, b) => a.total_score - b.total_score);
+        break;
+      case "mostGoldenRabbits":
+        sorted.sort((a, b) => b.golden_rabbits - a.golden_rabbits);
+        break;
+      case "latest":
+        sorted.sort((a, b) => new Date(b.game_date).getTime() - new Date(a.game_date).getTime());
+        break;
+      case "oldest":
+        sorted.sort((a, b) => new Date(a.game_date).getTime() - new Date(b.game_date).getTime());
+        break;
+      default:
+        break;
+    }
+    setSortedResults(sorted);
+  };
 
   return (
     <ResultWrapper>
-      {/* <h1>{userName ? `${userName}s resultat` : "Mina resultat"}</h1>*/}
-      
       {loading ? (
         <p>Laddar...</p>
       ) : (
         <ScoreGrid>
           <H2Title>Mina resultat</H2Title>
+          <SortDropdown
+            gameResults={gameResults}
+            sortBy={sortBy}
+            setSortBy={setSortBy}
+            onSortResults={setSortedResults}
+          />
           <Title>
             <div>Datum</div>
             <div>Poäng</div>
             <div>Guldkaniner</div>
           </Title>
 
-          {gameResults.length > 0 ? (
-            gameResults.map((result, index) => {
+          {sortedResults.length > 0 ? (
+            sortedResults.map((result, index) => {
               const parsedDate = new Date(result.game_date);
               const formattedDate = isNaN(parsedDate.getTime())
                 ? "Ogiltigt datum"
@@ -144,11 +160,11 @@ export const Results = () => {
 
               return (
                 <ResultItem
-                key={index}
-                index={index}
-                isFirst={index === 0}
-                isLast={index === gameResults.length - 1}
-              >
+                  key={index}
+                  index={index}
+                  isFirst={index === 0}
+                  isLast={index === sortedResults.length - 1}
+                >
                   <div>{formattedDate}</div>
                   <div>{result.total_score}</div>
                   <div>{result.golden_rabbits}</div>
@@ -158,10 +174,11 @@ export const Results = () => {
           ) : (
             <p>Inga resultat funna.</p>
           )}
-          
         </ScoreGrid>
       )}
-      <Link to={"/"} ><ResultBackButton>Tillbaka</ResultBackButton></Link>
+      <Link to={"/"}>
+        <ResultBackButton>Tillbaka</ResultBackButton>
+      </Link>
     </ResultWrapper>
   );
 };

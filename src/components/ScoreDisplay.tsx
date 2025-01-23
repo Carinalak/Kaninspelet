@@ -7,7 +7,6 @@ import { Question, StyledLink, TextStyle, TextStyleInloggad, TextWrapper } from 
 import { Counter } from "./Counter";
 import { Login } from "../pages/Login";
 import { getUserSession } from "../services/CookieService";
-import { Link } from "react-router-dom";
 
 interface ScoreDisplayProps {
   score: number;

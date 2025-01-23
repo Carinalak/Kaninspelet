@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { CardStyle, CardImage } from "../components/styled/CardLayoutStyle";
+import { PawSpinner } from "../components/PawSpinner";
 
 interface CardProps {
   id: number;
@@ -11,7 +12,12 @@ interface CardProps {
 }
 
 export const CardComponent: React.FC<CardProps> = ({ id, flipped, onClick, cardFrontSrc, cardBackSrc, altText }) => {
-  return (
+const [loading] = useState<boolean>(true);
+
+  return (<>
+    {loading ? (
+      <PawSpinner />
+    ) : (
     <CardStyle key={id} onClick={onClick}>
       <div className={`card-inner ${flipped ? 'flipped' : ''}`}>
         <div className="card-back">
@@ -22,5 +28,8 @@ export const CardComponent: React.FC<CardProps> = ({ id, flipped, onClick, cardF
         </div>
       </div>
     </CardStyle>
-  );
+
+  )})
+  </>);
+    
 };

@@ -122,6 +122,11 @@ export const Login = ({ onLogin }: LoginProps) => {
     setIsLoggedIn(false); // Uppdatera tillståndet till utloggad
   };
 
+  const handleStay = () => {
+    onLogin();
+
+  };
+
   if (isLoggedIn) {
     const session = getUserSession();
     const user = session ? session.user : null;
@@ -131,6 +136,7 @@ export const Login = ({ onLogin }: LoginProps) => {
       <LogoutMessage>
         <TextStyle>Är du säker att du vill logga ut, {user?.name}?</TextStyle>
         <FormButton onClick={handleLogout}>Ja</FormButton>
+        <FormButton onClick={handleStay}>Nej</FormButton>
       </LogoutMessage>
       </GameLoginWrapper>
     );

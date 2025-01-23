@@ -8,6 +8,7 @@ import { ResultBackButton } from "../components/styled/Buttons";
 import { Link } from "react-router-dom";
 import { SortDropdown } from "../components/SortDropdown";
 import { PawSpinner } from "../components/PawSpinner";
+import RabbitYellow from "../assets/img/rabbits/rabbit_shadow_yellow.png";
 
 const ScoreGrid = styled.div`
   background-color: ${KRITVIT};
@@ -32,6 +33,8 @@ const Title = styled.div`
   grid-template-columns: 3fr 1fr 1fr;
   margin-bottom: 5px;
   padding-left: 10px;
+  justify-content: center;
+  align-items: center;
 
   @media screen and (min-width: ${BREAKPOINT_TABLET}) {
     grid-template-columns: 2fr 1fr 1fr;
@@ -58,6 +61,12 @@ export const ResultItem = styled.div<{ index: number; isFirst: boolean; isLast: 
   @media screen and (min-width: ${BREAKPOINT_TABLET}) {
     grid-template-columns: 2fr 1fr 1fr;
   }
+`;
+
+export const ResultRabbit = styled.img`
+  width: 20px;
+  align-items: center;
+  justify-content: center;
 `;
 
 interface GameResult {
@@ -148,7 +157,7 @@ export const Results = () => {
           <Title>
             <div>Datum</div>
             <div>Poäng</div>
-            <div>Guldkaniner</div>
+            <ResultRabbit src={RabbitYellow}/>
           </Title>
 
           {sortedResults.length > 0 ? (

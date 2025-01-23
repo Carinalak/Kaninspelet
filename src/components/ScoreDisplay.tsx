@@ -1,9 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  ScoreDisplayStyle,
-  PlayQuestionBox,
-  ScoreDisplayInnerBunnies,
-} from "./styled/ScoreDisplayStyle";
+import { ScoreDisplayStyle, PlayQuestionBox, ScoreDisplayInnerBunnies,} from "./styled/ScoreDisplayStyle";
 import RabbitBlack from "../assets/img/rabbits/rabbit_shadow_black.png";
 import RabbitYellow from "../assets/img/rabbits/rabbit_shadow_yellow.png";
 import { GameButton, MenuButton } from "./styled/Buttons";

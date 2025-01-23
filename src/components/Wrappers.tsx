@@ -74,7 +74,7 @@ export const ResultWrapper = styled.div `
 `;
 
 export const Question = styled.div `
-  margin-top: 50px;
+  margin-top: 10px;
 
 `;
 

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { BREAKPOINT_TABLET, GAMMELROSA, KOLSVART } from "./Variables";
+import { BREAKPOINT_TABLET, GAMMELROSA, KOLSVART, KRITVIT } from "./Variables";
 
 export const ScoreDisplayStyle = styled.div`
   display: flex;
@@ -19,18 +19,15 @@ export const ScoreDisplayStyle = styled.div`
   border: 1px solid black;
   text-align: left;
   position: relative;
-  
 
   .rabbits-row {
     display: flex;
     gap: 10px;
     justify-content: flex-start;
   }
-
   .rabbit-image {
     width: 30px;
   }
-
 
   .rules-button {
     position: absolute;
@@ -59,7 +56,7 @@ export const ScoreDisplayInnerBunnies = styled.div`
   padding: 5px;
   color: ${KOLSVART};
   border-radius: 10px;
-  border: 1px solid black;
+  //border: 1px solid black;
 
   .timer-row {
     display: flex;
@@ -78,7 +75,7 @@ export const ScoreDisplayInnerBunnies = styled.div`
 
 export const PlayQuestionBox = styled.div`
   border: 1px solid black;
-  background-color: white;
+  background-color: ${KRITVIT};
   color: ${KOLSVART};
   width: 240px;
   height: 350px;

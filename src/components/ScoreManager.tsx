@@ -1,14 +1,14 @@
 // Denna komponent skickar poängen till backend
 import { useEffect } from "react";
 import { getUserSession } from "../services/CookieService";
-
 interface ScoreManagerProps {
   score: number;
   gameFinished: boolean;
   totalScore: number;
+  goldenRabbits: number;
 }
 
-export const ScoreManager = ({ gameFinished, totalScore }: ScoreManagerProps) => {
+export const ScoreManager = ({ gameFinished, totalScore, goldenRabbits }: ScoreManagerProps) => {
   useEffect(() => {
     const saveGameResult = async () => {
       const session = getUserSession();
@@ -31,7 +31,8 @@ export const ScoreManager = ({ gameFinished, totalScore }: ScoreManagerProps) =>
             },
             body: JSON.stringify({
               user_id: userId,
-              total_score: totalScore,  // Använd totalScore här istället för score
+              total_score: totalScore,
+              golden_rabbits: goldenRabbits,
             }),
           }
         );
@@ -50,10 +51,11 @@ export const ScoreManager = ({ gameFinished, totalScore }: ScoreManagerProps) =>
     if (gameFinished) {
       console.log("Saving game result...");
       console.log("Total Score:", totalScore);
+      console.log("Golden Rabbits:", goldenRabbits);
 
       saveGameResult();
     }
-  }, [gameFinished, totalScore]);
+  }, [gameFinished, totalScore, goldenRabbits]);
 
   return null;
 };

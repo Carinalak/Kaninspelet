@@ -27,7 +27,7 @@ const ScoreGrid = styled.div`
 const Title = styled.div`
   font-weight: bold;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   //border-bottom: 2px solid ${KOLSVART};
   //padding-bottom: 5px;
   margin-bottom: 5px;
@@ -35,7 +35,7 @@ const Title = styled.div`
 `;
 const ResultItem = styled.div<{ index: number; isFirst: boolean; isLast: boolean }>`
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   row-gap: 10px;
   padding: 10px 0;
   background-color: ${({ index }) => (index % 2 === 0 ? `${GAMMELROSA}` : `${SKUGGLILA}`)};
@@ -56,6 +56,7 @@ const ResultItem = styled.div<{ index: number; isFirst: boolean; isLast: boolean
 interface GameResult {
   total_score: number;
   game_date: string;
+  golden_rabbits: number;
 }
 
 export const Results = () => {
@@ -122,6 +123,7 @@ export const Results = () => {
           <Title>
             <div>Datum</div>
             <div>Poäng</div>
+            <div>Guldkaniner</div>
           </Title>
 
           {gameResults.length > 0 ? (
@@ -140,6 +142,7 @@ export const Results = () => {
               >
                   <div>{formattedDate}</div>
                   <div>{result.total_score}</div>
+                  <div>{result.golden_rabbits}</div>
                 </ResultItem>
               );
             })

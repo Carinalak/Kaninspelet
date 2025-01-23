@@ -3,8 +3,6 @@ import { BREAKPOINT_TABLET, SKUGGLILA, KOLSVART, KRITVIT, GAMMELROSA } from "./V
 import { TextStyle } from "../Wrappers";
 import { ButtonWrapper, GameButton } from "./Buttons";
 
-
-
 export const Modal = styled.div `
   position: fixed;
   top: 50%;

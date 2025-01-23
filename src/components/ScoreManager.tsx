@@ -5,9 +5,10 @@ import { getUserSession } from "../services/CookieService";
 interface ScoreManagerProps {
   score: number;
   gameFinished: boolean;
+  totalScore: number;
 }
 
-export const ScoreManager = ({ score, gameFinished }: ScoreManagerProps) => {
+export const ScoreManager = ({ gameFinished, totalScore }: ScoreManagerProps) => {
   useEffect(() => {
     const saveGameResult = async () => {
       const session = getUserSession();
@@ -30,7 +31,7 @@ export const ScoreManager = ({ score, gameFinished }: ScoreManagerProps) => {
             },
             body: JSON.stringify({
               user_id: userId,
-              total_score: score,
+              total_score: totalScore,  // Använd totalScore här istället för score
             }),
           }
         );
@@ -48,11 +49,11 @@ export const ScoreManager = ({ score, gameFinished }: ScoreManagerProps) => {
 
     if (gameFinished) {
       console.log("Saving game result...");
-      console.log("Score:", score);
+      console.log("Total Score:", totalScore);
 
       saveGameResult();
     }
-  }, [gameFinished, score]);
+  }, [gameFinished, totalScore]);
 
   return null;
 };

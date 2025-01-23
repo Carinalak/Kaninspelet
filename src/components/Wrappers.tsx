@@ -107,7 +107,7 @@ export const ErrorText = styled(TextStyle) `
 
 export const TextStyleInloggad = styled(TextStyle) `
   position: absolute;
-  bottom: 30px;
+  top: 30px;
   text-align: center;
   color: ${SKUGGLILA};
 

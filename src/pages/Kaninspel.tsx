@@ -242,7 +242,7 @@ export const Kaninspel = () => {
         totalScore={score} 
         onClose={closeGame}
            />
-      <ScoreManager score={score} elapsedTime={elapsedTime} gameFinished={gameFinished} />
+      <ScoreManager score={score} gameFinished={gameFinished} />
       <CardLayoutStyle>
         {shuffledCards.map((card) => (
           <CardStyle

@@ -4,11 +4,10 @@ import { getUserSession } from "../services/CookieService";
 
 interface ScoreManagerProps {
   score: number;
-  elapsedTime: number;
   gameFinished: boolean;
 }
 
-export const ScoreManager = ({ score, elapsedTime, gameFinished }: ScoreManagerProps) => {
+export const ScoreManager = ({ score, gameFinished }: ScoreManagerProps) => {
   useEffect(() => {
     const saveGameResult = async () => {
       const session = getUserSession();
@@ -31,8 +30,7 @@ export const ScoreManager = ({ score, elapsedTime, gameFinished }: ScoreManagerP
             },
             body: JSON.stringify({
               user_id: userId,
-              score: score,
-              elapsed_time: elapsedTime,
+              total_score: score,
             }),
           }
         );
@@ -51,11 +49,10 @@ export const ScoreManager = ({ score, elapsedTime, gameFinished }: ScoreManagerP
     if (gameFinished) {
       console.log("Saving game result...");
       console.log("Score:", score);
-      console.log("Elapsed Time:", elapsedTime);
 
       saveGameResult();
     }
-  }, [gameFinished, score, elapsedTime]);
+  }, [gameFinished, score]);
 
   return null;
 };

@@ -18,8 +18,6 @@ return (<>
 
   <HeaderContainer>
     <H1Title>Kaninspelet</H1Title>
-    
-
   </HeaderContainer>
 </>)
 }

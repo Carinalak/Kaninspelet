@@ -48,6 +48,12 @@ export const GameButton = styled(FormButton) `
 
 `;
 
+export const ResultBackButton = styled(GameButton) `
+  width: 100px;
+  height: 35px;
+  margin-top: 20px;
+`;
+
 export const RuleButton = styled(FormButton) `
   width: 100px;
   height: 35px;
@@ -87,5 +93,6 @@ export const MenuButton = styled(FormButton) `
   width: 200px;
   border-radius: 0;
   border-bottom: 1px solid ${SKUGGLILA};
+  margin: 0;
 `;
 

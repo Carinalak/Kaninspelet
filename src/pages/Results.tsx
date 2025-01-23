@@ -1,20 +1,27 @@
 import { useState, useEffect } from "react";
 import { getUserSession } from "../services/CookieService";
 import { styled } from "styled-components";
-import { GAMMELROSA, KOLSVART, KRITVIT, SKUGGLILA } from "../components/styled/Variables";
+import { BREAKPOINT_TABLET, GAMMELROSA, KOLSVART, KRITVIT, SKUGGLILA } from "../components/styled/Variables";
 import { ResultWrapper } from "../components/Wrappers";
+import { H2Title } from "../components/styled/Fonts";
+import { ResultBackButton } from "../components/styled/Buttons";
+import { Link } from "react-router-dom";
 
 const ScoreGrid = styled.div`
   background-color: ${KRITVIT};
   border-radius: 10px;
   color: ${KOLSVART};
   width: 100%;
-  max-width: 400px;
+  max-width: 300px;
   padding: 20px;
   display: grid;
   grid-template-rows: auto;
   border: 1px solid black;
   padding-bottom: 150px;
+
+      @media screen and (min-width: ${BREAKPOINT_TABLET}) {
+        max-width: 400px;
+      }
 `;
 
 const Title = styled.div`
@@ -33,17 +40,15 @@ const ResultItem = styled.div<{ index: number; isFirst: boolean; isLast: boolean
   padding: 10px 0;
   background-color: ${({ index }) => (index % 2 === 0 ? `${GAMMELROSA}` : `${SKUGGLILA}`)};
   color: ${KRITVIT};
+  font-weight: 600;
   padding-left: 10px;
 
-  /* Lägg till border-radius endast för första och sista raden */
   border-radius: ${({ isFirst, isLast }) =>
     isFirst ? "10px 10px 0 0" : isLast ? "0 0 10px 10px" : "0"};
     
-  /* Border på alla sidor men inte mellan rader */
   border-left: 1px solid ${SKUGGLILA};
   border-right: 1px solid ${SKUGGLILA};
 
-  /* Lägg till top-border för första raden och bottom-border för sista raden */
   border-top: ${({ isFirst }) => (isFirst ? `1px solid ${SKUGGLILA}` : "none")};
   border-bottom: ${({ isLast }) => (isLast ? `1px solid ${SKUGGLILA}` : "none")};
 `;
@@ -56,7 +61,7 @@ interface GameResult {
 export const Results = () => {
   const [gameResults, setGameResults] = useState<GameResult[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [userName, setUserName] = useState<string>("");
+  //const [userName, setUserName] = useState<string>("");
 
   useEffect(() => {
     const fetchResults = async () => {
@@ -87,7 +92,7 @@ export const Results = () => {
 
           if (resultsResponse.ok && userResponse.ok) {
             setGameResults(resultsData.results);
-            setUserName(userData.name);
+            //setUserName(userData.name);
           } else {
             console.error("Error fetching game results or user data:", resultsData, userData);
           }
@@ -107,11 +112,13 @@ export const Results = () => {
 
   return (
     <ResultWrapper>
-      <h1>{userName ? `${userName}s resultat` : "Mina resultat"}</h1>
+      {/* <h1>{userName ? `${userName}s resultat` : "Mina resultat"}</h1>*/}
+      
       {loading ? (
         <p>Laddar...</p>
       ) : (
         <ScoreGrid>
+          <H2Title>Mina resultat</H2Title>
           <Title>
             <div>Datum</div>
             <div>Poäng</div>
@@ -139,8 +146,10 @@ export const Results = () => {
           ) : (
             <p>Inga resultat funna.</p>
           )}
+          
         </ScoreGrid>
       )}
+      <Link to={"/"} ><ResultBackButton>Tillbaka</ResultBackButton></Link>
     </ResultWrapper>
   );
 };

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { KRITVIT, BREAKPOINT_TABLET, BREAKPOINT_DESKTOP, BREAKPOINT_BIGGER_DESKTOP, SKUGGLILA, SMUTSROSA } from "./Variables";
+import { KRITVIT, BREAKPOINT_TABLET, BREAKPOINT_DESKTOP, BREAKPOINT_BIGGER_DESKTOP, SKUGGLILA, SMUTSROSA, KOLSVART } from "./Variables";
 
 export const H1Title = styled.h1 `
     padding: 0;
@@ -19,6 +19,21 @@ export const H1Title = styled.h1 `
     @media screen and (min-width: ${BREAKPOINT_BIGGER_DESKTOP}) {
       font-size: 6rem;
     }
+`;
+
+export const H2Title = styled.h1 `
+    padding: 0;
+    padding-bottom: 10px;
+    color: ${KOLSVART};
+    font-size: 1.3rem;
+    font-family: "Playpen Sans", serif;
+    line-height: 0.3;
+    text-align: center;
+    
+    @media screen and (min-width: ${BREAKPOINT_TABLET}) {
+      font-size: 2rem;
+    }
+
 `;
 
 export const H4White = styled.h4 `

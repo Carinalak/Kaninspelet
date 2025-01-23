@@ -53,7 +53,7 @@ export const GameLoginWrapper = styled.div`
 
 
 export const ResultWrapper = styled.div `
-  width: 600px;
+  width: 400px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -67,6 +67,10 @@ export const ResultWrapper = styled.div `
   margin: 0 auto;
   color: ${KRITVIT};
   //border: 1px solid black;
+
+  @media screen and (min-width: ${BREAKPOINT_TABLET}) {
+    width: 600px;
+    }
 `;
 
 export const Question = styled.div `
@@ -91,6 +95,10 @@ export const TextStyle = styled.div `
   padding-top: 5px;
   padding-right: 15px;
   padding-left: 20px;
+`;
+
+export const TextStyleWhite = styled(TextStyle) `
+  color: ${KRITVIT};
 `;
 
 export const ErrorText = styled(TextStyle) `

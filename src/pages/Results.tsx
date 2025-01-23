@@ -7,6 +7,7 @@ import { H2Title } from "../components/styled/Fonts";
 import { ResultBackButton } from "../components/styled/Buttons";
 import { Link } from "react-router-dom";
 import { SortDropdown } from "../components/SortDropdown";
+import { PawSpinner } from "../components/PawSpinner";
 
 const ScoreGrid = styled.div`
   background-color: ${KRITVIT};
@@ -135,7 +136,7 @@ export const Results = () => {
   return (
     <ResultWrapper>
       {loading ? (
-        <p>Laddar...</p>
+        <PawSpinner />
       ) : (
         <ScoreGrid>
           <H2Title>Mina resultat</H2Title>

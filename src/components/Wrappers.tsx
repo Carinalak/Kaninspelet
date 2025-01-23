@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { BREAKPOINT_TABLET, BREAKPOINT_DESKTOP, BREAKPOINT_BIGGER_DESKTOP, KRITVIT, KOLSVART, HJARTROD, SKUGGLILA } from "./styled/Variables";
+import { Link } from "react-router-dom";
 
 
 export const WrapperTransparent = styled.section`
@@ -112,4 +113,11 @@ export const TextStyleInloggad = styled(TextStyle) `
   color: ${SKUGGLILA};
 
 
+`;
+
+export const StyledLink = styled(Link)`
+  text-decoration: none; /* Tar bort understrykning */
+  margin: 0; /* Tar bort extra utrymme */
+  padding: 0; /* Tar bort extra utrymme */
+  display: flex; /* Säkerställer att innehållet följer knappen */
 `;

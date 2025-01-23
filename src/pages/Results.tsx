@@ -27,16 +27,20 @@ const ScoreGrid = styled.div`
 const Title = styled.div`
   font-weight: bold;
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-columns: 3fr 1fr 1fr;
   //border-bottom: 2px solid ${KOLSVART};
   //padding-bottom: 5px;
   margin-bottom: 5px;
   padding-left: 10px;
+  
+  @media screen and (min-width: ${BREAKPOINT_TABLET}) {
+    grid-template-columns: 2fr 1fr 1fr;
+  }
 `;
 
 const ResultItem = styled.div<{ index: number; isFirst: boolean; isLast: boolean }>`
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-columns: 3fr 1fr 1fr;
   row-gap: 10px;
   padding: 10px 0;
   background-color: ${({ index }) => (index % 2 === 0 ? `${GAMMELROSA}` : `${SKUGGLILA}`)};
@@ -52,6 +56,10 @@ const ResultItem = styled.div<{ index: number; isFirst: boolean; isLast: boolean
 
   border-top: ${({ isFirst }) => (isFirst ? `1px solid ${SKUGGLILA}` : "none")};
   border-bottom: ${({ isLast }) => (isLast ? `1px solid ${SKUGGLILA}` : "none")};
+
+  @media screen and (min-width: ${BREAKPOINT_TABLET}) {
+    grid-template-columns: 2fr 1fr 1fr;
+    }
 `;
 
 interface GameResult {

@@ -3,7 +3,7 @@ import { ScoreDisplayStyle, PlayQuestionBox, ScoreDisplayInnerBunnies,} from "./
 import RabbitBlack from "../assets/img/rabbits/rabbit_shadow_black.png";
 import RabbitYellow from "../assets/img/rabbits/rabbit_shadow_yellow.png";
 import { GameButton, MenuButton } from "./styled/Buttons";
-import { Question, TextStyle, TextStyleInloggad, TextWrapper } from "./Wrappers";
+import { Question, StyledLink, TextStyle, TextStyleInloggad, TextWrapper } from "./Wrappers";
 import { Counter } from "./Counter";
 import { Login } from "../pages/Login";
 import { getUserSession } from "../services/CookieService";
@@ -113,7 +113,7 @@ export const ScoreDisplay = ({
                   <MenuButton onClick={toggleRules}>
                     {showRules ? "Tillbaka" : "Spelregler"}
                   </MenuButton>
-                  <Link to="/results"><MenuButton>Mina resultat</MenuButton></Link>
+                  <StyledLink to="/results"><MenuButton>Mina resultat</MenuButton></StyledLink>
                   <MenuButton
                     onClick={() => {
                       setIsLoggedIn(false);

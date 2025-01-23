@@ -30,7 +30,7 @@ const ScoreGrid = styled.div`
 const Title = styled.div`
   font-weight: bold;
   display: grid;
-  grid-template-columns: 3fr 1fr 1fr;
+  grid-template-columns: 2.5fr 1fr 1fr;
   margin-bottom: 5px;
   padding-left: 10px;
   justify-content: center;
@@ -43,7 +43,7 @@ const Title = styled.div`
 
 export const ResultItem = styled.div<{ index: number; isFirst: boolean; isLast: boolean }>`
   display: grid;
-  grid-template-columns: 3fr 1fr 1fr;
+  grid-template-columns: 2.5fr 1fr 1fr;
   row-gap: 10px;
   padding: 10px 0;
   background-color: ${({ index }) => (index % 2 === 0 ? `${GAMMELROSA}` : `${SKUGGLILA}`)};

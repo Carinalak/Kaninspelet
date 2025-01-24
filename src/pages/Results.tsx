@@ -31,20 +31,21 @@ export const ScoreGrid = styled.div`
 export const ResultTitle = styled.div`
   font-weight: bold;
   display: grid;
-  grid-template-columns: 2.5fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1.5fr;
   margin-bottom: 5px;
   padding-left: 10px;
   justify-content: center;
   align-items: center;
+  margin-top: 30px;
 
   @media screen and (min-width: ${BREAKPOINT_TABLET}) {
-    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1.5fr;
   }
 `;
 
 export const ResultItem = styled.div<{ index: number; isFirst: boolean; isLast: boolean }>`
   display: grid;
-  grid-template-columns: 2.5fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1.5fr;
   row-gap: 10px;
   padding: 10px 0;
   background-color: ${({ index }) => (index % 2 === 0 ? `${GAMMELROSA}` : `${SKUGGLILA}`)};
@@ -60,7 +61,7 @@ export const ResultItem = styled.div<{ index: number; isFirst: boolean; isLast: 
   border-bottom: ${({ isLast }) => (isLast ? `1px solid ${SKUGGLILA}` : "none")};
 
   @media screen and (min-width: ${BREAKPOINT_TABLET}) {
-    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1.5fr;
   }
 `;
 
@@ -193,9 +194,9 @@ export const Results = () => {
             <>
               <SortDropdown sortBy={sortBy} setSortBy={setSortBy} />
               <ResultTitle>
-                <div>Datum</div>
                 <div>Poäng</div>
                 <ResultRabbit src={RabbitYellow} />
+                <div>Datum</div>
               </ResultTitle>
             </>
           )}
@@ -211,9 +212,9 @@ export const Results = () => {
                   isFirst={index === 0}
                   isLast={index === currentResults.length - 1}
                 >
-                  <div>{formattedDate}</div>
                   <div>{result.total_score}</div>
                   <div>{result.golden_rabbits}</div>
+                  <div>{formattedDate}</div>
                 </ResultItem>
               );
             })

@@ -28,7 +28,6 @@ interface UserScore {
   golden_rabbits: number;
 }
 
-
 export const HighScoreTitle = styled.div`
   font-weight: bold;
   display: grid;
@@ -38,6 +37,7 @@ export const HighScoreTitle = styled.div`
   padding-right: 10px;
   justify-content: center;
   align-items: center;
+  margin-top: 30px;
 
   @media screen and (min-width: ${BREAKPOINT_TABLET}) {
     grid-template-columns: 1.3fr 1fr 1fr 1.3fr;

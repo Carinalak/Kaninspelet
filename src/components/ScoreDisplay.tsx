@@ -110,6 +110,9 @@ export const ScoreDisplay = ({
               <StyledLink to="/results">
                 <MenuButton>Mina resultat</MenuButton>
               </StyledLink>
+              <StyledLink to="/highscore">
+                <MenuButton>Highscore</MenuButton>
+              </StyledLink>
               <MenuButton
                 onClick={() => {
                   setIsLoggedIn(false);

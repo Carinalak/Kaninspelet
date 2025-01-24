@@ -9,8 +9,9 @@ import { Link } from "react-router-dom";
 import { SortDropdown } from "../components/SortDropdown";
 import { PawSpinner } from "../components/PawSpinner";
 import RabbitYellow from "../assets/img/rabbits/rabbit_shadow_yellow.png";
+import { format } from 'date-fns';
 
-const ScoreGrid = styled.div`
+export const ScoreGrid = styled.div`
   background-color: ${KRITVIT};
   border-radius: 10px;
   color: ${KOLSVART};
@@ -27,7 +28,7 @@ const ScoreGrid = styled.div`
   }
 `;
 
-const ResultTitle = styled.div`
+export const ResultTitle = styled.div`
   font-weight: bold;
   display: grid;
   grid-template-columns: 2.5fr 1fr 1fr;
@@ -41,7 +42,7 @@ const ResultTitle = styled.div`
   }
 `;
 
-const ResultItem = styled.div<{ index: number; isFirst: boolean; isLast: boolean }>`
+export const ResultItem = styled.div<{ index: number; isFirst: boolean; isLast: boolean }>`
   display: grid;
   grid-template-columns: 2.5fr 1fr 1fr;
   row-gap: 10px;
@@ -63,13 +64,13 @@ const ResultItem = styled.div<{ index: number; isFirst: boolean; isLast: boolean
   }
 `;
 
-const ResultRabbit = styled.img`
+export const ResultRabbit = styled.img`
   width: 20px;
   align-items: center;
   justify-content: center;
 `;
 
-const PaginationControls = styled.div`
+export const PaginationControls = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -91,7 +92,7 @@ export const Results = () => {
   const [sortBy, setSortBy] = useState<string>("latest");
   const [currentPage, setCurrentPage] = useState<number>(1);
 
-  const resultsPerPage = 5; // Antal resultat per sida
+  const resultsPerPage = 5;
   const totalPages = Math.ceil(sortedResults.length / resultsPerPage);
 
   useEffect(() => {
@@ -163,10 +164,9 @@ export const Results = () => {
         break;
     }
     setSortedResults(sorted);
-    setCurrentPage(1); // Återställ till första sidan efter sortering
+    setCurrentPage(1);
   };
 
-  // Beräknar resultaten som ska visas på aktuell sida
   const currentResults = sortedResults.slice(
     (currentPage - 1) * resultsPerPage,
     currentPage * resultsPerPage
@@ -192,7 +192,7 @@ export const Results = () => {
 
           {currentResults.length > 0 ? (
             currentResults.map((result, index) => {
-              const formattedDate = result.game_date.split("T")[0];
+              const formattedDate = format(new Date(result.game_date), 'dd MMMM yyyy');
 
               return (
                 <ResultItem

@@ -1,108 +1,57 @@
 import { useState, useEffect } from "react";
 import { getUserSession } from "../services/CookieService";
-import { styled } from "styled-components";
-import { BREAKPOINT_TABLET, GAMMELROSA, KOLSVART, KRITVIT, SKUGGLILA } from "../components/styled/Variables";
-import { ResultWrapper } from "../components/Wrappers";
+import { ResultWrapper, TextStyleCentered } from "../components/Wrappers";
 import { H2Title } from "../components/styled/Fonts";
-import { ResultBackButton } from "../components/styled/Buttons";
+import { ButtonArrowLeft, ButtonArrowRight, ResultBackButton } from "../components/styled/Buttons";
 import { Link } from "react-router-dom";
-import { SortDropdown } from "../components/SortDropdown";
 import { PawSpinner } from "../components/PawSpinner";
+import RabbitYellow from "../assets/img/rabbits/rabbit_shadow_yellow.png";
+import { ScoreGrid, ResultTitle, ResultRabbit, ResultItem, PaginationControls } from "./Results";
 
-const ScoreGrid = styled.div`
-  background-color: ${KRITVIT};
-  border-radius: 10px;
-  color: ${KOLSVART};
-  width: 100%;
-  max-width: 300px;
-  padding: 20px;
-  display: grid;
-  grid-template-rows: auto;
-  border: 1px solid black;
-  padding-bottom: 150px;
 
-  @media screen and (min-width: ${BREAKPOINT_TABLET}) {
-    max-width: 400px;
-  }
-`;
-
-const Title = styled.div`
-  font-weight: bold;
-  display: grid;
-  grid-template-columns: 2.5fr 1fr 1fr;
-  margin-bottom: 5px;
-  padding-left: 10px;
-  justify-content: center;
-  align-items: center;
-
-  @media screen and (min-width: ${BREAKPOINT_TABLET}) {
-    grid-template-columns: 2fr 1fr 1fr;
-  }
-`;
-
-export const ResultItem = styled.div<{ index: number; isFirst: boolean; isLast: boolean }>`
-  display: grid;
-  grid-template-columns: 2.5fr 1fr 1fr;
-  row-gap: 10px;
-  padding: 10px 0;
-  background-color: ${({ index }) => (index % 2 === 0 ? `${GAMMELROSA}` : `${SKUGGLILA}`)};
-  color: ${KRITVIT};
-  font-weight: 600;
-  padding-left: 10px;
-
-  border-radius: ${({ isFirst, isLast }) =>
-    isFirst ? "10px 10px 0 0" : isLast ? "0 0 10px 10px" : "0"};
-  border-left: 1px solid ${SKUGGLILA};
-  border-right: 1px solid ${SKUGGLILA};
-  border-top: ${({ isFirst }) => (isFirst ? `1px solid ${SKUGGLILA}` : "none")};
-  border-bottom: ${({ isLast }) => (isLast ? `1px solid ${SKUGGLILA}` : "none")};
-
-  @media screen and (min-width: ${BREAKPOINT_TABLET}) {
-    grid-template-columns: 2fr 1fr 1fr;
-  }
-`;
-
-export const ResultRabbit = styled.img`
-  width: 20px;
-  align-items: center;
-  justify-content: center;
-`;
-
-interface GameResult {
+interface UserScore {
+  user_id: string;
+  username: string;
   total_score: number;
   game_date: string;
-  user_name: string;
+  golden_rabbits: number;
 }
 
 export const Highscore = () => {
-  const [, setGameResults] = useState<GameResult[]>([]);
-  const [sortedResults, setSortedResults] = useState<GameResult[]>([]);
+  const [, setUserScores] = useState<UserScore[]>([]);
+  const [sortedScores, setSortedScores] = useState<UserScore[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [sortBy, setSortBy] = useState<string>("highestScore");
+  const [currentPage, setCurrentPage] = useState<number>(1);
+
+  const resultsPerPage = 5;
+  const totalPages = Math.ceil(sortedScores.length / resultsPerPage);
 
   useEffect(() => {
-    const fetchResults = async () => {
+    const fetchScores = async () => {
       const session = getUserSession();
 
       if (session && session.user_id && session.token) {
-        const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
+        const API_URL =
+          import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
 
         try {
-          const resultsResponse = await fetch(`${API_URL}/game_results/${session.user_id}`, {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${session.token}`,
-              ContentType: `application/json`,
-            },
-          });
+          const scoresResponse = await fetch(
+            `${API_URL}/user_scores`,
+            {
+              method: "GET",
+              headers: {
+                Authorization: `Bearer ${session.token}`,
+              },
+            }
+          );
 
-          const resultsData = await resultsResponse.json();
+          const scoresData = await scoresResponse.json();
 
-          if (resultsResponse.ok) {
-            setGameResults(resultsData.results);
-            sortResults(resultsData.results, sortBy);
+          if (scoresResponse.ok) {
+            setUserScores(scoresData.scores);
+            sortScores(scoresData.scores);
           } else {
-            console.error("Error fetching game results:", resultsData);
+            console.error("Error fetching user scores:", scoresData);
           }
         } catch (error) {
           console.error("Error:", error);
@@ -115,28 +64,21 @@ export const Highscore = () => {
       }
     };
 
-    fetchResults();
-  }, [sortBy]);
+    fetchScores();
+  }, []);
 
-  const sortResults = (results: GameResult[], sortBy: string) => {
-    const sorted = [...results];
-    switch (sortBy) {
-      case "highestScore":
-        sorted.sort((a, b) => b.total_score - a.total_score);
-        break;
-      case "lowestScore":
-        sorted.sort((a, b) => a.total_score - b.total_score);
-        break;
-        sorted.sort((a, b) => new Date(b.game_date).getTime() - new Date(a.game_date).getTime());
-        break;
-      case "oldest":
-        sorted.sort((a, b) => new Date(a.game_date).getTime() - new Date(b.game_date).getTime());
-        break;
-      default:
-        break;
-    }
-    setSortedResults(sorted);
+  const sortScores = (scores: UserScore[]) => {
+    const sorted = [...scores];
+    sorted.sort((a, b) => b.total_score - a.total_score);
+    setSortedScores(sorted);
+    setCurrentPage(1);
   };
+
+
+  const currentScores = sortedScores.slice(
+    (currentPage - 1) * resultsPerPage,
+    currentPage * resultsPerPage
+  );
 
   return (
     <ResultWrapper>
@@ -145,40 +87,47 @@ export const Highscore = () => {
       ) : (
         <ScoreGrid>
           <H2Title>Highscore</H2Title>
-          <SortDropdown
-            sortBy={sortBy}
-            setSortBy={setSortBy}
-          />
-          
-          <Title>
-            <div>Namn</div>
-            <div>Poäng</div>
-            <div>Datum</div>
-          </Title>
+          {sortedScores.length > 0 && (
+            <>
+              <ResultTitle>
+                <div>Användarnamn</div>
+                <div>Poäng</div>
+                <div>Golden Rabbits</div>
+                <ResultRabbit src={RabbitYellow} />
+              </ResultTitle>
+            </>
+          )}
 
-          {sortedResults.length > 0 ? (
-            sortedResults.map((result, index) => {
-              const parsedDate = new Date(result.game_date);
-              const formattedDate = isNaN(parsedDate.getTime())
-                ? "Ogiltigt datum"
-                : parsedDate.toLocaleDateString();
+          {currentScores.length > 0 ? (
+            currentScores.map((score, index) => {
+             // const formattedDate = score.game_date.split("T")[0];
 
               return (
                 <ResultItem
-                  key={index}
+                  key={score.user_id}
                   index={index}
                   isFirst={index === 0}
-                  isLast={index === sortedResults.length - 1}
+                  isLast={index === currentScores.length - 1}
                 >
-                  <div>{result.user_name}</div>
-                  <div>{result.total_score}</div>
-                  <div>{formattedDate}</div>
+                  <div>{score.username}</div>
+                  <div>{score.total_score}</div>
+                  <div>{score.golden_rabbits}</div>
                 </ResultItem>
               );
             })
           ) : (
-            <p>Inga resultat funna.</p>
+            <TextStyleCentered>Inga resultat funna.</TextStyleCentered>
           )}
+
+          <PaginationControls>
+            <ButtonArrowLeft
+              onClick={() => setCurrentPage((prev) => prev - 1)}
+              disabled={currentPage === 1} />
+            <ButtonArrowRight
+              onClick={() => setCurrentPage((prev) => prev + 1)}
+              disabled={currentPage === totalPages}
+            />
+          </PaginationControls>
         </ScoreGrid>
       )}
       <Link to={"/"}>

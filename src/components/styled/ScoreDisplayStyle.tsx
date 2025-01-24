@@ -54,9 +54,10 @@ export const ScoreDisplayInnerBunnies = styled.div`
   background-color: transparent;
   row-gap: 10px;
   padding: 5px;
+  padding-bottom: 10px;
   color: ${KOLSVART};
-  border-radius: 10px;
   //border: 1px solid black;
+  margin-top: 0;
 
   .timer-row {
     display: flex;
@@ -67,11 +68,11 @@ export const ScoreDisplayInnerBunnies = styled.div`
   @media screen and (min-width: ${BREAKPOINT_TABLET}) {
     width: 190px;
     height: 130px;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-weight: bold;
+    padding-bottom: 15px;
   }
 `;
-
 
 export const PlayQuestionBox = styled.div`
   border: 1px solid black;

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { BREAKPOINT_TABLET, BREAKPOINT_DESKTOP, BREAKPOINT_BIGGER_DESKTOP, KRITVIT, KOLSVART, HJARTROD, SKUGGLILA } from "./styled/Variables";
+import { BREAKPOINT_TABLET, BREAKPOINT_DESKTOP, BREAKPOINT_BIGGER_DESKTOP, KRITVIT, KOLSVART, HJARTROD, SKUGGLILA, SOLGUL } from "./styled/Variables";
 import { Link } from "react-router-dom";
 
 
@@ -87,7 +87,19 @@ export const ResultWrapper = styled.div `
 `;
 
 export const Question = styled.div `
-  margin-top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 40px;
+  background-color: ${SOLGUL};
+  padding: 15px;
+  width: 80px;
+  height: 20px;
+  text-align: center;
+  //color: ${KRITVIT};
+  border-radius: 30px;
+  border: 1.5px solid ${KOLSVART};
+  font-size: 1rem;
 
 `;
 

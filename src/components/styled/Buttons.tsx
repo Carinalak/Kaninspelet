@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { GAMMELROSA, KRITVIT, SMUTSROSA, POOLBLA, BREAKPOINT_TABLET, BREAKPOINT_BIGGER_DESKTOP, BREAKPOINT_DESKTOP, SKUGGLILA, DISSAD } from "./Variables";
+import { GAMMELROSA, KRITVIT, SMUTSROSA, POOLBLA, BREAKPOINT_TABLET, BREAKPOINT_BIGGER_DESKTOP, BREAKPOINT_DESKTOP, SKUGGLILA, DISSAD, SOLBLEKT } from "./Variables";
 import arrowLeft from "../../assets/icons/arrow_white_left.png";
 import arrowRight from "../../assets/icons/arrow_white_right.png";
 
@@ -97,6 +97,10 @@ export const MenuButton = styled(FormButton) `
   border-radius: 0;
   border-bottom: 1px solid ${SKUGGLILA};
   margin: 0;
+    &:hover {
+      color: ${SOLBLEKT};
+    }
+
 `;
 
 export const ButtonArrowLeft = styled(FormButton)`

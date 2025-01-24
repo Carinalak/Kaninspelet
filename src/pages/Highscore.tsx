@@ -2,15 +2,14 @@ import { useState, useEffect } from "react";
 import { getUserSession } from "../services/CookieService";
 import { styled } from "styled-components";
 import { BREAKPOINT_TABLET, GAMMELROSA, KOLSVART, KRITVIT, SKUGGLILA } from "../components/styled/Variables";
-import { ResultWrapper, TextStyleCentered } from "../components/Wrappers";
+import { ResultWrapper } from "../components/Wrappers";
 import { H2Title } from "../components/styled/Fonts";
 import { ResultBackButton } from "../components/styled/Buttons";
 import { Link } from "react-router-dom";
 import { SortDropdown } from "../components/SortDropdown";
 import { PawSpinner } from "../components/PawSpinner";
-import RabbitYellow from "../assets/img/rabbits/rabbit_shadow_yellow.png";
 
-export const ScoreGrid = styled.div`
+const ScoreGrid = styled.div`
   background-color: ${KRITVIT};
   border-radius: 10px;
   color: ${KOLSVART};
@@ -27,7 +26,7 @@ export const ScoreGrid = styled.div`
   }
 `;
 
-export const ResultTitle = styled.div`
+const Title = styled.div`
   font-weight: bold;
   display: grid;
   grid-template-columns: 2.5fr 1fr 1fr;
@@ -72,10 +71,10 @@ export const ResultRabbit = styled.img`
 interface GameResult {
   total_score: number;
   game_date: string;
-  golden_rabbits: number;
+  user_name: string;
 }
 
-export const Results = () => {
+export const Highscore = () => {
   const [, setGameResults] = useState<GameResult[]>([]);
   const [sortedResults, setSortedResults] = useState<GameResult[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -93,6 +92,7 @@ export const Results = () => {
             method: "GET",
             headers: {
               Authorization: `Bearer ${session.token}`,
+              ContentType: `application/json`,
             },
           });
 
@@ -127,10 +127,6 @@ export const Results = () => {
       case "lowestScore":
         sorted.sort((a, b) => a.total_score - b.total_score);
         break;
-      case "mostGoldenRabbits":
-        sorted.sort((a, b) => b.golden_rabbits - a.golden_rabbits);
-        break;
-      case "latest":
         sorted.sort((a, b) => new Date(b.game_date).getTime() - new Date(a.game_date).getTime());
         break;
       case "oldest":
@@ -148,28 +144,25 @@ export const Results = () => {
         <PawSpinner />
       ) : (
         <ScoreGrid>
-          <H2Title>Mina resultat</H2Title>
-          {sortedResults.length > 0 && (
-            <>
-              <SortDropdown
-                sortBy={sortBy}
-                setSortBy={setSortBy}
-              />
-              <ResultTitle>
-                <div>Datum</div>
-                <div>Poäng</div>
-                <ResultRabbit src={RabbitYellow} />
-              </ResultTitle>
-            </>
-          )}
-  
+          <H2Title>Highscore</H2Title>
+          <SortDropdown
+            sortBy={sortBy}
+            setSortBy={setSortBy}
+          />
+          
+          <Title>
+            <div>Namn</div>
+            <div>Poäng</div>
+            <div>Datum</div>
+          </Title>
+
           {sortedResults.length > 0 ? (
             sortedResults.map((result, index) => {
               const parsedDate = new Date(result.game_date);
               const formattedDate = isNaN(parsedDate.getTime())
                 ? "Ogiltigt datum"
                 : parsedDate.toLocaleDateString();
-  
+
               return (
                 <ResultItem
                   key={index}
@@ -177,14 +170,14 @@ export const Results = () => {
                   isFirst={index === 0}
                   isLast={index === sortedResults.length - 1}
                 >
-                  <div>{formattedDate}</div>
+                  <div>{result.user_name}</div>
                   <div>{result.total_score}</div>
-                  <div>{result.golden_rabbits}</div>
+                  <div>{formattedDate}</div>
                 </ResultItem>
               );
             })
           ) : (
-            <TextStyleCentered>Inga resultat funna.</TextStyleCentered>
+            <p>Inga resultat funna.</p>
           )}
         </ScoreGrid>
       )}
@@ -192,5 +185,5 @@ export const Results = () => {
         <ResultBackButton>Tillbaka</ResultBackButton>
       </Link>
     </ResultWrapper>
-  );  
+  );
 };

@@ -3,6 +3,7 @@ import { Kaninspel } from "./pages/Kaninspel";
 import { Layout } from "./pages/Layout";
 import { NotFound } from "./pages/NotFound";
 import { Results } from "./pages/Results";
+import { Highscore } from "./pages/Highscore";
 
 
 
@@ -20,6 +21,10 @@ export const router = createHashRouter([
             {
                 path: "/results",
                 element: <Results></Results>,
+            },
+            {
+                path: "/highscore",
+                element: <Highscore></Highscore>,
             },
         ],
     },

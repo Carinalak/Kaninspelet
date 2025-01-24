@@ -17,6 +17,7 @@ export const WrapperTransparent = styled.section`
   font-family: "Playpen Sans", serif;
   margin: 0 auto;
   gap: 20px;
+  margin-bottom: 100px;
   //border: 1px solid black;
 
     @media screen and (min-width: ${BREAKPOINT_TABLET}) {
@@ -96,6 +97,10 @@ export const TextStyle = styled.div `
 
 export const TextStyleWhite = styled(TextStyle) `
   color: ${KRITVIT};
+`;
+
+export const TextStyleCentered = styled(TextStyle) `
+text-align: center;
 `;
 
 export const ErrorText = styled(TextStyle) `

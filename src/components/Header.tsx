@@ -9,6 +9,7 @@ z-index: 100;
 color: ${KRITVIT};
 margin: 0;
 width: 100%;
+-webkit-tap-highlight-color: transparent;
 `;
 
 

@@ -1,3 +1,4 @@
+import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { getUserSession } from "../services/CookieService";
 import { ResultWrapper, TextStyleCentered } from "../components/Wrappers";
@@ -7,8 +8,7 @@ import { Link } from "react-router-dom";
 import { PawSpinner } from "../components/PawSpinner";
 import RabbitYellow from "../assets/img/rabbits/rabbit_shadow_yellow.png";
 import { ScoreGrid, ResultRabbit, PaginationControls, PaginationInner } from "./Results";
-import styled from "styled-components";
-import { KRITVIT, BREAKPOINT_TABLET, GAMMELROSA, SKUGGLILA } from "../components/styled/Variables";
+import { KRITVIT, BREAKPOINT_TABLET, GAMMELROSA, SKUGGLILA, SOLGUL } from "../components/styled/Variables";
 
 interface ApiScore {
   user_id: string;
@@ -44,13 +44,13 @@ export const HighScoreTitle = styled.div`
   }
 `;
 
-export const HighScoreItem = styled.div<{ index: number; isFirst: boolean; isLast: boolean }>`
+export const HighScoreItem = styled.div<{ index: number; isFirst: boolean; isLast: boolean; isCurrentUser: boolean }>`
   display: grid;
   grid-template-columns: 1.8fr 1.3fr 1fr 2.2fr;
   row-gap: 10px;
   padding: 10px 0;
   background-color: ${({ index }) => (index % 2 === 0 ? `${GAMMELROSA}` : `${SKUGGLILA}`)};
-  color: ${KRITVIT};
+  color: ${({ isCurrentUser }) => (isCurrentUser ? `${SOLGUL}` : `${KRITVIT}`)};
   font-weight: 600;
   padding-left: 10px;
 
@@ -67,10 +67,10 @@ export const HighScoreItem = styled.div<{ index: number; isFirst: boolean; isLas
 `;
 
 export const Highscore = () => {
-  const [, setUserScores] = useState<UserScore[]>([]);
   const [sortedScores, setSortedScores] = useState<UserScore[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
 
   const resultsPerPage = 8;
   const totalPages = Math.ceil(sortedScores.length / resultsPerPage);
@@ -80,6 +80,7 @@ export const Highscore = () => {
       const session = getUserSession();
 
       if (session && session.user_id && session.token) {
+        setCurrentUserId(session.user_id);
         const API_URL =
           import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
 
@@ -102,7 +103,6 @@ export const Highscore = () => {
               game_date: score.game_date,
             }));
 
-            setUserScores(mappedScores);
             sortScores(mappedScores);
           } else {
             console.error("Error fetching user scores:", scoresData);
@@ -161,6 +161,7 @@ export const Highscore = () => {
                   index={index}
                   isFirst={index === 0}
                   isLast={index === currentScores.length - 1}
+                  isCurrentUser={score.user_id === currentUserId}
                 >
                   <div>{score.name}</div>
                   <div>{score.total_score}</div>

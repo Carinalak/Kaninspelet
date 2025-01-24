@@ -9,7 +9,6 @@ import RabbitBrown from '../assets/img/rabbits/rabbit_brown.png';
 
 export const RabbitImage = styled.img `
   width: 100px;
-
 `;
 
 export const ScoreGrid = styled.div`
@@ -70,6 +69,9 @@ export const ResultRabbit = styled.img`
   align-items: center;
   justify-content: center;
 `;
+
+
+
 
 export const Spelregler = () => {
 

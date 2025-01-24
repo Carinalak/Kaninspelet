@@ -3,7 +3,7 @@ import { ScoreDisplayStyle, PlayQuestionBox, ScoreDisplayInnerBunnies } from "./
 import RabbitBlack from "../assets/img/rabbits/rabbit_shadow_black.png";
 import RabbitYellow from "../assets/img/rabbits/rabbit_shadow_yellow.png";
 import { GameButton, MenuButton } from "./styled/Buttons";
-import { Question, StyledLink, TextStyle, TextStyleCentered, TextStyleInloggad } from "./Wrappers";
+import { Question, StyledLink, TextStyleInloggad } from "./Wrappers";
 import { Counter } from "./Counter";
 import { Login } from "../pages/Login";
 import { getUserSession } from "../services/CookieService";

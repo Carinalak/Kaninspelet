@@ -6,9 +6,10 @@ import { ButtonArrowLeft, ButtonArrowRight, ResultBackButton } from "../componen
 import { Link } from "react-router-dom";
 import { PawSpinner } from "../components/PawSpinner";
 import RabbitYellow from "../assets/img/rabbits/rabbit_shadow_yellow.png";
-import { ScoreGrid, ResultTitle, ResultRabbit, ResultItem, PaginationControls, PaginationInner } from "./Results";
+import { ScoreGrid, ResultRabbit, PaginationControls, PaginationInner } from "./Results";
+import styled from "styled-components";
+import { KRITVIT, BREAKPOINT_TABLET, GAMMELROSA, SKUGGLILA } from "../components/styled/Variables";
 
-// Definiera typen för API-datan
 interface ApiScore {
   user_id: string;
   total_score: number;
@@ -26,6 +27,45 @@ interface UserScore {
   game_date: string;
   golden_rabbits: number;
 }
+
+
+export const HighScoreTitle = styled.div`
+  font-weight: bold;
+  display: grid;
+  grid-template-columns: 1.3fr 1fr 1fr 1.3fr;
+  margin-bottom: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  justify-content: center;
+  align-items: center;
+
+  @media screen and (min-width: ${BREAKPOINT_TABLET}) {
+    grid-template-columns: 1.3fr 1fr 1fr 1.3fr;
+  }
+`;
+
+export const HighScoreItem = styled.div<{ index: number; isFirst: boolean; isLast: boolean }>`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1.3fr;
+  row-gap: 10px;
+  padding: 10px 0;
+  background-color: ${({ index }) => (index % 2 === 0 ? `${GAMMELROSA}` : `${SKUGGLILA}`)};
+  color: ${KRITVIT};
+  font-weight: 600;
+  padding-left: 10px;
+
+  border-radius: ${({ isFirst, isLast }) =>
+    isFirst ? "10px 10px 0 0" : isLast ? "0 0 10px 10px" : "0"};
+  border-left: 1px solid ${SKUGGLILA};
+  border-right: 1px solid ${SKUGGLILA};
+  border-top: ${({ isFirst }) => (isFirst ? `1px solid ${SKUGGLILA}` : "none")};
+  border-bottom: ${({ isLast }) => (isLast ? `1px solid ${SKUGGLILA}` : "none")};
+
+  @media screen and (min-width: ${BREAKPOINT_TABLET}) {
+    grid-template-columns: 1.3fr 1fr 1fr 1.3fr;
+  }
+`;
+
 
 export const Highscore = () => {
   const [, setUserScores] = useState<UserScore[]>([]);
@@ -103,12 +143,12 @@ export const Highscore = () => {
           <H2Title>Highscore</H2Title>
           {sortedScores.length > 0 && (
             <>
-              <ResultTitle>
+              <HighScoreTitle>
                 <div>Namn</div>
                 <div>Poäng</div>
-                <div>Golden Rabbits</div>
                 <ResultRabbit src={RabbitYellow} />
-              </ResultTitle>
+                <div>Datum</div>
+              </HighScoreTitle>
             </>
           )}
 
@@ -117,7 +157,7 @@ export const Highscore = () => {
               const formattedDate = new Date(score.game_date).toLocaleDateString();
 
               return (
-                <ResultItem
+                <HighScoreItem
                   key={score.user_id}
                   index={index}
                   isFirst={index === 0}
@@ -127,7 +167,7 @@ export const Highscore = () => {
                   <div>{score.total_score}</div>
                   <div>{score.golden_rabbits}</div>
                   <div>{formattedDate}</div>
-                </ResultItem>
+                </HighScoreItem>
               );
             })
           ) : (

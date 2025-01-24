@@ -111,6 +111,7 @@ export const ButtonArrowLeft = styled(FormButton)`
   height: 40px;
   transition: background-color 0.2s ease, transform 0.2s ease;
   margin-top: -5px;
+  -webkit-tap-highlight-color: transparent;
 
   &:disabled {
     background-color: ${DISSAD};
@@ -137,6 +138,7 @@ export const ButtonArrowRight = styled(FormButton)`
   height: 40px;
   transition: background-color 0.2s ease, transform 0.2s ease;
   margin-top: -5px;
+  -webkit-tap-highlight-color: transparent;
 
   &:disabled {
     background-color: ${DISSAD};

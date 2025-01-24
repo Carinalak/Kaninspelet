@@ -17,15 +17,13 @@ const DropdownButton = styled.div<{ isOpen: boolean }>`
   color: ${KRITVIT};
   font-size: 1rem;
   font-family: ${FONT_PLAYPEN};
-  padding: 5px;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding: 5px 10px;
   border-radius: ${({ isOpen }) => (isOpen ? "5px 5px 0 0" : "5px")};
   cursor: pointer;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  
+
   &:hover {
     background-color: ${SMUTSROSA};
   }
@@ -52,12 +50,12 @@ const DropdownItem = styled.li`
   cursor: pointer;
 
   &:hover {
-    background-color: ${SMUTSROSA}
+    background-color: ${SMUTSROSA};
   }
 `;
 
-const Arrow = styled.span `
-   -webkit-tap-highlight-color: transparent;
+const Arrow = styled.span`
+  -webkit-tap-highlight-color: transparent;
 `;
 
 const sortLabels: Record<string, string> = {
@@ -88,21 +86,13 @@ export const SortDropdown: React.FC<SortDropdownProps> = ({
       </DropdownButton>
       {isOpen && (
         <DropdownList isOpen={isOpen}>
-          <DropdownItem onClick={() => handleSelect("highestScore")}>
-            Högsta poäng
-          </DropdownItem>
-          <DropdownItem onClick={() => handleSelect("latest")}>
-            Senaste
-          </DropdownItem>
-          <DropdownItem onClick={() => handleSelect("oldest")}>
-            Äldsta
-          </DropdownItem>
-          <DropdownItem onClick={() => handleSelect("lowestScore")}>
-            Lägsta poäng
-          </DropdownItem>
-          <DropdownItem onClick={() => handleSelect("mostGoldenRabbits")}>
-            Flest guldkaniner
-          </DropdownItem>
+          {Object.entries(sortLabels)
+            .filter(([key]) => key !== sortBy) // Exclude the selected option
+            .map(([key, label]) => (
+              <DropdownItem key={key} onClick={() => handleSelect(key)}>
+                {label}
+              </DropdownItem>
+            ))}
         </DropdownList>
       )}
     </CustomDropdown>

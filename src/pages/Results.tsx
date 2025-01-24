@@ -79,22 +79,26 @@ export const Results = () => {
   const [, setGameResults] = useState<GameResult[]>([]);
   const [sortedResults, setSortedResults] = useState<GameResult[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [sortBy, setSortBy] = useState<string>("highestScore");
+  const [sortBy, setSortBy] = useState<string>("latest");
 
   useEffect(() => {
     const fetchResults = async () => {
       const session = getUserSession();
 
       if (session && session.user_id && session.token) {
-        const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
+        const API_URL =
+          import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
 
         try {
-          const resultsResponse = await fetch(`${API_URL}/game_results/${session.user_id}`, {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${session.token}`,
-            },
-          });
+          const resultsResponse = await fetch(
+            `${API_URL}/game_results/${session.user_id}`,
+            {
+              method: "GET",
+              headers: {
+                Authorization: `Bearer ${session.token}`,
+              },
+            }
+          );
 
           const resultsData = await resultsResponse.json();
 
@@ -131,10 +135,16 @@ export const Results = () => {
         sorted.sort((a, b) => b.golden_rabbits - a.golden_rabbits);
         break;
       case "latest":
-        sorted.sort((a, b) => new Date(b.game_date).getTime() - new Date(a.game_date).getTime());
+        sorted.sort(
+          (a, b) =>
+            new Date(b.game_date).getTime() - new Date(a.game_date).getTime()
+        );
         break;
       case "oldest":
-        sorted.sort((a, b) => new Date(a.game_date).getTime() - new Date(b.game_date).getTime());
+        sorted.sort(
+          (a, b) =>
+            new Date(a.game_date).getTime() - new Date(b.game_date).getTime()
+        );
         break;
       default:
         break;
@@ -151,10 +161,7 @@ export const Results = () => {
           <H2Title>Mina resultat</H2Title>
           {sortedResults.length > 0 && (
             <>
-              <SortDropdown
-                sortBy={sortBy}
-                setSortBy={setSortBy}
-              />
+              <SortDropdown sortBy={sortBy} setSortBy={setSortBy} />
               <ResultTitle>
                 <div>Datum</div>
                 <div>Poäng</div>
@@ -162,14 +169,12 @@ export const Results = () => {
               </ResultTitle>
             </>
           )}
-  
+
           {sortedResults.length > 0 ? (
             sortedResults.map((result, index) => {
-              const parsedDate = new Date(result.game_date);
-              const formattedDate = isNaN(parsedDate.getTime())
-                ? "Ogiltigt datum"
-                : parsedDate.toLocaleDateString();
-  
+              // Använder bara (YYYY-MM-DD) i timestamp från databasen.
+              const formattedDate = result.game_date.split("T")[0];
+
               return (
                 <ResultItem
                   key={index}
@@ -192,5 +197,5 @@ export const Results = () => {
         <ResultBackButton>Tillbaka</ResultBackButton>
       </Link>
     </ResultWrapper>
-  );  
+  );
 };

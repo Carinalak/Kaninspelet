@@ -4,13 +4,13 @@ import { styled } from "styled-components";
 import { BREAKPOINT_TABLET, GAMMELROSA, KOLSVART, KRITVIT, SKUGGLILA } from "../components/styled/Variables";
 import { ResultWrapper, TextStyleCentered } from "../components/Wrappers";
 import { H2Title } from "../components/styled/Fonts";
-import { ResultBackButton } from "../components/styled/Buttons";
+import { ButtonArrowLeft, ButtonArrowRight, ResultBackButton } from "../components/styled/Buttons";
 import { Link } from "react-router-dom";
 import { SortDropdown } from "../components/SortDropdown";
 import { PawSpinner } from "../components/PawSpinner";
 import RabbitYellow from "../assets/img/rabbits/rabbit_shadow_yellow.png";
 
-export const ScoreGrid = styled.div`
+const ScoreGrid = styled.div`
   background-color: ${KRITVIT};
   border-radius: 10px;
   color: ${KOLSVART};
@@ -27,7 +27,7 @@ export const ScoreGrid = styled.div`
   }
 `;
 
-export const ResultTitle = styled.div`
+const ResultTitle = styled.div`
   font-weight: bold;
   display: grid;
   grid-template-columns: 2.5fr 1fr 1fr;
@@ -41,7 +41,7 @@ export const ResultTitle = styled.div`
   }
 `;
 
-export const ResultItem = styled.div<{ index: number; isFirst: boolean; isLast: boolean }>`
+const ResultItem = styled.div<{ index: number; isFirst: boolean; isLast: boolean }>`
   display: grid;
   grid-template-columns: 2.5fr 1fr 1fr;
   row-gap: 10px;
@@ -63,11 +63,20 @@ export const ResultItem = styled.div<{ index: number; isFirst: boolean; isLast: 
   }
 `;
 
-export const ResultRabbit = styled.img`
+const ResultRabbit = styled.img`
   width: 20px;
   align-items: center;
   justify-content: center;
 `;
+
+const PaginationControls = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+  gap: 50px;
+`;
+
 
 interface GameResult {
   total_score: number;
@@ -80,6 +89,10 @@ export const Results = () => {
   const [sortedResults, setSortedResults] = useState<GameResult[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [sortBy, setSortBy] = useState<string>("latest");
+  const [currentPage, setCurrentPage] = useState<number>(1);
+
+  const resultsPerPage = 5; // Antal resultat per sida
+  const totalPages = Math.ceil(sortedResults.length / resultsPerPage);
 
   useEffect(() => {
     const fetchResults = async () => {
@@ -150,7 +163,14 @@ export const Results = () => {
         break;
     }
     setSortedResults(sorted);
+    setCurrentPage(1); // Återställ till första sidan efter sortering
   };
+
+  // Beräknar resultaten som ska visas på aktuell sida
+  const currentResults = sortedResults.slice(
+    (currentPage - 1) * resultsPerPage,
+    currentPage * resultsPerPage
+  );
 
   return (
     <ResultWrapper>
@@ -170,9 +190,8 @@ export const Results = () => {
             </>
           )}
 
-          {sortedResults.length > 0 ? (
-            sortedResults.map((result, index) => {
-              // Använder bara (YYYY-MM-DD) i timestamp från databasen.
+          {currentResults.length > 0 ? (
+            currentResults.map((result, index) => {
               const formattedDate = result.game_date.split("T")[0];
 
               return (
@@ -180,7 +199,7 @@ export const Results = () => {
                   key={index}
                   index={index}
                   isFirst={index === 0}
-                  isLast={index === sortedResults.length - 1}
+                  isLast={index === currentResults.length - 1}
                 >
                   <div>{formattedDate}</div>
                   <div>{result.total_score}</div>
@@ -191,6 +210,16 @@ export const Results = () => {
           ) : (
             <TextStyleCentered>Inga resultat funna.</TextStyleCentered>
           )}
+
+          <PaginationControls>
+            <ButtonArrowLeft
+              onClick={() => setCurrentPage((prev) => prev - 1)}
+              disabled={currentPage === 1} />
+            <ButtonArrowRight
+              onClick={() => setCurrentPage((prev) => prev + 1)}
+              disabled={currentPage === totalPages}
+            />
+          </PaginationControls>
         </ScoreGrid>
       )}
       <Link to={"/"}>

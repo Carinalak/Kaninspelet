@@ -123,9 +123,7 @@ export const ButtonArrowLeft = styled(FormButton)`
     height: 80px;
     background-size: 62px 62px;
   }
-
 `;
-
 
 export const ButtonArrowRight = styled(FormButton)`
   padding: 0;

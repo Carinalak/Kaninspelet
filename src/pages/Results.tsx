@@ -75,8 +75,18 @@ export const PaginationControls = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: 50px;
-  gap: 50px;
+  gap: 20px;
+  width: 100%;
+  grid-column: 1 / -1;
 `;
+
+export const PaginationInner = styled.span`
+  text-align: center;
+  flex-grow: 0.4;
+  padding: 10px;
+  width: 50px;
+`;
+
 
 
 interface GameResult {
@@ -210,11 +220,14 @@ export const Results = () => {
           ) : (
             <TextStyleCentered>Inga resultat funna.</TextStyleCentered>
           )}
-
+      
           <PaginationControls>
             <ButtonArrowLeft
               onClick={() => setCurrentPage((prev) => prev - 1)}
               disabled={currentPage === 1} />
+            <PaginationInner>
+              Sida {currentPage} av {totalPages}
+            </PaginationInner>
             <ButtonArrowRight
               onClick={() => setCurrentPage((prev) => prev + 1)}
               disabled={currentPage === totalPages}

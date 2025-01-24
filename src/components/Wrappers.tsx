@@ -53,6 +53,7 @@ export const GameLoginWrapper = styled.div`
 `;
 
 export const ResultWrapper = styled.div `
+
   width: 400px;
   display: flex;
   flex-direction: column;

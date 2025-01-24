@@ -6,12 +6,22 @@ import { ButtonArrowLeft, ButtonArrowRight, ResultBackButton } from "../componen
 import { Link } from "react-router-dom";
 import { PawSpinner } from "../components/PawSpinner";
 import RabbitYellow from "../assets/img/rabbits/rabbit_shadow_yellow.png";
-import { ScoreGrid, ResultTitle, ResultRabbit, ResultItem, PaginationControls } from "./Results";
+import { ScoreGrid, ResultTitle, ResultRabbit, ResultItem, PaginationControls, PaginationInner } from "./Results";
 
+// Definiera typen för API-datan
+interface ApiScore {
+  user_id: string;
+  total_score: number;
+  golden_rabbits: number;
+  game_date: string;
+  users?: {
+    name: string;
+  };
+}
 
 interface UserScore {
   user_id: string;
-  username: string;
+  name: string;
   total_score: number;
   game_date: string;
   golden_rabbits: number;
@@ -35,21 +45,26 @@ export const Highscore = () => {
           import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
 
         try {
-          const scoresResponse = await fetch(
-            `${API_URL}/user_scores`,
-            {
-              method: "GET",
-              headers: {
-                Authorization: `Bearer ${session.token}`,
-              },
-            }
-          );
+          const scoresResponse = await fetch(`${API_URL}/game_results`, {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${session.token}`,
+            },
+          });
 
-          const scoresData = await scoresResponse.json();
+          const scoresData: ApiScore[] = await scoresResponse.json();
 
           if (scoresResponse.ok) {
-            setUserScores(scoresData.scores);
-            sortScores(scoresData.scores);
+            const mappedScores = scoresData.map((score) => ({
+              user_id: score.user_id,
+              name: score.users?.name || "Okänd",
+              total_score: score.total_score,
+              golden_rabbits: score.golden_rabbits,
+              game_date: score.game_date,
+            }));
+
+            setUserScores(mappedScores);
+            sortScores(mappedScores);
           } else {
             console.error("Error fetching user scores:", scoresData);
           }
@@ -74,7 +89,6 @@ export const Highscore = () => {
     setCurrentPage(1);
   };
 
-
   const currentScores = sortedScores.slice(
     (currentPage - 1) * resultsPerPage,
     currentPage * resultsPerPage
@@ -85,12 +99,12 @@ export const Highscore = () => {
       {loading ? (
         <PawSpinner />
       ) : (
-        <ScoreGrid>
+        <ScoreGrid key={currentPage}>
           <H2Title>Highscore</H2Title>
           {sortedScores.length > 0 && (
             <>
               <ResultTitle>
-                <div>Användarnamn</div>
+                <div>Namn</div>
                 <div>Poäng</div>
                 <div>Golden Rabbits</div>
                 <ResultRabbit src={RabbitYellow} />
@@ -100,7 +114,7 @@ export const Highscore = () => {
 
           {currentScores.length > 0 ? (
             currentScores.map((score, index) => {
-             // const formattedDate = score.game_date.split("T")[0];
+              const formattedDate = new Date(score.game_date).toLocaleDateString();
 
               return (
                 <ResultItem
@@ -109,9 +123,10 @@ export const Highscore = () => {
                   isFirst={index === 0}
                   isLast={index === currentScores.length - 1}
                 >
-                  <div>{score.username}</div>
+                  <div>{score.name}</div>
                   <div>{score.total_score}</div>
                   <div>{score.golden_rabbits}</div>
+                  <div>{formattedDate}</div>
                 </ResultItem>
               );
             })
@@ -122,7 +137,11 @@ export const Highscore = () => {
           <PaginationControls>
             <ButtonArrowLeft
               onClick={() => setCurrentPage((prev) => prev - 1)}
-              disabled={currentPage === 1} />
+              disabled={currentPage === 1}
+            />
+            <PaginationInner>
+              Sida {currentPage} av {totalPages}
+            </PaginationInner>
             <ButtonArrowRight
               onClick={() => setCurrentPage((prev) => prev + 1)}
               disabled={currentPage === totalPages}

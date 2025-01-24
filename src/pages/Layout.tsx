@@ -4,17 +4,14 @@ import { Footer } from "../components/Footer";
 import styled from "styled-components";
 import { BREAKPOINT_DESKTOP, BREAKPOINT_TABLET } from "../components/styled/Variables";
 import { CookieConsent } from "../components/CookieConsent";
+import { getUserSession } from "../services/CookieService";
 
 const MainContainer = styled.main`
-  //padding-top: 50px;
   overflow-x: hidden;
   
-
     @media screen and (min-width: ${BREAKPOINT_TABLET}) {
-      //padding-top: 60px;
     }
     @media screen and (min-width: ${BREAKPOINT_DESKTOP}) {
-      //padding-top: 80px;
     }
 `;
 
@@ -25,6 +22,7 @@ const AppContainer = styled.div`
 `;
 
 export const Layout = () => {
+  const userSession = getUserSession();
 
   const handleConsentAccept = (): void => {
     console.log("Cookies accepted!");
@@ -36,13 +34,13 @@ export const Layout = () => {
     document.cookie = "cookieConsent=false; path=/;";
   };
 
-
   return (
     <AppContainer>
       <Header />
       <MainContainer>
-      <CookieConsent onAccept={handleConsentAccept} onDeny={handleConsentDeny} />
-            {/*<CookieConsent onAccept={() => console.log("Cookies accepted!")} />*/}
+        {!userSession && ( 
+          <CookieConsent onAccept={handleConsentAccept} onDeny={handleConsentDeny} />
+        )}
         <Outlet />
       </MainContainer>
       <Footer />

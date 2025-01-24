@@ -41,6 +41,17 @@ export const WrapperTransparent = styled.section`
 
 export const WrapperWhite = styled(WrapperTransparent) `
   background-color: ${KRITVIT};
+  width: 300px;
+  height: 400px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  
+  @media screen and (min-width: ${BREAKPOINT_TABLET}) {
+    width: 400px;
+  }
 `;
 
 export const GameLoginWrapper = styled.div`

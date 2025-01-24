@@ -1,10 +1,16 @@
 import { styled } from "styled-components";
 import { BREAKPOINT_TABLET, GAMMELROSA, KOLSVART, KRITVIT, SKUGGLILA } from "../components/styled/Variables";
-import { ResultWrapper, TextStyle } from "../components/Wrappers";
+import { TextStyle, WrapperWhite } from "../components/Wrappers";
 import { H2Title } from "../components/styled/Fonts";
 import { ResultBackButton } from "../components/styled/Buttons";
 import { Link } from "react-router-dom";
+import RabbitBrown from '../assets/img/rabbits/rabbit_brown.png';
 
+
+export const RabbitImage = styled.img `
+  width: 100px;
+
+`;
 
 export const ScoreGrid = styled.div`
   background-color: ${KRITVIT};
@@ -68,7 +74,7 @@ export const ResultRabbit = styled.img`
 export const Spelregler = () => {
 
   return (
-    <ResultWrapper>
+    <WrapperWhite>
       <H2Title>Spelregler</H2Title>
         <TextStyle>
           Lös mattetalet och välj kortet med rätt svar för att hitta en
@@ -76,11 +82,11 @@ export const Spelregler = () => {
           som ger 2 poäng extra. Du har 2 minuter på dig.
         </TextStyle>
 
-
+      <RabbitImage src={RabbitBrown}/>
       <Link to={"/"}>
         <ResultBackButton>Tillbaka</ResultBackButton>
       </Link>
 
-    </ResultWrapper>
+    </WrapperWhite>
   );  
 };

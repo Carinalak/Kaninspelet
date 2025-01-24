@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { ScoreDisplayStyle, PlayQuestionBox, ScoreDisplayInnerBunnies,} from "./styled/ScoreDisplayStyle";
+import { ScoreDisplayStyle, PlayQuestionBox, ScoreDisplayInnerBunnies } from "./styled/ScoreDisplayStyle";
 import RabbitBlack from "../assets/img/rabbits/rabbit_shadow_black.png";
 import RabbitYellow from "../assets/img/rabbits/rabbit_shadow_yellow.png";
 import { GameButton, MenuButton } from "./styled/Buttons";
-import { Question, StyledLink, TextStyle, TextStyleInloggad, TextWrapper } from "./Wrappers";
+import { Question, StyledLink, TextStyleInloggad } from "./Wrappers";
 import { Counter } from "./Counter";
 import { Login } from "../pages/Login";
 import { getUserSession } from "../services/CookieService";
@@ -29,7 +29,6 @@ export const ScoreDisplay = ({
   elapsedTime,
   onClose,
 }: ScoreDisplayProps) => {
-  const [showRules, setShowRules] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userName, setUserName] = useState<string | null>(null);
 
@@ -49,8 +48,6 @@ export const ScoreDisplay = ({
   const rabbits = new Array(5).fill(RabbitBlack).map((_, index) =>
     index < yellowBunniesCount ? RabbitYellow : RabbitBlack
   );
-
-  const toggleRules = () => setShowRules(!showRules);
 
   const handleStartGame = () => {
     onStartGame();
@@ -77,7 +74,7 @@ export const ScoreDisplay = ({
       ) : (
         <PlayQuestionBox>
           <TextStyleInloggad>Inloggad som: {userName}</TextStyleInloggad>
-          
+
           {gameStarted ? (
             <>
               <Question>{question} =</Question>
@@ -106,37 +103,23 @@ export const ScoreDisplay = ({
             </>
           ) : (
             <>
-              {!showRules ? (
-                <>
-                  <MenuButton onClick={handleStartGame}>Spela</MenuButton>
-                  <MenuButton onClick={toggleRules}>
-                    {showRules ? "Tillbaka" : "Spelregler"}
-                  </MenuButton>
-                  <StyledLink to="/results"><MenuButton>Mina resultat</MenuButton></StyledLink>
-                  <MenuButton
-                    onClick={() => {
-                      setIsLoggedIn(false);
-                      setUserName(null);
-                      onClose();
-                    }}
-                  >
-                    Logga ut
-                  </MenuButton>
-                </>
-              ) : (
-                <MenuButton onClick={toggleRules}>Tillbaka</MenuButton>
-              )}
+              <MenuButton onClick={handleStartGame}>Spela</MenuButton>
+              <StyledLink to="/spelregler">
+                <MenuButton>Spelregler</MenuButton>
+              </StyledLink>
+              <StyledLink to="/results">
+                <MenuButton>Mina resultat</MenuButton>
+              </StyledLink>
+              <MenuButton
+                onClick={() => {
+                  setIsLoggedIn(false);
+                  setUserName(null);
+                  onClose();
+                }}
+              >
+                Logga ut
+              </MenuButton>
             </>
-          )}
-
-          {showRules && (
-            <TextWrapper>
-              <TextStyle>
-                Lös mattetalet och välj kortet med rätt svar för att hitta en
-                kanin! En kanin ger 1 poäng. För 5 kaniner får du en guldkanin,
-                som ger 2 poäng extra. Du har 2 minuter på dig.
-              </TextStyle>
-            </TextWrapper>
           )}
         </PlayQuestionBox>
       )}

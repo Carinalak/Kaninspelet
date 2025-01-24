@@ -61,6 +61,14 @@ export const ScoreDisplay = ({
   const minutes = !isNaN(elapsedTime) ? Math.floor(elapsedTime / 60) : 0;
   const seconds = !isNaN(elapsedTime) ? elapsedTime % 60 : 0;
 
+
+  const handleLinkClick = () => {
+    const topElement = document.getElementById("top");
+    if (topElement) {
+      topElement.scrollIntoView({ behavior: "auto" });
+    }
+  };
+
   return (
     <ScoreDisplayStyle>
       {!isLoggedIn ? (
@@ -103,14 +111,14 @@ export const ScoreDisplay = ({
             </>
           ) : (
             <>
-              <MenuButton onClick={handleStartGame}>Spela</MenuButton>
-              <StyledLink to="/spelregler">
+              <MenuButton onClick={() => { handleStartGame(); handleLinkClick(); }}>Spela</MenuButton>
+              <StyledLink to="/spelregler" onClick={handleLinkClick}>
                 <MenuButton>Spelregler</MenuButton>
               </StyledLink>
-              <StyledLink to="/results">
+              <StyledLink to="/results" onClick={handleLinkClick}>
                 <MenuButton>Mina resultat</MenuButton>
               </StyledLink>
-              <StyledLink to="/highscore">
+              <StyledLink to="/highscore" onClick={handleLinkClick}>
                 <MenuButton>Highscore</MenuButton>
               </StyledLink>
               <MenuButton

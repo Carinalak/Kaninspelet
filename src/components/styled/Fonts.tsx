@@ -9,6 +9,7 @@ export const H1Title = styled.h1 `
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     line-height: 0.3;
     text-align: center;
+    padding-bottom: 12px;
     
     @media screen and (min-width: ${BREAKPOINT_TABLET}) {
       font-size: 2.4rem;

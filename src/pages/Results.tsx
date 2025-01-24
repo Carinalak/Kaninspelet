@@ -186,6 +186,13 @@ export const Results = () => {
     paddedResults.push(null);
   }
 
+  const handleLinkClick = () => {
+    const topElement = document.getElementById("top");
+    if (topElement) {
+      topElement.scrollIntoView({ behavior: "auto" });
+    }
+  };
+
   return (
     <ResultWrapper>
       {loading ? (
@@ -258,7 +265,7 @@ export const Results = () => {
           </PaginationControls>
         </ScoreGrid>
       )}
-      <Link to={"/"}>
+      <Link to={"/"} onClick={handleLinkClick}>
         <ResultBackButton>Tillbaka</ResultBackButton>
       </Link>
     </ResultWrapper>

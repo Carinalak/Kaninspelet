@@ -75,6 +75,13 @@ export const ResultRabbit = styled.img`
 
 export const Spelregler = () => {
 
+  const handleLinkClick = () => {
+    const topElement = document.getElementById("top");
+    if (topElement) {
+      topElement.scrollIntoView({ behavior: "auto" });
+    }
+  };
+
   return (
     <WrapperWhite>
       <H2Title>Spelregler</H2Title>
@@ -85,7 +92,7 @@ export const Spelregler = () => {
         </TextStyle>
 
       <RabbitImage src={RabbitBrown}/>
-      <Link to={"/"}>
+      <Link to={"/"} onClick={handleLinkClick}>
         <ResultBackButton>Tillbaka</ResultBackButton>
       </Link>
 

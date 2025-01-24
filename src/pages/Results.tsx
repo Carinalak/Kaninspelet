@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 import { SortDropdown } from "../components/SortDropdown";
 import { PawSpinner } from "../components/PawSpinner";
 import RabbitYellow from "../assets/img/rabbits/rabbit_shadow_yellow.png";
-import { format } from 'date-fns';
+import { format } from "date-fns";
 
 export const ScoreGrid = styled.div`
   background-color: ${KRITVIT};
@@ -21,7 +21,6 @@ export const ScoreGrid = styled.div`
   display: grid;
   grid-template-rows: auto;
   border: 1px solid black;
-  padding-bottom: 150px;
 
   @media screen and (min-width: ${BREAKPOINT_TABLET}) {
     max-width: 400px;
@@ -31,12 +30,13 @@ export const ScoreGrid = styled.div`
 export const ResultTitle = styled.div`
   font-weight: bold;
   display: grid;
-  grid-template-columns: 1fr 1fr 1.5fr;
+  grid-template-columns: 1fr 1fr 2.3fr;
   margin-bottom: 5px;
-  padding-left: 10px;
+  padding-left: 20px;
   justify-content: center;
   align-items: center;
-  margin-top: 30px;
+  margin-top: 15px;
+
 
   @media screen and (min-width: ${BREAKPOINT_TABLET}) {
     grid-template-columns: 1fr 1fr 1.5fr;
@@ -45,13 +45,13 @@ export const ResultTitle = styled.div`
 
 export const ResultItem = styled.div<{ index: number; isFirst: boolean; isLast: boolean }>`
   display: grid;
-  grid-template-columns: 1fr 1fr 1.5fr;
+  grid-template-columns: 1fr 1fr 2.3fr;
   row-gap: 10px;
   padding: 10px 0;
   background-color: ${({ index }) => (index % 2 === 0 ? `${GAMMELROSA}` : `${SKUGGLILA}`)};
   color: ${KRITVIT};
   font-weight: 600;
-  padding-left: 10px;
+  padding-left: 20px;
 
   border-radius: ${({ isFirst, isLast }) =>
     isFirst ? "10px 10px 0 0" : isLast ? "0 0 10px 10px" : "0"};
@@ -75,7 +75,7 @@ export const PaginationControls = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 50px;
+  margin-top: 20px;
   gap: 20px;
   width: 100%;
   grid-column: 1 / -1;
@@ -87,8 +87,6 @@ export const PaginationInner = styled.span`
   padding: 10px;
   width: 50px;
 `;
-
-
 
 interface GameResult {
   total_score: number;
@@ -103,7 +101,7 @@ export const Results = () => {
   const [sortBy, setSortBy] = useState<string>("latest");
   const [currentPage, setCurrentPage] = useState<number>(1);
 
-  const resultsPerPage = 5;
+  const resultsPerPage = 8;
   const totalPages = Math.ceil(sortedResults.length / resultsPerPage);
 
   useEffect(() => {
@@ -183,6 +181,11 @@ export const Results = () => {
     currentPage * resultsPerPage
   );
 
+  const paddedResults: (GameResult | null)[] = [...currentResults];
+  while (paddedResults.length < resultsPerPage) {
+    paddedResults.push(null);
+  }
+
   return (
     <ResultWrapper>
       {loading ? (
@@ -201,31 +204,50 @@ export const Results = () => {
             </>
           )}
 
-          {currentResults.length > 0 ? (
-            currentResults.map((result, index) => {
-              const formattedDate = format(new Date(result.game_date), 'dd MMMM yyyy');
-
-              return (
-                <ResultItem
-                  key={index}
-                  index={index}
-                  isFirst={index === 0}
-                  isLast={index === currentResults.length - 1}
-                >
-                  <div>{result.total_score}</div>
-                  <div>{result.golden_rabbits}</div>
-                  <div>{formattedDate}</div>
-                </ResultItem>
-              );
+          {sortedResults.length > 0 ? (
+            paddedResults.map((result, index) => {
+              if (result) {
+                const formattedDate = format(
+                  new Date(result.game_date),
+                  "dd MMMM yyyy"
+                );
+                return (
+                  <ResultItem
+                    key={index}
+                    index={index}
+                    isFirst={index === 0}
+                    isLast={index === paddedResults.length - 1}
+                  >
+                    <div>{result.total_score}</div>
+                    <div>{result.golden_rabbits}</div>
+                    <div>{formattedDate}</div>
+                  </ResultItem>
+                );
+              } else {
+                return (
+                  <ResultItem
+                    key={index}
+                    index={index}
+                    isFirst={index === 0}
+                    isLast={index === paddedResults.length - 1}
+                  >
+                    {/* Tom rad */}
+                    <div>&nbsp;</div>
+                    <div>&nbsp;</div>
+                    <div>&nbsp;</div>
+                  </ResultItem>
+                );
+              }
             })
           ) : (
             <TextStyleCentered>Inga resultat funna.</TextStyleCentered>
           )}
-      
+
           <PaginationControls>
             <ButtonArrowLeft
               onClick={() => setCurrentPage((prev) => prev - 1)}
-              disabled={currentPage === 1} />
+              disabled={currentPage === 1}
+            />
             <PaginationInner>
               Sida {currentPage} av {totalPages}
             </PaginationInner>

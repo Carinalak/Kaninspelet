@@ -31,13 +31,13 @@ interface UserScore {
 export const HighScoreTitle = styled.div`
   font-weight: bold;
   display: grid;
-  grid-template-columns: 1.3fr 1fr 1fr 1.3fr;
+  grid-template-columns: 1.8fr 1.3fr 1fr 2.2fr;
   margin-bottom: 5px;
   padding-left: 10px;
   padding-right: 10px;
   justify-content: center;
   align-items: center;
-  margin-top: 30px;
+  margin-top: 5px;
 
   @media screen and (min-width: ${BREAKPOINT_TABLET}) {
     grid-template-columns: 1.3fr 1fr 1fr 1.3fr;
@@ -46,7 +46,7 @@ export const HighScoreTitle = styled.div`
 
 export const HighScoreItem = styled.div<{ index: number; isFirst: boolean; isLast: boolean }>`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1.3fr;
+  grid-template-columns: 1.8fr 1.3fr 1fr 2.2fr;
   row-gap: 10px;
   padding: 10px 0;
   background-color: ${({ index }) => (index % 2 === 0 ? `${GAMMELROSA}` : `${SKUGGLILA}`)};
@@ -66,14 +66,13 @@ export const HighScoreItem = styled.div<{ index: number; isFirst: boolean; isLas
   }
 `;
 
-
 export const Highscore = () => {
   const [, setUserScores] = useState<UserScore[]>([]);
   const [sortedScores, setSortedScores] = useState<UserScore[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [currentPage, setCurrentPage] = useState<number>(1);
 
-  const resultsPerPage = 5;
+  const resultsPerPage = 8;
   const totalPages = Math.ceil(sortedScores.length / resultsPerPage);
 
   useEffect(() => {
@@ -158,7 +157,7 @@ export const Highscore = () => {
 
               return (
                 <HighScoreItem
-                  key={score.user_id}
+                  key={`${score.user_id}-${index}`}
                   index={index}
                   isFirst={index === 0}
                   isLast={index === currentScores.length - 1}

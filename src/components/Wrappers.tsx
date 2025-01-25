@@ -48,7 +48,7 @@ export const WrapperWhite = styled(WrapperTransparent) `
   flex-direction: column;
   align-items: center;
   margin-top: 20px;
-  padding-bottom: 20px;
+  padding-bottom: 30px;
   
   @media screen and (min-width: ${BREAKPOINT_TABLET}) {
     width: 400px;

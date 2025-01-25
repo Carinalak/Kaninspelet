@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { WrapperTransparent } from "../components/Wrappers";
 import { ScoreDisplay } from "../components/ScoreDisplay";
 import CarrotCross from '../assets/img/cards/carrot_cross.png';
@@ -15,6 +15,9 @@ import { generateRandomAdditionQuestion } from "../data/questions";
 import { ModalMessage } from "../components/styled/Modal";
 import Back from '../assets/img/cards/back.png';
 import { ScoreManager } from "../components/ScoreManager";
+import { SoundPlayer } from "../components/SoundPlayer";
+import CardFlipSound from '../assets/sounds/card_flip.ogg';
+
 
 interface Card {
   id: number;
@@ -46,6 +49,8 @@ export const Kaninspel = () => {
   const [showModal, setShowModal] = useState(false);
   const [gameFinished, setGameFinished] = useState(false); 
   const [cardsLocked, setCardsLocked] = useState(false);
+  const soundPlayerRef = useRef<{ play: () => void } | null>(null);
+
 
   useEffect(() => {
     const preloadImages = () => {
@@ -93,6 +98,8 @@ export const Kaninspel = () => {
   const flipCard = (id: number) => {
     if (flippedCards[id] || cardsLocked) return;
 
+    soundPlayerRef.current?.play();
+
     setFlippedCards(prev => ({ ...prev, [id]: true }));
 
     setTimeout(() => {
@@ -114,6 +121,7 @@ export const Kaninspel = () => {
           setFlippedCards(prev => {
             const revertedCards = { ...prev };
             delete revertedCards[id];
+            soundPlayerRef.current?.play();
             return revertedCards;
           });
 
@@ -218,6 +226,7 @@ export const Kaninspel = () => {
   return (
 
     <WrapperTransparent>
+       <SoundPlayer ref={soundPlayerRef} src={CardFlipSound} />
 
      <ModalMessage
         showModal={showModal}

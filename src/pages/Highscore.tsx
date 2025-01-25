@@ -32,7 +32,7 @@ interface UserScore {
 export const HighScoreTitle = styled.div`
   font-weight: bold;
   display: grid;
-  grid-template-columns: 1.8fr 1fr 0.8fr 2.0fr;
+  grid-template-columns: 1.8fr 1.2fr 0.8fr 2.6fr;
   margin-bottom: 5px;
   padding-left: 10px;
   padding-right: 10px;
@@ -47,7 +47,7 @@ export const HighScoreTitle = styled.div`
 
 export const HighScoreItem = styled.div<{ index: number; isFirst: boolean; isLast: boolean; isCurrentUser: boolean }>`
   display: grid;
-  grid-template-columns: 1.8fr 1fr 0.8fr 2.2fr;
+  grid-template-columns: 2fr 0.8fr 0.7fr 2.7fr;
   row-gap: 10px;
   padding: 10px 0;
   background-color: ${({ index }) => (index % 2 === 0 ? `${GAMMELROSA}` : `${SKUGGLILA}`)};

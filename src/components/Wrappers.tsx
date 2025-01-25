@@ -66,7 +66,7 @@ export const GameLoginWrapper = styled.div`
 
 export const ResultWrapper = styled.div `
 
-  width: 400px;
+  width: 90%;
   display: flex;
   flex-direction: column;
   align-items: center;

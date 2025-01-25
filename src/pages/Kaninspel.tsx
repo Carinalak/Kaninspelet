@@ -49,6 +49,7 @@ export const Kaninspel = () => {
   const [gameFinished, setGameFinished] = useState(false); 
   const [cardsLocked, setCardsLocked] = useState(false);
   const soundPlayerRef = useRef<SoundPlayerHandle | null>(null);
+ 
 
   useEffect(() => {
     const preloadImages = () => {
@@ -95,37 +96,43 @@ export const Kaninspel = () => {
 
   const flipCard = (id: number) => {
     if (flippedCards[id] || cardsLocked) return;
-
+  
     soundPlayerRef.current?.play('flip');
-
+  
     const isCorrect = cardAnswers[id - 1] === answer;
-
+  
     if (isCorrect) {
       soundPlayerRef.current?.play('achievement');
-      
-      const goldenRabbits = Math.floor(score / 5);
-      if (goldenRabbits > 0 && score % 5 === 0) {
+  
+      const newScore = score + 1;
+      const goldenRabbits = Math.floor(newScore / 5);
+  
+      if (goldenRabbits > 0 && newScore % 5 === 0) {
+
         soundPlayerRef.current?.play('golden_rabbit');
       }
+  
+      setScore(newScore);
     }
-
+  
     setFlippedCards(prev => ({ ...prev, [id]: true }));
-
+  
     setTimeout(() => {
       setVisibleCards(prevVisible => ({ ...prevVisible, [id]: null }));
     }, 0);
-
+  
     setTimeout(() => {
-      setVisibleCards(prevVisible => ({ ...prevVisible, [id]: cardAnswers[id - 1] === answer ? RabbitBeige : CarrotCross }));
+      setVisibleCards(prevVisible => {
+        return { ...prevVisible, [id]: cardAnswers[id - 1] === answer ? RabbitBeige : CarrotCross };
+      });
     }, 300);
-
+  
     if (cardAnswers[id - 1] === answer) {
       setCardsLocked(true);
-
+  
       setTimeout(() => {
         setFoundRabbits(prev => [...prev, id]);
-        setScore(prev => prev + 1);
-
+  
         setTimeout(() => {
           setFlippedCards(prev => {
             const revertedCards = { ...prev };
@@ -133,13 +140,13 @@ export const Kaninspel = () => {
             soundPlayerRef.current?.play('flip');
             return revertedCards;
           });
-
+  
           setVisibleCards(prevVisible => {
             const revertedVisible = { ...prevVisible };
             revertedVisible[id] = null;
             return revertedVisible;
           });
-
+  
           generateNewQuestion();
           setCardsLocked(false);
         }, 500);
@@ -147,7 +154,7 @@ export const Kaninspel = () => {
     } else {
       setTimeout(() => {
         setVisibleCards(prevVisible => ({ ...prevVisible, [id]: null }));
-
+  
         setTimeout(() => {
           setFlippedCards(prev => {
             const revertedCards = { ...prev };
@@ -156,7 +163,7 @@ export const Kaninspel = () => {
             return revertedCards;
           });
         }, 0);
-
+  
         setVisibleCards(prevVisible => {
           const revertedVisible = { ...prevVisible };
           revertedVisible[id] = null;
@@ -165,6 +172,7 @@ export const Kaninspel = () => {
       }, 1000);
     }
   };
+  
 
   const resetGameState = () => {
     setShowModal(false);

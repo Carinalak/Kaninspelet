@@ -1,6 +1,6 @@
 import { useRef, useImperativeHandle, forwardRef, useEffect } from "react";
 import AchievementSound from '../assets/sounds/achievement-sparkle.wav';
-import GoldenRabbitSound from '../assets/sounds/magic_sparkle.wav'; // Den nya ljudfilen för guldkaniner
+import GoldenRabbitSounde from '../assets/sounds/magic_sparkle.wav';
 
 interface SoundPlayerProps {
   src: string;
@@ -8,7 +8,7 @@ interface SoundPlayerProps {
 }
 
 export interface SoundPlayerHandle {
-  play: (soundType: 'flip' | 'achievement' | 'golden_rabbit') => void; // Lägg till 'golden_rabbit' som alternativ
+  play: (soundType: 'flip' | 'achievement' | 'golden_rabbit') => void;
 }
 
 export const SoundPlayer = forwardRef<SoundPlayerHandle, SoundPlayerProps>(({ src, volume = 1.0 }: SoundPlayerProps, ref) => {
@@ -60,7 +60,7 @@ export const SoundPlayer = forwardRef<SoundPlayerHandle, SoundPlayerProps>(({ sr
     <>
       <audio ref={flipRef} src={src} />
       <audio ref={achievementRef} src={AchievementSound} />
-      <audio ref={goldenRabbitRef} src={GoldenRabbitSound} />
+      <audio ref={goldenRabbitRef} src={GoldenRabbitSounde} />
     </>
   );
 });

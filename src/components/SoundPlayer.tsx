@@ -1,5 +1,6 @@
 import { useRef, useImperativeHandle, forwardRef, useEffect } from "react";
 import AchievementSound from '../assets/sounds/achievement-sparkle.wav';
+import GoldenRabbitSound from '../assets/sounds/magic_sparkle.wav'; // Den nya ljudfilen för guldkaniner
 
 interface SoundPlayerProps {
   src: string;
@@ -7,12 +8,13 @@ interface SoundPlayerProps {
 }
 
 export interface SoundPlayerHandle {
-  play: (soundType: 'flip' | 'achievement') => void; // Definiera play med ett argument
+  play: (soundType: 'flip' | 'achievement' | 'golden_rabbit') => void; // Lägg till 'golden_rabbit' som alternativ
 }
 
 export const SoundPlayer = forwardRef<SoundPlayerHandle, SoundPlayerProps>(({ src, volume = 1.0 }: SoundPlayerProps, ref) => {
   const flipRef = useRef<HTMLAudioElement | null>(null); // Kortflippningsljudet
   const achievementRef = useRef<HTMLAudioElement | null>(null); // Achievement-ljudet
+  const goldenRabbitRef = useRef<HTMLAudioElement | null>(null); // Guldkanin-ljudet
 
   useEffect(() => {
     if (flipRef.current) {
@@ -21,10 +23,13 @@ export const SoundPlayer = forwardRef<SoundPlayerHandle, SoundPlayerProps>(({ sr
     if (achievementRef.current) {
       achievementRef.current.volume = volume;
     }
+    if (goldenRabbitRef.current) {
+      goldenRabbitRef.current.volume = volume;
+    }
   }, [volume]);
 
   useImperativeHandle(ref, () => ({
-    play: (soundType: 'flip' | 'achievement') => {
+    play: (soundType: 'flip' | 'achievement' | 'golden_rabbit') => {
       if (soundType === 'flip' && flipRef.current) {
         if (!flipRef.current.paused) {
           flipRef.current.pause();
@@ -40,6 +45,14 @@ export const SoundPlayer = forwardRef<SoundPlayerHandle, SoundPlayerProps>(({ sr
         }
         achievementRef.current.play();
       }
+
+      if (soundType === 'golden_rabbit' && goldenRabbitRef.current) {
+        if (!goldenRabbitRef.current.paused) {
+          goldenRabbitRef.current.pause();
+          goldenRabbitRef.current.currentTime = 0;
+        }
+        goldenRabbitRef.current.play();
+      }
     },
   }));
 
@@ -47,6 +60,7 @@ export const SoundPlayer = forwardRef<SoundPlayerHandle, SoundPlayerProps>(({ sr
     <>
       <audio ref={flipRef} src={src} />
       <audio ref={achievementRef} src={AchievementSound} />
+      <audio ref={goldenRabbitRef} src={GoldenRabbitSound} />
     </>
   );
 });

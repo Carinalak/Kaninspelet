@@ -18,8 +18,6 @@ import { ScoreManager } from "../components/ScoreManager";
 import { SoundPlayer, SoundPlayerHandle } from "../components/SoundPlayer";
 import CardFlipSound from '../assets/sounds/card_flip.ogg';
 
-
-
 interface Card {
   id: number;
   src: string;
@@ -51,7 +49,6 @@ export const Kaninspel = () => {
   const [gameFinished, setGameFinished] = useState(false); 
   const [cardsLocked, setCardsLocked] = useState(false);
   const soundPlayerRef = useRef<SoundPlayerHandle | null>(null);
-
 
   useEffect(() => {
     const preloadImages = () => {
@@ -101,12 +98,16 @@ export const Kaninspel = () => {
 
     soundPlayerRef.current?.play('flip');
 
-  const isCorrect = cardAnswers[id - 1] === answer;
+    const isCorrect = cardAnswers[id - 1] === answer;
 
-
-  if (isCorrect) {
-    soundPlayerRef.current?.play('achievement');
-  }
+    if (isCorrect) {
+      soundPlayerRef.current?.play('achievement');
+      
+      const goldenRabbits = Math.floor(score / 5);
+      if (goldenRabbits > 0 && score % 5 === 0) {
+        soundPlayerRef.current?.play('golden_rabbit');
+      }
+    }
 
     setFlippedCards(prev => ({ ...prev, [id]: true }));
 
@@ -165,8 +166,6 @@ export const Kaninspel = () => {
     }
   };
 
-
-  
   const resetGameState = () => {
     setShowModal(false);
     setGameStarted(true);
@@ -177,7 +176,6 @@ export const Kaninspel = () => {
     generateNewQuestion(); 
     setGameFinished(false);
     setScore(0);
-    setElapsedTime(0);
   };
 
   const onStartGame = () => {
@@ -219,7 +217,6 @@ export const Kaninspel = () => {
     if (elapsedTime >= 120 && !gameFinished) {
       handleEndGame();
     } else if (gameFinished) {
-  
       //setShowModal(true);
     }
   }, [elapsedTime, gameFinished]);
@@ -233,12 +230,10 @@ export const Kaninspel = () => {
   const totalScore = score + goldenRabbits * 2;
 
   return (
-
     <WrapperTransparent>
-       <SoundPlayer ref={soundPlayerRef} src={CardFlipSound} volume={0.5} />
+      <SoundPlayer ref={soundPlayerRef} src={CardFlipSound} volume={0.5} />
 
-
-     <ModalMessage
+      <ModalMessage
         showModal={showModal}
         onClose={closeGame}
         onReset={resetGameState}
@@ -247,12 +242,11 @@ export const Kaninspel = () => {
         elapsedTime={elapsedTime}
         score={score}
         totalScore={totalScore}  
-    />
+      />
 
       <ScoreDisplay 
         score={score}
         onStartGame={onStartGame}
-        //onEndGame={handleEndGame}
         gameStarted={gameStarted}
         question={question}
         gameFinished={gameFinished}
@@ -260,7 +254,7 @@ export const Kaninspel = () => {
         elapsedTime={0}  
         totalScore={score} 
         onClose={closeGame}
-           />
+      />
       <ScoreManager score={score} gameFinished={gameFinished} totalScore={totalScore} goldenRabbits={goldenRabbits}/>
       <CardLayoutStyle>
         {shuffledCards.map((card) => (

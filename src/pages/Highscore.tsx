@@ -9,6 +9,7 @@ import { PawSpinner } from "../components/PawSpinner";
 import RabbitYellow from "../assets/img/rabbits/rabbit_shadow_yellow.png";
 import { ScoreGrid, ResultRabbit, PaginationControls, PaginationInner } from "./Results";
 import { KRITVIT, BREAKPOINT_TABLET, GAMMELROSA, SKUGGLILA, SOLGUL } from "../components/styled/Variables";
+import { format } from "date-fns";
 
 interface ApiScore {
   user_id: string;
@@ -31,7 +32,7 @@ interface UserScore {
 export const HighScoreTitle = styled.div`
   font-weight: bold;
   display: grid;
-  grid-template-columns: 1.8fr 1.3fr 1fr 2.2fr;
+  grid-template-columns: 1.8fr 1fr 0.8fr 2.0fr;
   margin-bottom: 5px;
   padding-left: 10px;
   padding-right: 10px;
@@ -40,13 +41,13 @@ export const HighScoreTitle = styled.div`
   margin-top: 5px;
 
   @media screen and (min-width: ${BREAKPOINT_TABLET}) {
-    grid-template-columns: 1.3fr 1fr 1fr 1.3fr;
+    grid-template-columns: 1.8fr 1fr 0.8fr 2.0fr;
   }
 `;
 
 export const HighScoreItem = styled.div<{ index: number; isFirst: boolean; isLast: boolean; isCurrentUser: boolean }>`
   display: grid;
-  grid-template-columns: 1.8fr 1.3fr 1fr 2.2fr;
+  grid-template-columns: 1.8fr 1fr 0.8fr 2.2fr;
   row-gap: 10px;
   padding: 10px 0;
   background-color: ${({ index }) => (index % 2 === 0 ? `${GAMMELROSA}` : `${SKUGGLILA}`)};
@@ -62,7 +63,7 @@ export const HighScoreItem = styled.div<{ index: number; isFirst: boolean; isLas
   border-bottom: ${({ isLast }) => (isLast ? `1px solid ${SKUGGLILA}` : "none")};
 
   @media screen and (min-width: ${BREAKPOINT_TABLET}) {
-    grid-template-columns: 1.3fr 1fr 1fr 1.3fr;
+    grid-template-columns: 1.8fr 1fr 0.8fr 2.2fr;
   }
 `;
 
@@ -167,7 +168,7 @@ export const Highscore = () => {
           {sortedScores.length > 0 ? (
             paddedScores.map((score, index) => {
               if (score) {
-                const formattedDate = new Date(score.game_date).toLocaleDateString();
+                const formattedDate = format(new Date(score.game_date), "dd MMMM yyyy");
                 return (
                   <HighScoreItem
                     key={`${score.user_id}-${index}`}

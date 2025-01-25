@@ -1,6 +1,6 @@
 import { useRef, useImperativeHandle, forwardRef, useEffect } from "react";
 import AchievementSound from '../assets/sounds/achievement-sparkle.wav';
-import GoldenRabbitSounde from '../assets/sounds/magic_sparkle.wav';
+import GoldenRabbitSound from '../assets/sounds/magic_sparkle.wav';
 
 interface SoundPlayerProps {
   src: string;
@@ -60,7 +60,7 @@ export const SoundPlayer = forwardRef<SoundPlayerHandle, SoundPlayerProps>(({ sr
     <>
       <audio ref={flipRef} src={src} />
       <audio ref={achievementRef} src={AchievementSound} />
-      <audio ref={goldenRabbitRef} src={GoldenRabbitSounde} />
+      <audio ref={goldenRabbitRef} src={GoldenRabbitSound} />
     </>
   );
 });

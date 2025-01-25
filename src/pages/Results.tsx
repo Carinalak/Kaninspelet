@@ -16,7 +16,7 @@ export const ScoreGrid = styled.div`
   border-radius: 10px;
   color: ${KOLSVART};
   width: 100%;
-  max-width: 300px;
+  max-width: 350px;
   padding: 20px;
   display: grid;
   grid-template-rows: auto;

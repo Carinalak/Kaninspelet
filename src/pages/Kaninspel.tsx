@@ -15,8 +15,9 @@ import { generateRandomAdditionQuestion } from "../data/questions";
 import { ModalMessage } from "../components/styled/Modal";
 import Back from '../assets/img/cards/back.png';
 import { ScoreManager } from "../components/ScoreManager";
-import { SoundPlayer } from "../components/SoundPlayer";
+import { SoundPlayer, SoundPlayerHandle } from "../components/SoundPlayer";
 import CardFlipSound from '../assets/sounds/card_flip.ogg';
+
 
 
 interface Card {
@@ -49,7 +50,7 @@ export const Kaninspel = () => {
   const [showModal, setShowModal] = useState(false);
   const [gameFinished, setGameFinished] = useState(false); 
   const [cardsLocked, setCardsLocked] = useState(false);
-  const soundPlayerRef = useRef<{ play: () => void } | null>(null);
+  const soundPlayerRef = useRef<SoundPlayerHandle | null>(null);
 
 
   useEffect(() => {
@@ -98,7 +99,14 @@ export const Kaninspel = () => {
   const flipCard = (id: number) => {
     if (flippedCards[id] || cardsLocked) return;
 
-    soundPlayerRef.current?.play();
+    soundPlayerRef.current?.play('flip');
+
+  const isCorrect = cardAnswers[id - 1] === answer;
+
+
+  if (isCorrect) {
+    soundPlayerRef.current?.play('achievement');
+  }
 
     setFlippedCards(prev => ({ ...prev, [id]: true }));
 
@@ -121,7 +129,7 @@ export const Kaninspel = () => {
           setFlippedCards(prev => {
             const revertedCards = { ...prev };
             delete revertedCards[id];
-            soundPlayerRef.current?.play();
+            soundPlayerRef.current?.play('flip');
             return revertedCards;
           });
 
@@ -143,6 +151,7 @@ export const Kaninspel = () => {
           setFlippedCards(prev => {
             const revertedCards = { ...prev };
             delete revertedCards[id];
+            soundPlayerRef.current?.play('flip');
             return revertedCards;
           });
         }, 0);
@@ -226,7 +235,8 @@ export const Kaninspel = () => {
   return (
 
     <WrapperTransparent>
-       <SoundPlayer ref={soundPlayerRef} src={CardFlipSound} />
+       <SoundPlayer ref={soundPlayerRef} src={CardFlipSound} volume={0.5} />
+
 
      <ModalMessage
         showModal={showModal}

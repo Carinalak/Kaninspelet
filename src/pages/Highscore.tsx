@@ -133,6 +133,12 @@ export const Highscore = () => {
     currentPage * resultsPerPage
   );
 
+  // Padding the results to fill up the page with empty rows
+  const paddedScores: (UserScore | null)[] = [...currentScores];
+  while (paddedScores.length < resultsPerPage) {
+    paddedScores.push(null);
+  }
+
   const handleLinkClick = () => {
     const topElement = document.getElementById("top");
     if (topElement) {
@@ -158,24 +164,40 @@ export const Highscore = () => {
             </>
           )}
 
-          {currentScores.length > 0 ? (
-            currentScores.map((score, index) => {
-              const formattedDate = new Date(score.game_date).toLocaleDateString();
-
-              return (
-                <HighScoreItem
-                  key={`${score.user_id}-${index}`}
-                  index={index}
-                  isFirst={index === 0}
-                  isLast={index === currentScores.length - 1}
-                  isCurrentUser={score.user_id === currentUserId}
-                >
-                  <div>{score.name}</div>
-                  <div>{score.total_score}</div>
-                  <div>{score.golden_rabbits}</div>
-                  <div>{formattedDate}</div>
-                </HighScoreItem>
-              );
+          {sortedScores.length > 0 ? (
+            paddedScores.map((score, index) => {
+              if (score) {
+                const formattedDate = new Date(score.game_date).toLocaleDateString();
+                return (
+                  <HighScoreItem
+                    key={`${score.user_id}-${index}`}
+                    index={index}
+                    isFirst={index === 0}
+                    isLast={index === paddedScores.length - 1}
+                    isCurrentUser={score.user_id === currentUserId}
+                  >
+                    <div>{score.name}</div>
+                    <div>{score.total_score}</div>
+                    <div>{score.golden_rabbits}</div>
+                    <div>{formattedDate}</div>
+                  </HighScoreItem>
+                );
+              } else {
+                return (
+                  <HighScoreItem
+                    key={`empty-${index}`}
+                    index={index}
+                    isFirst={index === 0}
+                    isLast={index === paddedScores.length - 1}
+                    isCurrentUser={false}
+                  >
+                    <div>&nbsp;</div>
+                    <div>&nbsp;</div>
+                    <div>&nbsp;</div>
+                    <div>&nbsp;</div>
+                  </HighScoreItem>
+                );
+              }
             })
           ) : (
             <TextStyleCentered>Inga resultat funna.</TextStyleCentered>

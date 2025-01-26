@@ -52,11 +52,14 @@ export const WrapperWhite = styled(WrapperTransparent) `
   
   @media screen and (min-width: ${BREAKPOINT_TABLET}) {
     width: 500px;
+    padding-bottom: 40px;
   }
     
   @media screen and (min-width: ${BREAKPOINT_DESKTOP}) {
     width: 600px;
-    height: 600px;
+    height: 500px;
+    padding: 15px;
+    
   }
 `;
 

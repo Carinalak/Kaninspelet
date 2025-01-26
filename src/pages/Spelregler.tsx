@@ -1,5 +1,5 @@
 import { styled } from "styled-components";
-import { BREAKPOINT_TABLET, GAMMELROSA, KOLSVART, KRITVIT, SKUGGLILA } from "../components/styled/Variables";
+import { BREAKPOINT_DESKTOP, BREAKPOINT_TABLET, GAMMELROSA, KOLSVART, KRITVIT, SKUGGLILA } from "../components/styled/Variables";
 import { TextStyle, WrapperWhite } from "../components/Wrappers";
 import { H2Title } from "../components/styled/Fonts";
 import { ResultBackButton } from "../components/styled/Buttons";
@@ -9,6 +9,15 @@ import RabbitBrown from '../assets/img/rabbits/rabbit_brown.png';
 
 export const RabbitImage = styled.img `
   width: 150px;
+
+  @media screen and (min-width: ${BREAKPOINT_TABLET}) {
+    width: 160px;
+  }
+  @media screen and (min-width: ${BREAKPOINT_DESKTOP}) {
+    width: 180px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
 `;
 
 export const ScoreGrid = styled.div`

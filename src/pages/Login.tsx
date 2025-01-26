@@ -92,9 +92,13 @@ export const Login = ({ onLogin }: LoginProps) => {
             onLogin();
           } else {
             setError("Fel användarnamn eller lösenord. Försök igen.");
+            setName("");
+            setPassword("");
           }
         } else {
           setError("Misslyckades med att skapa användare. Försök igen.");
+          setName("");
+          setPassword("");
         }
       } else {
         const response = await axios.post(`${API_URL}/auth/login`, {
@@ -109,11 +113,15 @@ export const Login = ({ onLogin }: LoginProps) => {
           onLogin();
         } else {
           setError("Fel användarnamn eller lösenord. Försök igen.");
+          setName("");
+          setPassword("");
         }
       }
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       setError("Ett oväntat fel inträffade. Försök igen.");
+      setName("");
+      setPassword("");
     }
   };
 

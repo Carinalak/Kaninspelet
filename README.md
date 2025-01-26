@@ -1,7 +1,20 @@
 # Examensarbete - Kaninspelet 🐰
 Detta är mitt examensarbete som jag gör 23 december 2024 - 31 januari 2025
 För att köra detta projekt lokalt: npm run dev 
-# Design gjord i Figma:
+
+
+
+# Skärmdump av hur sidan blev:
+
+### Mobil:
+![Mobil](/src/assets/img/screenshots/mobile.png)
+### Tablet:
+![Tablet](/src/assets/img/screenshots/tablet.png)
+### Tablet Grattistext:
+![Tablet](/src/assets/img/screenshots/tablet.png)
+
+
+# Planering av design gjord i Figma:
 
 ### Mobil:
 ![Mobil](/src/assets/img/screenshots/mobile_version.png)

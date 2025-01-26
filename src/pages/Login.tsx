@@ -47,10 +47,6 @@ export const LogoutMessage = styled.div `
 
 `;
 
-
-
-
-
 interface LoginProps {
   onLogin: () => void;
 }
@@ -78,11 +74,11 @@ export const Login = ({ onLogin }: LoginProps) => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
-
-    
-    if (!passwordValidationRegex.test(password)) {
-      
+  
+    // Validera lösenord endast vid registrering
+    if (isRegistering && !passwordValidationRegex.test(password)) {
       setPasswordError("Lösenordet måste vara minst 8 tecken, innehålla minst en stor bokstav, en liten bokstav, en siffra och ett specialtecken.");
+      setError("");
       return;
     } else {
       setPasswordError("");
@@ -90,6 +86,7 @@ export const Login = ({ onLogin }: LoginProps) => {
   
     try {
       if (isRegistering) {
+        // Försök registrera användaren
         const response = await axios.post(`${API_URL}/users/register`, {
           name,
           password,
@@ -109,7 +106,6 @@ export const Login = ({ onLogin }: LoginProps) => {
           }
         }
       } else {
-        // Logga in
         const response = await axios.post(`${API_URL}/auth/login`, {
           name,
           password,
@@ -124,7 +120,6 @@ export const Login = ({ onLogin }: LoginProps) => {
       }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
-  
       if (err.response) {
         if (err.response.data && err.response.data.error) {
           setError(err.response.data.error);
@@ -139,8 +134,6 @@ export const Login = ({ onLogin }: LoginProps) => {
       setPassword("");
     }
   };
-  
-  
   
 
   const handleLogout = () => {

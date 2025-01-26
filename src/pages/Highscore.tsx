@@ -6,7 +6,7 @@ import { H2Title } from "../components/styled/Fonts";
 import { ButtonArrowLeft, ButtonArrowRight, ResultBackButton } from "../components/styled/Buttons";
 import { Link } from "react-router-dom";
 import { PawSpinner } from "../components/PawSpinner";
-import RabbitYellow from "../assets/img/rabbits/rabbit_shadow_yellow3.png";
+import RabbitYellow from "../assets/img/rabbits/rabbit_shadow_yellow.png";
 import { ScoreGrid, ResultRabbit, PaginationControls, PaginationInner } from "./Results";
 import { KRITVIT, BREAKPOINT_TABLET, GAMMELROSA, SKUGGLILA, SOLGUL } from "../components/styled/Variables";
 import { format } from "date-fns";

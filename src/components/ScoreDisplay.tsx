@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { ScoreDisplayStyle, PlayQuestionBox, ScoreDisplayInnerBunnies } from "./styled/ScoreDisplayStyle";
 import RabbitBlack from "../assets/img/rabbits/rabbit_shadow_black.png";
-import RabbitYellow from "../assets/img/rabbits/rabbit_shadow_yellow3.png";
+import RabbitYellow from "../assets/img/rabbits/rabbit_shadow_yellow.png";
 import { GameButton, MenuButton } from "./styled/Buttons";
 import { Question, StyledLink, TextStyleInloggad } from "./Wrappers";
 import { Counter } from "./Counter";

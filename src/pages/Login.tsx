@@ -31,7 +31,7 @@ export const NameInput = styled.input`
   outline: none;
   width: 180px;
   height: 35px;
-  border-radius: 10px;
+  border-radius: 5px;
   border: 1px solid ${GAMMELROSA};
   text-align: center;
   padding: 0;
@@ -66,64 +66,65 @@ export const Login = ({ onLogin }: LoginProps) => {
     } else {
       setIsLoggedIn(false);
     }
-  }, []); // Körs en gång när komponenten mountas
+  }, []);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
-
+  
     try {
       if (isRegistering) {
         const response = await axios.post(`${API_URL}/users/register`, {
           name,
           password,
         });
-
+  
         if (response.status === 201) {
           const loginResponse = await axios.post(`${API_URL}/auth/login`, {
             name,
             password,
           });
-
+  
           if (loginResponse.status === 200) {
             const { user, token } = loginResponse.data;
             saveUserSession(user, token);
             setIsLoggedIn(true);
             onLogin();
-          } else {
-            setError("Fel användarnamn eller lösenord. Försök igen.");
-            setName("");
-            setPassword("");
           }
-        } else {
-          setError("Misslyckades med att skapa användare. Försök igen.");
-          setName("");
-          setPassword("");
         }
       } else {
+        // Logga in
         const response = await axios.post(`${API_URL}/auth/login`, {
           name,
           password,
         });
-
+  
         if (response.status === 200) {
           const { user, token } = response.data;
           saveUserSession(user, token);
           setIsLoggedIn(true);
           onLogin();
-        } else {
-          setError("Fel användarnamn eller lösenord. Försök igen.");
-          setName("");
-          setPassword("");
         }
       }
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (err) {
-      setError("Ett oväntat fel inträffade. Försök igen.");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+  
+      if (err.response) {
+        if (err.response.data && err.response.data.error) {
+          setError(err.response.data.error);
+        } else {
+          setError("Ett oväntat fel inträffade. Försök igen.");
+        }
+      } else {
+        setError("Ingen kontakt med servern. Försök igen senare.");
+      }
+  
       setName("");
       setPassword("");
     }
   };
+  
+  
 
   const handleLogout = () => {
     removeUserSession(); // Ta bort session-cookien vid utloggning

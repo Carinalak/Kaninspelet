@@ -2,7 +2,6 @@ import { Outlet } from "react-router-dom"
 import { Header } from "../components/Header"
 import { Footer } from "../components/Footer";
 import styled from "styled-components";
-import { BREAKPOINT_DESKTOP, BREAKPOINT_TABLET } from "../components/styled/Variables";
 import { CookieConsent } from "../components/CookieConsent";
 import { getUserSession } from "../services/CookieService";
 
@@ -12,15 +11,6 @@ const MainContainer = styled.main`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  padding: 1rem;
-/*
-  @media screen and (min-width: ${BREAKPOINT_TABLET}) {
-    padding: 2rem;
-  }
-  @media screen and (min-width: ${BREAKPOINT_DESKTOP}) {
-    padding: 3rem;
-  }*/
 `;
 
 const AppContainer = styled.div`

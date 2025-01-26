@@ -18,7 +18,7 @@ export const H1Title = styled.h1 `
       font-size: 2.6rem;
     }
     @media screen and (min-width: ${BREAKPOINT_BIGGER_DESKTOP}) {
-      font-size: 6rem;
+      font-size: 5rem;
     }
 `;
 
@@ -73,7 +73,7 @@ export const OrdinaryFont = styled.p `
       }
 
     @media screen and (min-width: ${BREAKPOINT_BIGGER_DESKTOP}) {
-      font-size: 3rem;
+      font-size: 2rem;
     }
 `;
 

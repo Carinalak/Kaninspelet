@@ -41,17 +41,22 @@ export const WrapperTransparent = styled.section`
 
 export const WrapperWhite = styled(WrapperTransparent) `
   background-color: ${KRITVIT};
-  width: 300px;
+  width: 85%;
   height: 400px;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-top: 20px;
-  padding-bottom: 30px;
+  padding-bottom: 60px;
   
   @media screen and (min-width: ${BREAKPOINT_TABLET}) {
-    width: 400px;
+    width: 500px;
+  }
+    
+  @media screen and (min-width: ${BREAKPOINT_DESKTOP}) {
+    width: 600px;
+    height: 600px;
   }
 `;
 

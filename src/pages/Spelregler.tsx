@@ -8,7 +8,7 @@ import RabbitBrown from '../assets/img/rabbits/rabbit_brown.png';
 
 
 export const RabbitImage = styled.img `
-  width: 100px;
+  width: 150px;
 `;
 
 export const ScoreGrid = styled.div`

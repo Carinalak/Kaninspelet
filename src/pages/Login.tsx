@@ -58,7 +58,7 @@ export const Login = ({ onLogin }: LoginProps) => {
   const [isRegistering, setIsRegistering] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const passwordValidationRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
-  const [passwordError, setPasswordError] = useState("");
+  const [passwordError] = useState("");
 
 
   // Kontrollera om användaren är inloggad via session-cookien vid sidladdning
@@ -75,18 +75,15 @@ export const Login = ({ onLogin }: LoginProps) => {
     event.preventDefault();
     const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
   
-    // Validera lösenord endast vid registrering
     if (isRegistering && !passwordValidationRegex.test(password)) {
-      setPasswordError("Lösenordet måste vara minst 8 tecken, innehålla minst en stor bokstav, en liten bokstav, en siffra och ett specialtecken.");
-      setError("");
+      window.alert(
+        "Lösenordet måste vara minst 8 tecken, innehålla minst en stor och en liten bokstav, en siffra och ett specialtecken."
+      );
       return;
-    } else {
-      setPasswordError("");
     }
   
     try {
       if (isRegistering) {
-        // Försök registrera användaren
         const response = await axios.post(`${API_URL}/users/register`, {
           name,
           password,
@@ -122,18 +119,18 @@ export const Login = ({ onLogin }: LoginProps) => {
     } catch (err: any) {
       if (err.response) {
         if (err.response.data && err.response.data.error) {
-          setError(err.response.data.error);
+          window.alert(err.response.data.error);
         } else {
-          setError("Ett oväntat fel inträffade. Försök igen.");
+          window.alert("Ett oväntat fel inträffade. Försök igen.");
         }
       } else {
-        setError("Ingen kontakt med servern. Försök igen senare.");
+        window.alert("Ingen kontakt med servern. Försök igen senare.");
       }
-  
       setName("");
       setPassword("");
     }
   };
+  
   
   const handleLogout = () => {
     removeUserSession();

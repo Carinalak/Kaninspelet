@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
 import { SMUTSROSA, KRITVIT, POOLBLA, GAMMELROSA } from "./styled/Variables";
-import HappyCookie from "../assets/img/happyCookie.png";
+import HappyCookie from "../assets/img/happyCookie2.png";
 
 const CookieConsentWrapper = styled.div`
   position: fixed;

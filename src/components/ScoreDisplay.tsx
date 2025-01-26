@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { ScoreDisplayStyle, PlayQuestionBox, ScoreDisplayInnerBunnies } from "./styled/ScoreDisplayStyle";
 import RabbitBlack from "../assets/img/rabbits/rabbit_shadow_black.png";
-import RabbitYellow from "../assets/img/rabbits/rabbit_shadow_yellow.png";
+import RabbitYellow from "../assets/img/rabbits/rabbit_shadow_yellow3.png";
 import { GameButton, MenuButton } from "./styled/Buttons";
 import { Question, StyledLink, TextStyleInloggad } from "./Wrappers";
 import { Counter } from "./Counter";
@@ -121,7 +121,7 @@ export const ScoreDisplay = ({
                 <MenuButton>Mina resultat</MenuButton>
               </StyledLink>
               <StyledLink to="/highscore" onClick={handleLinkClick}>
-                <MenuButton>Highscore</MenuButton>
+                <MenuButton>Toppresultat</MenuButton>
               </StyledLink>
               <MenuButton
                 onClick={() => {

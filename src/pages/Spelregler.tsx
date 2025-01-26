@@ -19,7 +19,7 @@ export const RabbitImage = styled.img `
     padding-bottom: 20px;
   }
   @media screen and (min-width: ${BREAKPOINT_BIGGER_DESKTOP}) {
-    padding-bottom: 10px;
+    padding-bottom: 5px;
   }
 `;
 

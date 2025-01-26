@@ -47,6 +47,10 @@ export const LogoutMessage = styled.div `
 
 `;
 
+
+
+
+
 interface LoginProps {
   onLogin: () => void;
 }
@@ -57,6 +61,9 @@ export const Login = ({ onLogin }: LoginProps) => {
   const [error, setError] = useState("");
   const [isRegistering, setIsRegistering] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const passwordValidationRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+  const [passwordError, setPasswordError] = useState("");
+
 
   // Kontrollera om användaren är inloggad via session-cookien vid sidladdning
   useEffect(() => {
@@ -71,6 +78,15 @@ export const Login = ({ onLogin }: LoginProps) => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
+
+    
+    if (!passwordValidationRegex.test(password)) {
+      
+      setPasswordError("Lösenordet måste vara minst 8 tecken, innehålla minst en stor bokstav, en liten bokstav, en siffra och ett specialtecken.");
+      return;
+    } else {
+      setPasswordError("");
+    }
   
     try {
       if (isRegistering) {
@@ -125,6 +141,7 @@ export const Login = ({ onLogin }: LoginProps) => {
   };
   
   
+  
 
   const handleLogout = () => {
     removeUserSession(); // Ta bort session-cookien vid utloggning
@@ -168,6 +185,7 @@ export const Login = ({ onLogin }: LoginProps) => {
           placeholder="Lösenord"
         />
         <FormButton type="submit">{isRegistering ? "Registrera" : "Logga in"}</FormButton>
+        {passwordError && <ErrorText>{passwordError}</ErrorText>}
         <div>
           {error && <ErrorText>{error}</ErrorText>}
 

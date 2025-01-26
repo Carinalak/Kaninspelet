@@ -130,6 +130,7 @@ text-align: center;
 
 export const ErrorText = styled(TextStyle) `
     color: ${HJARTROD};
+    font-size: 0.8rem;
 `;
 
 export const TextStyleInloggad = styled(TextStyle) `

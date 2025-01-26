@@ -32,5 +32,7 @@ För att köra detta projekt lokalt: npm run dev
 - npm install -D @types/react-router-dom
 - npm install js-cookie
 - npm install date-fns
+- npm install react-hook-form
+
 
 

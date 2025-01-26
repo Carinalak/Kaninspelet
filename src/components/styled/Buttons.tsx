@@ -29,8 +29,6 @@ export const FormButton = styled.button`
 }
 
 @media screen and (min-width: ${BREAKPOINT_BIGGER_DESKTOP}) {
-  width: 190px;
-  height: 60px;
 }
 `;
 
@@ -122,9 +120,9 @@ export const ButtonArrowLeft = styled(FormButton)`
   }
 
   @media screen and (min-width: ${BREAKPOINT_BIGGER_DESKTOP}){
-    width: 80px;
-    height: 80px;
-    background-size: 62px 62px;
+   // width: 80px;
+  //  height: 80px;
+   // background-size: 62px 62px;
   }
 `;
 
@@ -148,8 +146,8 @@ export const ButtonArrowRight = styled(FormButton)`
     transform: none;
   }
   @media screen and (min-width: ${BREAKPOINT_BIGGER_DESKTOP}){
-    width: 80px;
-    height: 80px;
-    background-size: 62px 62px;
+   // width: 80px;
+  //  height: 80px;
+  //  background-size: 62px 62px;
   }
 `;

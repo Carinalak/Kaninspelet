@@ -135,10 +135,9 @@ export const Login = ({ onLogin }: LoginProps) => {
     }
   };
   
-
   const handleLogout = () => {
-    removeUserSession(); // Ta bort session-cookien vid utloggning
-    setIsLoggedIn(false); // Uppdatera tillståndet till utloggad
+    removeUserSession();
+    setIsLoggedIn(false);
   };
 
   const handleStay = () => {

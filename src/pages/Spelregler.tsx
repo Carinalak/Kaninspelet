@@ -1,5 +1,5 @@
 import { styled } from "styled-components";
-import { BREAKPOINT_DESKTOP, BREAKPOINT_TABLET, GAMMELROSA, KOLSVART, KRITVIT, SKUGGLILA } from "../components/styled/Variables";
+import { BREAKPOINT_BIGGER_DESKTOP, BREAKPOINT_DESKTOP, BREAKPOINT_TABLET, GAMMELROSA, KOLSVART, KRITVIT, SKUGGLILA } from "../components/styled/Variables";
 import { TextStyle, WrapperWhite } from "../components/Wrappers";
 import { H2Title } from "../components/styled/Fonts";
 import { ResultBackButton } from "../components/styled/Buttons";
@@ -17,6 +17,9 @@ export const RabbitImage = styled.img `
     width: 180px;
     padding-top: 20px;
     padding-bottom: 20px;
+  }
+  @media screen and (min-width: ${BREAKPOINT_BIGGER_DESKTOP}) {
+    padding-bottom: 10px;
   }
 `;
 

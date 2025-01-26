@@ -14,7 +14,7 @@ export const CardLayoutStyle = styled.div`
   
 
   @media screen and (min-width: ${BREAKPOINT_TABLET}) {
-    /* Media queries för olika skärmstorlekar kan justeras här */
+ 
   }
 
   @media screen and (min-width: ${BREAKPOINT_DESKTOP}) {
@@ -50,8 +50,8 @@ justify-content: center;
   }
 
   @media screen and (min-width: ${BREAKPOINT_BIGGER_DESKTOP}) {
-    width: 190px;
-    height: 190px;
+    width: 150px;
+    height: 150px;
   }
 
   .card-inner {

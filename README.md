@@ -7,21 +7,27 @@ För att köra detta projekt lokalt: npm run dev
 # Skärmdump av hur sidan blev:
 
 ### Mobil:
-![Mobil](/src/assets/img/screenshots/mobile.png)
-### Tablet:
-![Tablet](/src/assets/img/screenshots/tablet.png)
-### Tablet Grattistext:
-![Tablet](/src/assets/img/screenshots/tablet.png)
+![Mobil](/src/assets/img/screenshots/Finished/mobile1.jpg){width=200px}
+### Mobil:
+![Mobil](/src/assets/img/screenshots/Finished/mobile2.jpg)
+### Mobil:
+![](/src/assets/img/screenshots/Finished/mobile3.jpg)
+### Mobil:
+![](/src/assets/img/screenshots/Finished/mobile4.jpg)
+### Mobil:
+![](/src/assets/img/screenshots/Finished/mobile5.jpg){width=200px}
 
 
 # Planering av design gjord i Figma:
 
 ### Mobil:
-![Mobil](/src/assets/img/screenshots/mobile_version.png)
+![Mobil](/src/assets/img/screenshots/Figma/mobile_version.png)
 ### Tablet:
-![Tablet](/src/assets/img/screenshots/tablet_version2.png)
+![Tablet](/src/assets/img/screenshots/Figma/tablet_version2.png)
 ### Tablet Grattistext:
-![Tablet](/src/assets/img/screenshots/tablet_grattis.png)
+![Tablet](/src/assets/img/screenshots/Figma/tablet_grattis.png)
+### Färg och font plan:
+![Tablet](/src/assets/img/screenshots/Figma/ColorPlan.png)
 
 
 ### Installationer:

@@ -28,7 +28,6 @@ export const Modal = styled.div `
   @media screen and ( min-width: ${BREAKPOINT_TABLET}) {
     width: 400px;
     width: 400px;
-  
     font-weight: bold;
   }
 `;
@@ -36,8 +35,8 @@ export const Modal = styled.div `
 export const ModalBoxInner = styled(Modal) `
   background-color: ${KRITVIT};
   color: ${SKUGGLILA};
-  width: 200px;
-  height: 200px;
+  width: 230px;
+  height: 230px;
   border: 1px solid ${KOLSVART};
 
   @media screen and ( min-width: ${BREAKPOINT_TABLET}) {

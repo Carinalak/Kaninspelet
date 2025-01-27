@@ -58,6 +58,7 @@ export const Login = ({ onLogin }: LoginProps) => {
   const [isRegistering, setIsRegistering] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const passwordValidationRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+  
   const [passwordError] = useState("");
 
 
@@ -76,6 +77,7 @@ export const Login = ({ onLogin }: LoginProps) => {
     const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
   
     if (isRegistering && !passwordValidationRegex.test(password)) {
+      
       window.alert(
         "Lösenordet måste vara minst 8 tecken, innehålla minst en stor och en liten bokstav, en siffra och ett specialtecken."
       );

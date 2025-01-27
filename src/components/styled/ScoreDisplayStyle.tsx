@@ -7,14 +7,14 @@ export const ScoreDisplayStyle = styled.div`
   align-items: flex-start;
   justify-content: flex-start;
   width: 250px;
-  height: 300px;
+  height: 320px;
   background-color: ${GAMMELROSA};
   color: ${KOLSVART};
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   z-index: 1000;
-  font-size: 1.3rem;
+  font-size: 1.1rem;
   font-weight: bold;
   border: 1px solid black;
   text-align: left;
@@ -86,4 +86,5 @@ export const PlayQuestionBox = styled.div`
   align-items: center;
   padding: 5px;
   border-radius: 10px;
+
 `;

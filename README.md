@@ -1,10 +1,19 @@
 # Examensarbete - Kaninspelet 🐰
-Detta är mitt examensarbete som jag gör 23 december 2024 - 31 januari 2025
-För att köra detta projekt lokalt: npm run dev 
+Detta är ett examensarbete jag gör 23 december 2024 - 31 januari 2025
+
+sidan är live på: https://kaninspelet.onrender.com/
 
 
+### Jag använde:
+- React
+- Vite
+- Typescript
+- Styled Components
 
-# Skärmdump av hur sidan blev:
+### För att köra detta projekt lokalt: 
+npm run dev 
+
+### Skärmdump av hur sidan blev
 
 
 ### Desktop:
@@ -24,7 +33,8 @@ För att köra detta projekt lokalt: npm run dev
 ![](/src/assets/img/screenshots/Finished/mobile5.jpg) ![](/src/assets/img/screenshots/Finished/mobile6.jpg)
 
 
-# Planering av design gjord i Figma:
+# Planering av design gjord i Figma
+så här tänkte jag att den skulle se ut innan jag satte igång:
 
 ### Mobil:
 ![Mobil](/src/assets/img/screenshots/Figma/mobile_version.png)
@@ -32,7 +42,7 @@ För att köra detta projekt lokalt: npm run dev
 ![Tablet](/src/assets/img/screenshots/Figma/tablet_version2.png)
 ### Tablet Grattistext:
 ![Tablet](/src/assets/img/screenshots/Figma/tablet_grattis.png)
-### Färg och font plan:
+### Färg och Teckensnittplan:
 ![Tablet](/src/assets/img/screenshots/Figma/ColorPlan.png)
 
 
@@ -48,14 +58,14 @@ För att köra detta projekt lokalt: npm run dev
 
 ## Credits
 
-### Ljud/Sounds:
+### Ljud/Sounds: 🔊
 
 Tre ljud från Freesound.com:
 - Flip.ogg by egomassive -- https://freesound.org/s/536782/ -- License: Attribution 3.0
 - achievement-sparkle by pigeonfriend -- https://freesound.org/s/715067/ -- License: Creative Commons 0
 - cartoon_wink_magic_sparkle.wav by MLaudio -- https://freesound.org/s/511485/ -- License: Creative Commons 0
 
-### Bilder/Images:
+### Bilder/Images: 🐰 🍪
 
 - Tack till Tuva Sundgren som har gjort bilderna på Kaninerna och morötterna.
 - Tack till fina Cookiebilden: Från @studiogstock på Freepik.

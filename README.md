@@ -6,16 +6,22 @@ För att köra detta projekt lokalt: npm run dev
 
 # Skärmdump av hur sidan blev:
 
+
+### Desktop:
+![Desktop](/src/assets/img/screenshots/Finished/desktop1.png) 
+![Desktop](/src/assets/img/screenshots/Finished/desktop2.png) 
+![Desktop](/src/assets/img/screenshots/Finished/desktop3.png) 
+![Desktop](/src/assets/img/screenshots/Finished/desktop4.png) 
+![Desktop](/src/assets/img/screenshots/Finished/desktop5.png) 
+![Desktop](/src/assets/img/screenshots/Finished/desktop6.png) 
+![Desktop](/src/assets/img/screenshots/Finished/desktop7.png) 
+
 ### Mobil:
-![Mobil](/src/assets/img/screenshots/Finished/mobile1.jpg){width=200px}
-### Mobil:
-![Mobil](/src/assets/img/screenshots/Finished/mobile2.jpg)
-### Mobil:
-![](/src/assets/img/screenshots/Finished/mobile3.jpg)
-### Mobil:
-![](/src/assets/img/screenshots/Finished/mobile4.jpg)
-### Mobil:
-![](/src/assets/img/screenshots/Finished/mobile5.jpg){width=200px}
+![Mobil](/src/assets/img/screenshots/Finished/mobile1.jpg) ![Mobil](/src/assets/img/screenshots/Finished/mobile2.jpg)
+
+![](/src/assets/img/screenshots/Finished/mobile3.jpg) ![](/src/assets/img/screenshots/Finished/mobile4.jpg)
+
+![](/src/assets/img/screenshots/Finished/mobile5.jpg) ![](/src/assets/img/screenshots/Finished/mobile6.jpg)
 
 
 # Planering av design gjord i Figma:
@@ -39,5 +45,20 @@ För att köra detta projekt lokalt: npm run dev
 - npm install js-cookie
 - npm install date-fns
 - npm install react-hook-form
+
+## Credits
+
+### Ljud/Sounds:
+
+Tre ljud från Freesound.com:
+- Flip.ogg by egomassive -- https://freesound.org/s/536782/ -- License: Attribution 3.0
+- achievement-sparkle by pigeonfriend -- https://freesound.org/s/715067/ -- License: Creative Commons 0
+- cartoon_wink_magic_sparkle.wav by MLaudio -- https://freesound.org/s/511485/ -- License: Creative Commons 0
+
+### Bilder/Images:
+
+- Tack till Tuva Sundgren som har gjort bilderna på Kaninerna och morötterna.
+- Tack till fina Cookiebilden: Från @studiogstock på Freepik.
+ 
 
 

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { getUserSession } from "../services/CookieService";
 import { styled } from "styled-components";
-import { BREAKPOINT_TABLET, GAMMELROSA, KOLSVART, KRITVIT, SKUGGLILA } from "../components/styled/Variables";
+import { BREAKPOINT_BIGGER_DESKTOP, BREAKPOINT_TABLET, GAMMELROSA, KOLSVART, KRITVIT, SKUGGLILA } from "../components/styled/Variables";
 import { ResultWrapper, TextStyleCentered } from "../components/Wrappers";
 import { H2Title } from "../components/styled/Fonts";
 import { ButtonArrowLeft, ButtonArrowRight, ResultBackButton } from "../components/styled/Buttons";
@@ -23,7 +23,10 @@ export const ScoreGrid = styled.div`
   border: 1px solid black;
 
   @media screen and (min-width: ${BREAKPOINT_TABLET}) {
-    max-width: 400px;
+    max-width: 500px;
+  }
+  @media screen and (min-width: ${BREAKPOINT_BIGGER_DESKTOP}) {
+    margin-top: 50px;
   }
 `;
 

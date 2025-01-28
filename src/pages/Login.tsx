@@ -57,7 +57,7 @@ export const Login = ({ onLogin }: LoginProps) => {
   const [error, setError] = useState("");
   const [isRegistering, setIsRegistering] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const passwordValidationRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+  const passwordValidationRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/;
   
   const [passwordError] = useState("");
 
@@ -79,7 +79,7 @@ export const Login = ({ onLogin }: LoginProps) => {
     if (isRegistering && !passwordValidationRegex.test(password)) {
       
       window.alert(
-        "Lösenordet måste vara minst 8 tecken, innehålla minst en stor och en liten bokstav, en siffra och ett specialtecken."
+        "Lösenordet måste vara minst 8 tecken, innehålla minst en stor och en liten bokstav samt en siffra."
       );
       return;
     }

@@ -98,8 +98,7 @@ export const Spelregler = () => {
     <WrapperWhite>
       <H2Title>Spelregler</H2Title>
         <TextStyle>
-          Lös mattetalet och välj kortet med rätt svar för att hitta en
-          kanin! En kanin ger 1 poäng. För 5 kaniner får du en guldkanin,
+          Lös mattetalet genom att välja kortet med rätt siffra, som ger 1 poäng och döljer en kanin. För 5 kaniner får du en guldkanin,
           som ger 2 poäng extra. Du har 2 minuter på dig.
         </TextStyle>
 

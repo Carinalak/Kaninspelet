@@ -71,11 +71,11 @@ export const ModalMessage = ({
   return (
     <Modal>
   <ModalBoxInner>
-  <TextStyle>
-      {totalScore} poäng
+  <TextStyle>Tiden är slut,</TextStyle>
+  <TextStyle>du fick {totalScore} poäng!
     </TextStyle>
     <TextStyle>
-      Tiden är slut! Du hittade {totalRabbits} kaniner och fick {goldenRabbits} guldkaniner.
+       Du hittade {totalRabbits} kaniner och fick {goldenRabbits} guldkaniner.
     </TextStyle>
     <TextStyle>Vill du spela igen?</TextStyle>
     <ButtonWrapper>

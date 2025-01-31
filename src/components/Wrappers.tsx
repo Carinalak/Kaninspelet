@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { BREAKPOINT_TABLET, BREAKPOINT_DESKTOP, BREAKPOINT_BIGGER_DESKTOP, KRITVIT, KOLSVART, HJARTROD, SKUGGLILA, SOLGUL } from "./styled/Variables";
+import { BREAKPOINT_TABLET, BREAKPOINT_DESKTOP, BREAKPOINT_BIGGER_DESKTOP, KRITVIT, KOLSVART, HJARTROD, SKUGGLILA, SOLGUL, POOLBLA } from "./styled/Variables";
 import { Link } from "react-router-dom";
 
 
@@ -38,6 +38,28 @@ export const WrapperTransparent = styled.section`
       font-size: 60px;
   }
 `;
+
+
+export const WrapperTransparent2 = styled.section`
+  width: 95%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: transparent;
+  padding-top: 10px;
+  //padding-bottom: 10px;
+  //border-radius: 10px;
+  margin-top: 20px;
+  margin-bottom: 0;
+  font-family: "Playpen Sans", serif;
+  margin: 0 auto;
+  gap: 20px;
+  margin-bottom: 100px;
+  //border: 1px solid black;
+
+`;
+
+
 
 export const WrapperWhite = styled(WrapperTransparent) `
   background-color: ${KRITVIT};
@@ -156,4 +178,16 @@ export const StyledLink = styled(Link)`
   margin: 0;
   padding: 0; 
   display: flex;
+`;
+
+export const StyledLinkWhite = styled(Link)`
+  text-decoration: none;
+  margin: 0;
+  padding: 0; 
+  display: flex;
+  color: ${KRITVIT};
+    &:hover {
+      color: ${POOLBLA};
+      text-decoration: none;
+    }
 `;

@@ -52,9 +52,6 @@ export const H4White = styled.h4 `
         font-size: 1.4rem;
       }
 
-    @media screen and (min-width: ${BREAKPOINT_BIGGER_DESKTOP}) {
-      font-size: 3rem;
-    }
 `;
 
 export const OrdinaryFont = styled.p `

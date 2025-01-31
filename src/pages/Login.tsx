@@ -137,6 +137,8 @@ export const Login = ({ onLogin }: LoginProps) => {
   const handleLogout = () => {
     removeUserSession();
     setIsLoggedIn(false);
+    setName(""); 
+    setPassword("");
   };
 
   const handleStay = () => {
@@ -174,6 +176,7 @@ export const Login = ({ onLogin }: LoginProps) => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Lösenord"
+          autoComplete="new-password"
         />
         <FormButton type="submit">{isRegistering ? "Registrera" : "Logga in"}</FormButton>
         {passwordError && <ErrorText>{passwordError}</ErrorText>}

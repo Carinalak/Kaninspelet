@@ -85,7 +85,7 @@ export const ScoreDisplay = ({
 
           {gameStarted ? (
             <>
-            
+          
               <Question>{question} =</Question>
 
               <ScoreDisplayInnerBunnies>

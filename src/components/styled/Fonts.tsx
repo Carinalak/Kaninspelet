@@ -90,7 +90,6 @@ export const LinkPurple = styled.a`
   }
 `;
 
-
 export const H1Title404 = styled(H1Title) `
     padding-bottom: 0;
     line-height: 0;

@@ -3,12 +3,10 @@ import NotFoundImage from '../assets/img/NotFound.png';
 import { styled } from "styled-components";
 import { StyledLinkWhite, WrapperTransparent2 } from "../components/Wrappers";
 
-
-
 export const NotFoundImg = styled.img `
 width: 300px;
-
 `;
+
 export const NotFound = () => {
   return (
       <>
@@ -19,6 +17,5 @@ export const NotFound = () => {
           <StyledLinkWhite to={"/"} >Gå tillbaka till sidan. </StyledLinkWhite>
       </WrapperTransparent2>
       </>
-
   )
 }

@@ -83,8 +83,6 @@ export const ResultRabbit = styled.img`
 `;
 
 
-
-
 export const Spelregler = () => {
 
   const handleLinkClick = () => {

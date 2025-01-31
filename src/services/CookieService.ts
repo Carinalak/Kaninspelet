@@ -27,7 +27,6 @@ export const saveUserSession = (user: User, token: string) => {
   console.log("Session saved:", sessionData);
 };
 
-
 // Hämta användarsession från en cookie
 export const getUserSession = () => {
   const session = Cookies.get("session");

@@ -2,6 +2,7 @@
 Detta är ett examensarbete jag gör 23 december 2024 - 31 januari 2025
 
 sidan är live på: https://kaninspelet.onrender.com/
+Backenden till denna app: https://github.com/Carinalak/Kaninspelet_Backend.git
 
 
 ### Jag använde:
@@ -43,7 +44,7 @@ så här tänkte jag att den skulle se ut innan jag satte igång:
 ### Tablet Grattistext:
 ![Tablet](/src/assets/img/screenshots/Figma/tablet_grattis.png)
 ### Färg och Teckensnittplan:
-![Tablet](/src/assets/img/screenshots/Figma/ColorPlan.png)
+![Tablet](/src/assets/img/screenshots/Figma/ColorPlan.jpg)
 
 
 ### Installationer:
@@ -68,7 +69,7 @@ Tre ljud från Freesound.com:
 ### Bilder/Images: 🐰 🍪
 
 - Tack till Tuva Sundgren som har gjort bilderna på Kaninerna och morötterna.
-- Tack till fina Cookiebilden: Från @studiogstock på Freepik.
+- Tack till Cookiebilden: Från @studiogstock på Freepik.
  
 
 

@@ -1,7 +1,7 @@
 # Examensarbete - Kaninspelet 🐰
 Detta är ett examensarbete jag gör 23 december 2024 - 31 januari 2025
 
-sidan är live på: https://kaninspelet.onrender.com/
+sidan är live på: https://kaninspelet.onrender.com/     
 Backenden till denna app: https://github.com/Carinalak/Kaninspelet_Backend.git
 
 
@@ -43,7 +43,7 @@ så här tänkte jag att den skulle se ut innan jag satte igång:
 ![Tablet](/src/assets/img/screenshots/Figma/tablet_version2.png)
 ### Tablet Grattistext:
 ![Tablet](/src/assets/img/screenshots/Figma/tablet_grattis.png)
-### Färg och Teckensnittplan:
+### Färg och Typsnittsplan:
 ![Tablet](/src/assets/img/screenshots/Figma/ColorPlan.jpg)
 
 

@@ -23,23 +23,6 @@ const AppContainer = styled.div`
   overflow-x: hidden;
 `;
 
-
-const ResponsiveWrapper = styled.div`
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-
-  @media screen and (max-width: 768px) {
-    padding: 0 10px;
-  }
-
-  @media screen and (max-width: 480px) {
-    padding: 0 5px;
-  }
-`;
-
-
-
 export const Layout = () => {
   const userSession = getUserSession();
 
@@ -56,14 +39,12 @@ export const Layout = () => {
   return (
     <AppContainer>
       <Header />
-      <ResponsiveWrapper>
       <MainContainer>
         {!userSession && ( 
           <CookieConsent onAccept={handleConsentAccept} onDeny={handleConsentDeny} />
         )}
         <Outlet />
       </MainContainer>
-      </ResponsiveWrapper>
       <Footer />
   </AppContainer>
   );

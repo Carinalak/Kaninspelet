@@ -12,7 +12,7 @@ import RabbitGreen from '../assets/img/cards/rabbit_green.png';
 import RabbitHearts from '../assets/img/cards/rabbit_hearts.png';
 import { CardImage, CardLayoutStyle, CardStyle } from "../components/styled/CardLayoutStyle";
 import { generateRandomAdditionQuestion } from "../data/questions";
-import { ModalMessage } from "../components/styled/Modal";
+import { ModalMessage } from "../components/modals/Modal";
 import Back from '../assets/img/cards/back.png';
 import { ScoreManager } from "../components/ScoreManager";
 import { SoundPlayer, SoundPlayerHandle } from "../components/SoundPlayer";

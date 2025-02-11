@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import { BREAKPOINT_TABLET, SKUGGLILA, KOLSVART, KRITVIT, GAMMELROSA } from "./Variables";
+import { BREAKPOINT_TABLET, SKUGGLILA, KOLSVART, KRITVIT, GAMMELROSA } from "../styled/Variables";
 import { TextStyle } from "../Wrappers";
-import { ButtonWrapper, GameButton } from "./Buttons";
+import { ButtonWrapper, GameButton } from "../styled/Buttons";
 
 export const Modal = styled.div `
   position: fixed;

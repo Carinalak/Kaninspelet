@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { styled } from "styled-components";
-import { ErrorText, GameLoginWrapper, TextStyle } from "../components/Wrappers";
+import { GameLoginWrapper, TextStyle } from "../components/Wrappers";
 import { SKUGGLILA, BREAKPOINT_BIGGER_DESKTOP, BREAKPOINT_TABLET, GAMMELROSA } from "../components/styled/Variables";
 import { FormButton } from "../components/styled/Buttons";
 import axios from "axios";
 import { getUserSession, removeUserSession, saveUserSession } from "../services/CookieService";
-
+import { ModalMessage } from "../components/modals/PasswordModal";
 
 export const GameForm = styled.form`
   display: flex;
@@ -57,7 +57,8 @@ export const Login = ({ onLogin }: LoginProps) => {
   const [isRegistering, setIsRegistering] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const passwordValidationRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d!@#$%^&*()_+{}[\]:;<>,.?~\\/-]{8,}$/;
-  const [passwordError, setPasswordError] = useState("");
+  const [, setPasswordError] = useState("");
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     const session = getUserSession();
@@ -73,7 +74,10 @@ export const Login = ({ onLogin }: LoginProps) => {
     const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
   
     if (isRegistering && !passwordValidationRegex.test(password)) {
-      setPasswordError("Lösenordet måste vara minst 8 tecken, innehålla minst en stor och en liten bokstav, en siffra och ett specialtecken.");
+      const errorMessage = "Lösenordet måste vara minst 8 tecken, innehålla minst en stor och en liten bokstav, en siffra och ett specialtecken.";
+      setPasswordError(errorMessage);
+      setError(errorMessage);
+      setShowModal(true);
       return;
     } else {
       setPasswordError("");
@@ -100,13 +104,12 @@ export const Login = ({ onLogin }: LoginProps) => {
       } else {
         setError("Ett oväntat fel inträffade. Försök igen.");
       }
+      setShowModal(true);
       setName("");
       setPassword("");
     }
   };
-  
-  
-  
+
   const handleLogout = () => {
     removeUserSession();
     setIsLoggedIn(false);
@@ -116,8 +119,14 @@ export const Login = ({ onLogin }: LoginProps) => {
 
   const handleStay = () => {
     onLogin();
-
   };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
+  console.log("Show Modal:", showModal);
+  console.log("Error Message:", error);
 
   if (isLoggedIn) {
     const session = getUserSession();
@@ -125,11 +134,11 @@ export const Login = ({ onLogin }: LoginProps) => {
 
     return (
       <GameLoginWrapper>
-      <LogoutMessage>
-        <TextStyle>Är du säker att du vill logga ut, {user?.name}?</TextStyle>
-        <FormButton onClick={handleLogout}>Ja</FormButton>
-        <FormButton onClick={handleStay}>Nej</FormButton>
-      </LogoutMessage>
+        <LogoutMessage>
+          <TextStyle>Är du säker att du vill logga ut, {user?.name}?</TextStyle>
+          <FormButton onClick={handleLogout}>Ja</FormButton>
+          <FormButton onClick={handleStay}>Nej</FormButton>
+        </LogoutMessage>
       </GameLoginWrapper>
     );
   }
@@ -152,10 +161,7 @@ export const Login = ({ onLogin }: LoginProps) => {
           autoComplete="new-password"
         />
         <FormButton type="submit">{isRegistering ? "Registrera" : "Logga in"}</FormButton>
-        {passwordError && <ErrorText>{passwordError}</ErrorText>}
         <div>
-          {error && <ErrorText>{error}</ErrorText>}
-
           {isRegistering ? (
             <TextStyle>
               Har du redan ett konto?{" "}
@@ -185,6 +191,12 @@ export const Login = ({ onLogin }: LoginProps) => {
           )}
         </div>
       </GameForm>
+
+      <ModalMessage 
+        showModal={showModal} 
+        onClose={closeModal} 
+        error={error}
+      />
     </GameLoginWrapper>
   );
 };

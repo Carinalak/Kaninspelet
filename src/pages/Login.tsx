@@ -44,7 +44,6 @@ export const LogoutMessage = styled.div `
   justify-content: center;
   gap: 20px;
   padding-top: 50px;
-
 `;
 
 interface LoginProps {
@@ -57,12 +56,9 @@ export const Login = ({ onLogin }: LoginProps) => {
   const [error, setError] = useState("");
   const [isRegistering, setIsRegistering] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const passwordValidationRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/;
-  
-  const [passwordError] = useState("");
+  const passwordValidationRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d!@#$%^&*()_+{}[\]:;<>,.?~\\/-]{8,}$/;
+  const [passwordError, setPasswordError] = useState("");
 
-
-  // Kontrollera om användaren är inloggad via session-cookien vid sidladdning
   useEffect(() => {
     const session = getUserSession();
     if (session) {
@@ -77,41 +73,21 @@ export const Login = ({ onLogin }: LoginProps) => {
     const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
   
     if (isRegistering && !passwordValidationRegex.test(password)) {
-      
-      window.alert(
-        "Lösenordet måste vara minst 8 tecken, innehålla minst en stor och en liten bokstav samt en siffra."
-      );
+      setPasswordError("Lösenordet måste vara minst 8 tecken, innehålla minst en stor och en liten bokstav, en siffra och ett specialtecken.");
       return;
+    } else {
+      setPasswordError("");
     }
   
     try {
-      if (isRegistering) {
-        const response = await axios.post(`${API_URL}/users/register`, {
-          name,
-          password,
-        });
+      const endpoint = isRegistering ? "/users/register" : "/auth/login";
+      const response = await axios.post(`${API_URL}${endpoint}`, { name, password });
   
-        if (response.status === 201) {
-          const loginResponse = await axios.post(`${API_URL}/auth/login`, {
-            name,
-            password,
-          });
+      if (response.status === 201 || response.status === 200) {
+        const loginResponse = isRegistering ? await axios.post(`${API_URL}/auth/login`, { name, password }) : response;
   
-          if (loginResponse.status === 200) {
-            const { user, token } = loginResponse.data;
-            saveUserSession(user, token);
-            setIsLoggedIn(true);
-            onLogin();
-          }
-        }
-      } else {
-        const response = await axios.post(`${API_URL}/auth/login`, {
-          name,
-          password,
-        });
-  
-        if (response.status === 200) {
-          const { user, token } = response.data;
+        if (loginResponse.status === 200) {
+          const { user, token } = loginResponse.data;
           saveUserSession(user, token);
           setIsLoggedIn(true);
           onLogin();
@@ -119,19 +95,16 @@ export const Login = ({ onLogin }: LoginProps) => {
       }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
-      if (err.response) {
-        if (err.response.data && err.response.data.error) {
-          window.alert(err.response.data.error);
-        } else {
-          window.alert("Ett oväntat fel inträffade. Försök igen.");
-        }
+      if (err.response?.data?.error) {
+        setError(err.response.data.error);
       } else {
-        window.alert("Ingen kontakt med servern. Försök igen senare.");
+        setError("Ett oväntat fel inträffade. Försök igen.");
       }
       setName("");
       setPassword("");
     }
   };
+  
   
   
   const handleLogout = () => {

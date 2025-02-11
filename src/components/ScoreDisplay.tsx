@@ -34,11 +34,15 @@ export const ScoreDisplay = ({
 
   useEffect(() => {
     const session = getUserSession();
-    if (session) {
+    if (session && session.user) {
       setIsLoggedIn(true);
       setUserName(session.user.name);
+    } else {
+      setIsLoggedIn(false);
+      setUserName(null);
     }
   }, []);
+  
 
   const levels = Math.floor(score / 5);
   const bonusPoints = levels * 2;

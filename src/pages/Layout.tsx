@@ -19,7 +19,7 @@ const AppContainer = styled.div`
   min-height: 100vh; // Gör att hela sidan alltid fyller hela höjden 
   display: flex;
   //nytt
-  width: 100%;
+  width: 100vw;
   overflow-x: hidden;
 `;
 

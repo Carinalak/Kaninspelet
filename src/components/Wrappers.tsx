@@ -24,6 +24,8 @@ export const WrapperTransparent = styled.section`
       width: 600px;
       //padding-bottom: 20px;
       flex-direction: row;
+      justify-content: center;
+      align-items: flex-start;
     }
 
     @media screen and (min-width: ${BREAKPOINT_DESKTOP}) {

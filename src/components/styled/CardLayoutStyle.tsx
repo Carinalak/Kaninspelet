@@ -40,8 +40,8 @@ justify-content: center;
   -webkit-tap-highlight-color: transparent; /* Tar bort blå markering på mobila enheter */
 
   @media screen and (min-width: ${BREAKPOINT_TABLET}) {
-    width: 120px;
-    height: 120px;
+    //width: 120px;
+    //height: 120px;
   }
 
   @media screen and (min-width: ${BREAKPOINT_DESKTOP}) {

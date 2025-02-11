@@ -40,9 +40,9 @@ export const ScoreDisplayStyle = styled.div`
   }
 
   @media screen and (min-width: ${BREAKPOINT_TABLET}) {
-    font-size: 1.6rem;
-    font-weight: bold;
-    height: 350px;
+    //font-size: 1.6rem;
+    //font-weight: bold;
+    //height: 350px;
   }
 `;
 

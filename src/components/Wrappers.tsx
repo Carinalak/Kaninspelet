@@ -70,17 +70,19 @@ export const WrapperWhite = styled(WrapperTransparent) `
   flex-direction: column;
   align-items: center;
   margin-top: 20px;
-  padding-bottom: 60px;
+  padding-bottom: 120px;
   
   @media screen and (min-width: ${BREAKPOINT_TABLET}) {
     width: 500px;
-    padding-bottom: 40px;
+    padding-bottom: 120px;
+   
   }
     
   @media screen and (min-width: ${BREAKPOINT_DESKTOP}) {
     width: 600px;
     height: 500px;
     padding: 15px;
+    padding-bottom: 100px;
     
   }
   @media screen and (min-width: ${BREAKPOINT_BIGGER_DESKTOP}) {

@@ -80,7 +80,11 @@ export const ModalMessage = ({
     <TextStyle>Vill du spela igen?</TextStyle>
     <ButtonWrapper>
       <GameButton onClick={onClose}>Nej</GameButton>
-      <GameButton onClick={onReset}>Ja</GameButton>
+      <GameButton onClick={() => {
+        onReset();
+        onClose();
+        }}
+        >Ja</GameButton>
     </ButtonWrapper>
   </ModalBoxInner>
     </Modal>
